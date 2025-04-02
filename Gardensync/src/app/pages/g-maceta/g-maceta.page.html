@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>g-maceta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row class="ion-justify-content-center" *ngFor="let fila of agruparBotones(lista_btn, 3)">
+      <ion-col size="4" *ngFor="let btn of fila;">
+        <ion-button class="icon-button" fill="clear">
+          <ion-img [src]="btn.imagen"></ion-img>
+        </ion-button>
+       {{btn.nombre}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button (click)="agregarBoton()">Agregar Botón</ion-button>
+</ion-content>
