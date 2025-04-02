@@ -1,0 +1,7 @@
+{
+  "name": "Gardensync",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
