@@ -16,12 +16,16 @@ const routes: Routes = [
         loadChildren: () => import('../pages/g-maceta/g-maceta.module').then( m => m.GMacetaPageModule)
       },
       {
-        path: 'add-new',
-        loadChildren: () => import('../pages/add-new/add-new.module').then( m => m.AddNewPageModule)
+        path: 'p-principal',
+        loadChildren: () => import('../pages/p-principal/p-principal.module').then( m => m.PPrincipalPageModule)
+      },
+      {
+        path: 'consejos',
+        loadChildren: () => import('../pages/p-consejos/p-consejos.module').then( m => m.PConsejosPageModule)
       },
       {
         path: '',
-        redirectTo: 'maceta',
+        redirectTo: 'p-principal',
         pathMatch: 'full'
       }
     ]

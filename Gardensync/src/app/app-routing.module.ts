@@ -23,6 +23,14 @@ const routes: Routes = [
     path: 'add-new',
     loadChildren: () => import('./pages/add-new/add-new.module').then( m => m.AddNewPageModule)
   },
+  {
+    path: 'p-principal',
+    loadChildren: () => import('./pages/p-principal/p-principal.module').then( m => m.PPrincipalPageModule)
+  },
+  {
+    path: 'p-consejos',
+    loadChildren: () => import('./pages/p-consejos/p-consejos.module').then( m => m.PConsejosPageModule)
+  },
 ];
 
 @NgModule({
