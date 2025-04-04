@@ -1,13 +1,88 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>p-consejos</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Consejos sobre Plantas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">p-consejos</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <!-- Banner introductorio -->
+  <ion-card color="light">
+    <ion-card-header>
+      <ion-card-title>Consejos Expertos para tus Plantas</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Descubre recomendaciones específicas para el cuidado de tus plantas basadas en datos científicos.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Buscador -->
+  <ion-searchbar
+    [(ngModel)]="searchQuery"
+    (ionChange)="searchPlants()"
+    placeholder="Buscar plantas para consejos..."
+    animated
+    debounce="500">
+  </ion-searchbar>
+
+  <!-- Plantas populares/seleccion -->
+  <ion-list *ngIf="!selectedPlant && popularPlants.length > 0">
+    <ion-list-header>
+      <ion-label>Plantas populares</ion-label>
+    </ion-list-header>
+    
+    <ion-item *ngFor="let plant of popularPlants" (click)="showPlantTips(plant)" button>
+      <ion-avatar slot="start" *ngIf="plant.image_url">
+        <img [src]="plant.image_url" [alt]="plant.common_name || 'Planta'">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ plant.common_name || 'Nombre no disponible' }}</h2>
+        <p>{{ plant.scientific_name }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Consejos específicos de planta seleccionada -->
+  <div *ngIf="selectedPlant" class="selected-plant-section">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          {{ selectedPlant.common_name || selectedPlant.scientific_name }}
+        </ion-card-title>
+        <ion-card-subtitle *ngIf="selectedPlant.common_name">
+          {{ selectedPlant.scientific_name }}
+        </ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-img *ngIf="selectedPlant.image_url" [src]="selectedPlant.image_url"></ion-img>
+      
+      <ion-card-content>
+        <ion-button expand="block" fill="outline" (click)="clearSelection()">
+          Volver a la lista
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-list-header>
+      <ion-label>Consejos de cuidado</ion-label>
+    </ion-list-header>
+    
+    <ion-list>
+      <ion-item *ngFor="let tip of plantTips">
+        <ion-icon name="leaf" slot="start" color="success"></ion-icon>
+        <ion-label class="ion-text-wrap">{{ tip }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Estado de carga -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando información...</p>
+  </div>
+
+  <!-- Mensaje cuando no hay resultados -->
+  <div *ngIf="!isLoading && popularPlants.length === 0 && !searchQuery" class="ion-text-center ion-padding">
+    <ion-icon name="warning" size="large"></ion-icon>
+    <p>No se encontraron plantas populares.</p>
+  </div>
 </ion-content>
