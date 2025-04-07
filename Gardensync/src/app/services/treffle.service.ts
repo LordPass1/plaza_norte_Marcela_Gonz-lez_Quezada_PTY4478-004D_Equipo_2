@@ -7,7 +7,7 @@ import { catchError, map, of, throwError } from 'rxjs';
 })
 export class TreffleService {
   private readonly API_URL = 'https://trefle.io/api/v1';
-  private readonly API_KEY = environment.treffleApiKey; // Configura esto en environment.ts
+  private readonly API_KEY = environment.treffleApiKey; 
 
   constructor(private http: HttpClient) { }
 
