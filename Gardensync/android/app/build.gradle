@@ -1,11 +1,4 @@
-plugins { //CONFIG DE FIREBASE
-  id 'com.android.application'
-  id 'org.jetbrains.kotlin.android'
-  // Añade el plugin de Google Services
-  id 'com.google.gms.google-services'
-}
 apply plugin: 'com.android.application'
-
 
 android {
     namespace "io.ionic.starter"
@@ -18,10 +11,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
-             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
-             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
+        multiDexEnabled true  // Necesario para Firebase
     }
     buildTypes {
         release {
@@ -29,12 +21,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
 }
 
 repositories {
-    flatDir{
+    flatDir {
         dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
     }
+    google()  // Asegurar repositorio de Google
+    mavenCentral()
 }
 
 dependencies {
@@ -47,26 +45,29 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
-  //CONFIG DE FIREBASE
-  // Importa la BoM de Firebase
-  implementation platform('com.google.firebase:firebase-bom:33.12.0')
 
-  // Dependencias de Firebase que necesites
-  implementation 'com.google.firebase:firebase-analytics'
-  implementation 'com.google.firebase:firebase-auth'
-  // Añade otras dependencias de Firebase según necesites
-  //FIN CONFIG DE FIREBASE
+    // Dependencias de Firebase (actualizadas)
+    implementation 'com.google.firebase:firebase-auth-ktx:22.3.1'
+    implementation platform('com.google.firebase:firebase-bom:33.12.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'  // Para push notifications
+    implementation 'com.google.firebase:firebase-auth'       // Si usas autenticación
+
+    // Soluciona posibles conflictos de multidex
+    implementation 'androidx.multidex:multidex:2.0.1'
+
 }
+
 
 apply from: 'capacitor.build.gradle'
 
-try {
-    def servicesJSON = file('google-services.json')
-    if (servicesJSON.text) {
-        apply plugin: 'com.google.gms.google-services'
-    }
-} catch(Exception e) {
-    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+// Configuración de Google Services (mejorada)
+def googleServicesFile = file('google-services.json')
+if (googleServicesFile.exists()) {
+    apply plugin: 'com.google.gms.google-services'
+    println "Google Services plugin aplicado correctamente"
+} else {
+    println "Advertencia: google-services.json no encontrado. Firebase no funcionara sin él"
 }
 
-
+apply plugin: 'com.google.gms.google-services'
