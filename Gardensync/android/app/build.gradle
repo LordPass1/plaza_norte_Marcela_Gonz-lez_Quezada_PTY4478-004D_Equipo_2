@@ -37,13 +37,21 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    
+    // Usando las versiones definidas en 'ext'
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    
+    // Capacitor y plugins
     implementation project(':capacitor-android')
+    
+    // Dependencias de pruebas
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+    
+    // Dependencias adicionales de Capacitor
     implementation project(':capacitor-cordova-android-plugins')
 
     // Dependencias de Firebase (actualizadas)
@@ -53,11 +61,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'  // Para push notifications
     implementation 'com.google.firebase:firebase-auth'       // Si usas autenticación
 
-    // Soluciona posibles conflictos de multidex
+    // Solución de conflictos de multidex
     implementation 'androidx.multidex:multidex:2.0.1'
-
 }
-
 
 apply from: 'capacitor.build.gradle'
 
