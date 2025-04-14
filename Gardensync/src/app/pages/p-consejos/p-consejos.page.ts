@@ -14,6 +14,7 @@ export class PConsejosPage implements OnInit {
   plantTips: string[] = [];
   isLoading = false;
   searchQuery = '';
+  searchResultsVisible = false; // Para controlar la visibilidad de los resultados de búsqueda
 
   constructor(
     private treffleService: TreffleService,
@@ -48,16 +49,23 @@ export class PConsejosPage implements OnInit {
   }
 
   searchPlants() {
-    if (!this.searchQuery.trim()) return;
+    if (!this.searchQuery.trim()) {
+      this.popularPlants = []; // Limpiar resultados si la búsqueda está vacía
+      this.searchResultsVisible = false;
+      return;
+    }
 
     this.isLoading = true;
     this.treffleService.searchPlants(this.searchQuery).subscribe({
       next: (response: any) => {
         this.popularPlants = response.data || [];
         this.isLoading = false;
+        this.searchResultsVisible = true; // Mostrar los resultados de búsqueda
       },
       error: async (err) => {
         this.isLoading = false;
+        this.popularPlants = []; // Limpiar resultados en caso de error
+        this.searchResultsVisible = true;
         await this.presentAlert('Error en búsqueda de plantas', err);
       }
     });
@@ -83,5 +91,13 @@ export class PConsejosPage implements OnInit {
   clearSelection() {
     this.selectedPlant = null;
     this.plantTips = [];
+  }
+
+  // Método para obtener la imagen principal de la planta (si existe)
+  getPlantImageUrl(plant: any): string | null {
+    if (plant?.images && plant.images.length > 0) {
+      return plant.images[0].url;
+    }
+    return null;
   }
 }
