@@ -24,6 +24,15 @@ export class PConsejosPage implements OnInit {
     this.loadPopularPlants();
   }
 
+  async presentAlert(header: string, error: any) {
+    const alert = await this.alertController.create({
+      header,
+      message: JSON.stringify(error),
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
   loadPopularPlants() {
     this.isLoading = true;
     this.treffleService.getPopularPlants(6).subscribe({
@@ -33,12 +42,7 @@ export class PConsejosPage implements OnInit {
       },
       error: async (err) => {
         this.isLoading = false;
-        const alert = await this.alertController.create({
-          header: 'Error',
-          message: 'No se pudieron cargar las plantas populares. Inténtalo de nuevo más tarde.',
-          buttons: ['OK']
-        });
-        await alert.present();
+        await this.presentAlert('Error al cargar plantas populares', err);
       }
     });
   }
@@ -54,12 +58,7 @@ export class PConsejosPage implements OnInit {
       },
       error: async (err) => {
         this.isLoading = false;
-        const alert = await this.alertController.create({
-          header: 'Error',
-          message: 'No se encontraron plantas con ese nombre.',
-          buttons: ['OK']
-        });
-        await alert.present();
+        await this.presentAlert('Error en búsqueda de plantas', err);
       }
     });
   }
@@ -67,7 +66,7 @@ export class PConsejosPage implements OnInit {
   showPlantTips(plant: any) {
     this.selectedPlant = plant;
     this.isLoading = true;
-    
+
     this.treffleService.getPlantCareTips(plant.id).subscribe({
       next: (tips: string[]) => {
         this.plantTips = tips;
@@ -76,13 +75,7 @@ export class PConsejosPage implements OnInit {
       error: async (err) => {
         this.isLoading = false;
         this.plantTips = ['No se pudieron cargar consejos específicos para esta planta.'];
-        
-        const alert = await this.alertController.create({
-          header: 'Información',
-          message: 'Consejos limitados disponibles para esta planta.',
-          buttons: ['OK']
-        });
-        await alert.present();
+        await this.presentAlert('Error al cargar consejos', err);
       }
     });
   }

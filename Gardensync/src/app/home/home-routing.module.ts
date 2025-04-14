@@ -8,6 +8,10 @@ const routes: Routes = [
     component: HomePage,
     children:[
       {
+        path: 'p-consejos',
+        loadChildren: () => import('../pages/p-consejos/p-consejos.module').then( m => m.PConsejosPageModule)
+      },
+      {
         path: 'maceta',
         loadChildren: () => import('../pages/maceta/maceta.module').then( m => m.MacetaPageModule)
       },
@@ -20,12 +24,8 @@ const routes: Routes = [
         loadChildren: () => import('../pages/p-principal/p-principal.module').then( m => m.PPrincipalPageModule)
       },
       {
-        path: 'p-consejos',
-        loadChildren: () => import('../pages/p-consejos/p-consejos.module').then( m => m.PConsejosPageModule)
-      },
-      {
         path: '',
-        redirectTo: 'p-principal',
+        redirectTo: 'p-consejos',
         pathMatch: 'full'
       }
     ]

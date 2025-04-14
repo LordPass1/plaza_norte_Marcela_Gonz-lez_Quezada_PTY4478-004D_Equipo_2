@@ -1,38 +1,43 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment'
-import { catchError, map, of, throwError } from 'rxjs';
+import { environment } from '../../environments/environment.prod';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class TreffleService {
-  private readonly API_URL = 'https://trefle.io/api/v1';
-  private readonly API_KEY = environment.treffleApiKey; 
+  private readonly API_URL = 'https://api.trefle.io/api/v1'; // ¡Asegúrate de que esta sea la URL correcta!
+  private readonly API_KEY = environment.treffleApiKey;
 
   constructor(private http: HttpClient) { }
 
   // Ejemplo: Buscar plantas por nombre
-  searchPlants(query: string, page: number = 1) {
+  searchPlants(query: string, page: number = 1): Observable<any> {
     return this.http.get(`${this.API_URL}/plants/search`, {
       params: {
         token: this.API_KEY,
         q: query,
         page: page.toString()
       }
-    });
+    }).pipe(
+      catchError(this.handleError('searchPlants'))
+    );
   }
 
   // Obtener detalles de una planta específica
-  getPlantDetails(id: number) {
+  getPlantDetails(id: number): Observable<any> {
     return this.http.get(`${this.API_URL}/plants/${id}`, {
       params: {
         token: this.API_KEY
       }
-    });
+    }).pipe(
+      catchError(this.handleError('getPlantDetails'))
+    );
   }
 
   // Listar plantas (puedes añadir más parámetros según necesites)
-  listPlants(page: number = 1, filter?: any) {
+  listPlants(page: number = 1, filter?: any): Observable<any> {
     let params: any = {
       token: this.API_KEY,
       page: page.toString()
@@ -42,17 +47,19 @@ export class TreffleService {
       params = { ...params, ...filter };
     }
 
-    return this.http.get(`${this.API_URL}/plants`, { params });
+    return this.http.get(`${this.API_URL}/plants`, { params }).pipe(
+      catchError(this.handleError('listPlants'))
+    );
   }
 
-  //PAGINA CONSEJOS
+  // PAGINA CONSEJOS
 
   // Obtener consejos generales basados en características de plantas
-  getPlantCareTips(plantId: number) {
+  getPlantCareTips(plantId: number): Observable<string[]> {
     if (!plantId) {
       return throwError(() => new Error('ID de planta no válido'));
     }
-  
+
     return this.http.get(`${this.API_URL}/plants/${plantId}`, {
       params: { token: this.API_KEY }
     }).pipe(
@@ -72,51 +79,62 @@ export class TreffleService {
   // Extraer consejos de los datos de la planta
   private extractTipsFromPlantData(plantData: any): string[] {
     const tips: string[] = [];
-    
+
     if (plantData.growth) {
       if (plantData.growth.ph_minimum && plantData.growth.ph_maximum) {
         tips.push(`Esta planta prefiere un pH del suelo entre ${plantData.growth.ph_minimum} y ${plantData.growth.ph_maximum}.`);
       }
-      
+
       if (plantData.growth.light) {
         tips.push(`Recomendación de luz: ${plantData.growth.light}.`);
       }
-      
+
       if (plantData.growth.atmospheric_humidity) {
         tips.push(`Humedad atmosférica ideal: ${plantData.growth.atmospheric_humidity}%.`);
       }
     }
-    
+
     if (plantData.specifications) {
       if (plantData.specifications.toxicity) {
         tips.push(`Precaución: ${plantData.specifications.toxicity.toLowerCase() === 'yes' ? 'Esta planta puede ser tóxica.' : 'Esta planta no se considera tóxica.'}`);
       }
-      
+
       if (plantData.specifications.shape_and_orientation) {
         tips.push(`Forma y orientación: ${plantData.specifications.shape_and_orientation}.`);
       }
     }
-    
+
     if (plantData.flower && plantData.flower.color) {
       tips.push(`Color de flor: ${plantData.flower.color}.`);
     }
-    
+
     // Consejo genérico si no hay mucha información
     if (tips.length === 0) {
       tips.push('Consulta fuentes adicionales para consejos específicos sobre esta planta.');
     }
-    
+
     return tips;
   }
 
   // Obtener plantas populares para mostrar consejos
-  getPopularPlants(limit: number = 5) {
+  getPopularPlants(limit: number = 5): Observable<any> {
     return this.http.get(`${this.API_URL}/plants`, {
       params: {
         token: this.API_KEY,
         page_size: limit.toString(),
         order: 'popularity'
       }
-    });
+    }).pipe(
+      catchError(this.handleError('getPopularPlants'))
+    );
+  }
+
+  // Manejador de errores genérico
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error}`);
+      // Permite que la aplicación siga funcionando devolviendo un resultado vacío.
+      return of(result as T);
+    };
   }
 }
