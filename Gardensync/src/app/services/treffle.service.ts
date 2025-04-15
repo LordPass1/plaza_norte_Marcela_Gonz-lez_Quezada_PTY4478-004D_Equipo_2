@@ -7,7 +7,7 @@ import { catchError, map, Observable, of, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class TreffleService {
-  private readonly API_URL = 'https://api.trefle.io/api/v1'; // ¡Asegúrate de que esta sea la URL correcta!
+  private readonly API_URL = 'https://trefle.io/api/v1';
   private readonly API_KEY = environment.treffleApiKey;
 
   constructor(private http: HttpClient) { }
@@ -125,16 +125,29 @@ export class TreffleService {
         order: 'popularity'
       }
     }).pipe(
-      catchError(this.handleError('getPopularPlants'))
+      map(res => {
+        console.log('getPopularPlants response:', res); // <-- Añadido
+        return res;
+      }),
+      catchError(err => {
+        console.error('Error en getPopularPlants:', err); // <-- Añadido
+        return throwError(() => err); // NO usar `of()` aquí
+      })
     );
   }
+  
 
   // Manejador de errores genérico
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error}`);
-      // Permite que la aplicación siga funcionando devolviendo un resultado vacío.
+      console.error(`${operation} failed:`, error);
+      try {
+        console.error('Error JSON:', JSON.stringify(error));
+      } catch (e) {
+        console.error('No se pudo convertir el error a JSON:', e);
+      }
       return of(result as T);
     };
   }
+  
 }

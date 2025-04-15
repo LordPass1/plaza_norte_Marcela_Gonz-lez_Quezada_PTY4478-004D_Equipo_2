@@ -36,8 +36,11 @@ export class PConsejosPage implements OnInit {
 
   loadPopularPlants() {
     this.isLoading = true;
+    console.log('API Key:', this.treffleService['API_KEY']); // <-- TEMPORAL
+  
     this.treffleService.getPopularPlants(6).subscribe({
       next: (response: any) => {
+        console.log('Respuesta de Trefle:', response); // <-- TEMPORAL
         this.popularPlants = response.data || [];
         this.isLoading = false;
       },
@@ -47,6 +50,7 @@ export class PConsejosPage implements OnInit {
       }
     });
   }
+  
 
   searchPlants() {
     if (!this.searchQuery.trim()) {
@@ -100,4 +104,5 @@ export class PConsejosPage implements OnInit {
     }
     return null;
   }
+  
 }

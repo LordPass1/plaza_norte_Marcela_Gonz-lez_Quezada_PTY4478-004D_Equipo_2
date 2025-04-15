@@ -32,6 +32,7 @@
     "@capacitor/status-bar": "7.0.0",
     "@ionic/angular": "^8.0.0",
     "capacitor": "^0.5.6",
+    "cordova-plugin-cleartext": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
