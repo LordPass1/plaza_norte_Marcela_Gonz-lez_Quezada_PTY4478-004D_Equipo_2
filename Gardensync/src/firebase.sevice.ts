@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 import { FirebaseInitService } from './firebase-init.service';  // Importa el servicio
 import { createUserWithEmailAndPassword, Auth } from 'firebase/auth';
+import { FirebaseError } from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -29,21 +30,26 @@ export class FirebaseService {
 
       return uid;
     } catch (error: any) {
-      switch (error.code) {
-        case 'auth/email-already-in-use':
-          throw new Error('El correo electrónico ya está en uso.');
-        case 'auth/weak-password':
-          throw new Error('La contraseña debe tener al menos 6 caracteres.');
-        case 'auth/invalid-email':
-          throw new Error('El correo electrónico no tiene un formato válido.');
-        case 'auth/operation-not-allowed':
-          throw new Error('El registro con correo y contraseña no está habilitado en Firebase.');
-        default:
-          throw new Error('Ocurrió un error desconocido. Intenta nuevamente.');
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            throw new Error('El correo electrónico ya está en uso.');
+          case 'auth/weak-password':
+            throw new Error('La contraseña debe tener al menos 6 caracteres.');
+          case 'auth/invalid-email':
+            throw new Error('El correo electrónico no tiene un formato válido.');
+          case 'auth/operation-not-allowed':
+            throw new Error('El registro con correo y contraseña no está habilitado en Firebase.');
+          default:
+            throw new Error('Ocurrió un error desconocido: ' + error.code);
+        }
+      } else {
+        console.error('Error no reconocido:', error);
+        throw new Error('Error inesperado. Revisa la consola para más detalles.');
       }
     }
   }
-
+  
   // Agrega un hogar dentro de una persona
   async addHogar(idPersona: string, nombreHogar: string) {
     const hogaresRef = collection(this.db, `Personas/${idPersona}/Hogares`);
