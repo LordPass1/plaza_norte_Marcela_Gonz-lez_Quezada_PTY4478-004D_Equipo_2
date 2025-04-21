@@ -25,6 +25,12 @@ export class TreffleService {
     );
   }
 
+  buscarPlantas(query: string, page: number = 1) {
+    const url = `https://trefle.io/api/v1/plants/search?token=${this.API_KEY}&q=${query}&page=${page}`;
+
+    return this.http.get(url);
+  }
+  
   // Obtener detalles de una planta específica
   getPlantDetails(id: number): Observable<any> {
     return this.http.get(`${this.API_URL}/plants/${id}`, {
