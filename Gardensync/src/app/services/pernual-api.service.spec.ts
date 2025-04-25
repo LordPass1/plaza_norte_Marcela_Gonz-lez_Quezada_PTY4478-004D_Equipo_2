@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TreffleService } from './treffle.service';
+import { PernualApiService } from './pernual-api.service';
 
-describe('TreffleService', () => {
-  let service: TreffleService;
+describe('PernualApiService', () => {
+  let service: PernualApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TreffleService);
+    service = TestBed.inject(PernualApiService);
   });
 
   it('should be created', () => {

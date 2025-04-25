@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  treffleApiKey: 'VC81-hHdzJOmyKFhDd1NQt58D0vZulAe-KC5YmwgZ-g',
+  perenualeApiKey: 'sk-Xvaf680acd31634ee10001',
   firebase: {
     apiKey: "AIzaSyCWZN6XVLFtP7EtkJZs34dtMTdwUz-3kZE",
     authDomain: "gardensync-4174d.firebaseapp.com",

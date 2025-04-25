@@ -5,96 +5,25 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card color="light">
+  <ion-item>
+    <ion-label position="floating">ID de la planta</ion-label>
+    <ion-input type="number" [(ngModel)]="plantId"></ion-input>
+  </ion-item>
+
+  <ion-button expand="full" (click)="buscarPlanta()">Buscar</ion-button>
+
+  <ion-text color="danger" *ngIf="error">{{ error }}</ion-text>
+
+  <ion-card *ngIf="plantData">
     <ion-card-header>
-      <ion-card-title>Consejos Expertos para tus Plantas</ion-card-title>
+      <ion-card-title>{{ plantData.common_name || 'Nombre no disponible' }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p>Descubre recomendaciones específicas para el cuidado de tus plantas basadas en datos científicos.</p>
+      <p><strong>Nombre científico:</strong> {{ plantData.scientific_name || 'Desconocido' }}</p>
+      <p><strong>Familia:</strong> {{ plantData.family || 'Desconocido' }}</p>
+      <img *ngIf="plantData.default_image?.original_url" [src]="plantData.default_image.original_url" />
     </ion-card-content>
   </ion-card>
 
-  <ion-searchbar
-    [(ngModel)]="searchQuery"
-    (ionChange)="searchPlants()"
-    placeholder="Buscar plantas para consejos..."
-    animated
-    debounce="500"
-  ></ion-searchbar>
-
-  <div *ngIf="isLoading" class="ion-text-center ion-padding">
-    <ion-spinner name="crescent"></ion-spinner>
-    <p>Cargando información...</p>
-  </div>
-
-  <ion-list *ngIf="!selectedPlant && popularPlants.length > 0">
-    <ion-list-header>
-      <ion-label>{{ searchQuery ? 'Resultados de búsqueda' : 'Plantas populares' }}</ion-label>
-    </ion-list-header>
-
-    <ion-item *ngFor="let plant of popularPlants" (click)="showPlantTips(plant)" button>
-      <ion-avatar slot="start" *ngIf="getPlantImageUrl(plant)">
-        <img [src]="getPlantImageUrl(plant)" [alt]="plant.common_name || 'Planta'">
-      </ion-avatar>
-      <ion-avatar slot="start" *ngIf="!getPlantImageUrl(plant)">
-        <ion-icon name="leaf-outline"></ion-icon>
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ plant.common_name || plant.scientific_name || 'Nombre no disponible' }}</h2>
-        <p>{{ plant.scientific_name }}</p>
-      </ion-label>
-      <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-    </ion-item>
-  </ion-list>
-
-  <div *ngIf="!isLoading && popularPlants.length === 0 && searchQuery" class="ion-text-center ion-padding">
-    <ion-icon name="search-off-outline" size="large"></ion-icon>
-    <p>No se encontraron plantas con el término "{{ searchQuery }}"</p>
-  </div>
-
-  <div *ngIf="!isLoading && popularPlants.length === 0 && !searchQuery && !selectedPlant" class="ion-text-center ion-padding">
-    <ion-icon name="warning-outline" size="large"></ion-icon>
-    <p>No se encontraron plantas populares.</p>
-  </div>
-
-  <div *ngIf="selectedPlant" class="selected-plant-section">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>
-          {{ selectedPlant.common_name || selectedPlant.scientific_name }}
-        </ion-card-title>
-        <ion-card-subtitle *ngIf="selectedPlant.common_name">
-          {{ selectedPlant.scientific_name }}
-        </ion-card-subtitle>
-      </ion-card-header>
-
-      <ion-img *ngIf="getPlantImageUrl(selectedPlant)" [src]="getPlantImageUrl(selectedPlant)"></ion-img>
-      <ion-item *ngIf="!getPlantImageUrl(selectedPlant)">
-        <ion-icon name="leaf-outline" slot="start" color="success"></ion-icon>
-        <ion-label>Imagen no disponible</ion-label>
-      </ion-item>
-
-      <ion-card-content>
-        <ion-button expand="block" fill="outline" (click)="clearSelection()">
-          Volver a la lista
-        </ion-button>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-list-header>
-      <ion-label>Consejos de cuidado</ion-label>
-    </ion-list-header>
-
-    <ion-list *ngIf="plantTips.length > 0; else noTips">
-      <ion-item *ngFor="let tip of plantTips">
-        <ion-icon name="leaf-outline" slot="start" color="success"></ion-icon>
-        <ion-label class="ion-text-wrap">{{ tip }}</ion-label>
-      </ion-item>
-    </ion-list>
-    <ng-template #noTips>
-      <ion-item>
-        <ion-label>No se encontraron consejos específicos para esta planta.</ion-label>
-      </ion-item>
-    </ng-template>
-  </div>
+  <pre *ngIf="plantData">{{ plantData | json }}</pre>
 </ion-content>
