@@ -30,23 +30,4 @@ export class PConsejosPage implements OnInit {
     });
     await alert.present();
   }
-
-  buscarPlanta() {
-    this.error = null;
-    this.plantData = null;
-
-    if (!this.plantId) {
-      this.error = 'Debes ingresar un ID de planta.';
-      return;
-    }
-
-    this.perenualAPI.getDetallePlanta(this.plantId).subscribe({
-      next: (data) => {
-        this.plantData = data;
-      },
-      error: (err) => {
-        this.error = typeof err === 'string' ? err : 'Error desconocido';
-      }
-    });
-  }
 }

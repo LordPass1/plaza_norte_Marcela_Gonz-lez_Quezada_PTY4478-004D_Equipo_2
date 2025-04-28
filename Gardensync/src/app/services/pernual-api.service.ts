@@ -9,32 +9,47 @@ import { environment } from 'src/environments/environment.prod';
 export class PernualApiService {
 
   private apiKey = environment.perenualeApiKey;
-  private baseUrl = 'https://perenual.com/api/species/details'; // Endpoint correcto para detalles
+  private baseUrl = 'https://perenual.com/api/species/details';
 
   constructor(private http: HttpClient) {}
 
-  getDetallePlanta(id: number): Observable<any> {
-    const url = `${this.baseUrl}/${id}`;
-    const params = new HttpParams().set('key', this.apiKey);
-  
-    return this.http.get(url, { params }).pipe(
-      tap(response => console.log('Respuesta de la API (JSON):', response)),
-      catchError(this.handleError)
-    );
+   // Trae los datos completos
+   getPlantDetails(id: number): Observable<any> {
+    const url = `${this.baseUrl}/species/details/${id}?key=${this.apiKey}`;
+    return this.http.get<any>(url);
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente o de la red.
-      console.error('Ocurrió un error:', error.error.message);
-    } else {
-      // El servidor devolvió una respuesta de error.
-      console.error(
-        `El servidor devolvió el código ${error.status}, ` +
-        `el cuerpo del error fue: ${error.error}`
-      );
-    }
-    // Devuelve un Observable de error para que el componente pueda suscribirse a él.
-    return throwError(() => 'Algo salió mal; por favor, inténtalo de nuevo más tarde.');
+  // Funciones individuales para extraer información:
+
+  getCommonName(plant: any): string {
+    return plant?.common_name || 'Nombre no disponible';
+  }
+
+  getScientificNames(plant: any): string {
+    return plant?.scientific_name?.join(', ') || 'Nombre científico no disponible';
+  }
+
+  getOtherNames(plant: any): string {
+    return plant?.other_name?.join(', ') || 'Otros nombres no disponibles';
+  }
+
+  getLifeCycle(plant: any): string {
+    return plant?.cycle || 'Ciclo de vida no disponible';
+  }
+
+  getWateringNeeds(plant: any): string {
+    return plant?.watering || 'Datos de riego no disponibles';
+  }
+
+  getSunlightNeeds(plant: any): string {
+    return plant?.sunlight?.join(', ') || 'Datos de luz no disponibles';
+  }
+
+  getImageUrl(plant: any): string {
+    return plant?.default_image?.regular_url || 'URL no disponible';
+  }
+
+  getWateringAdvice(plant: any): string {
+    return plant?.care_guides?.watering_general_benchmark?.value || 'Consejo de riego no disponible';
   }
 }

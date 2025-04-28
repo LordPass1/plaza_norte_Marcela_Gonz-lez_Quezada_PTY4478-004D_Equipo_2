@@ -5,25 +5,5 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-item>
-    <ion-label position="floating">ID de la planta</ion-label>
-    <ion-input type="number" [(ngModel)]="plantId"></ion-input>
-  </ion-item>
 
-  <ion-button expand="full" (click)="buscarPlanta()">Buscar</ion-button>
-
-  <ion-text color="danger" *ngIf="error">{{ error }}</ion-text>
-
-  <ion-card *ngIf="plantData">
-    <ion-card-header>
-      <ion-card-title>{{ plantData.common_name || 'Nombre no disponible' }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p><strong>Nombre científico:</strong> {{ plantData.scientific_name || 'Desconocido' }}</p>
-      <p><strong>Familia:</strong> {{ plantData.family || 'Desconocido' }}</p>
-      <img *ngIf="plantData.default_image?.original_url" [src]="plantData.default_image.original_url" />
-    </ion-card-content>
-  </ion-card>
-
-  <pre *ngIf="plantData">{{ plantData | json }}</pre>
 </ion-content>
