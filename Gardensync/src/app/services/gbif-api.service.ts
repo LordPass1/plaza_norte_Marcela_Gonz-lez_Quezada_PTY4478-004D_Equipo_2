@@ -7,23 +7,17 @@ import { Observable } from 'rxjs';
 })
 export class GBIFAPIService {
   
-  private baseUrl = 'https://api.gbif.org/v1';
-  private APIKEY = ""
+  private apiUrl = 'https://api.gbif.org/v1';
 
-  constructor(private http : HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  buscarPlantas(query: string): Observable<any> {
-    const url = `${this.baseUrl}/species/search?q=${encodeURIComponent(query)}&kingdom=Plantae`;
-    return this.http.get(url);
-  }
-  
-  getDetallesPlanta(id: number): Observable<any> {
-    const url = `${this.baseUrl}/species/${id}`;
-    return this.http.get(url);
+  // Buscar especies por nombre
+  searchSpecies(query: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/species/search?q=${query}`);
   }
 
-  getDatosPlanta(taxonKey: number): Observable<any> {
-    const url = `${this.baseUrl}/occurrence/search?taxon_key=${taxonKey}`;
-    return this.http.get(url);
+  // Obtener detalles de una especie por su ID
+  getSpeciesDetail(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/species/${id}`);
   }
 }
