@@ -16,7 +16,6 @@ export class RegistroPage implements OnInit{
 
   constructor(private firebaseService: FirebaseService, private router: Router) {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 
   async registrar() {

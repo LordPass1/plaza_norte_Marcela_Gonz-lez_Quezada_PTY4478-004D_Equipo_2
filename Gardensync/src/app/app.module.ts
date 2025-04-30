@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -7,6 +7,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FirebaseInitService } from 'src/firebase-init.service'; 
 import { FormsModule } from '@angular/forms';
+
+// 👉 Función que llama a init() al iniciar la app
+export function initializeFirebase(firebaseInitService: FirebaseInitService) {
+  return () => firebaseInitService.init();
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +24,12 @@ import { FormsModule } from '@angular/forms';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    FirebaseInitService 
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeFirebase,
+      deps: [FirebaseInitService],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
 })
