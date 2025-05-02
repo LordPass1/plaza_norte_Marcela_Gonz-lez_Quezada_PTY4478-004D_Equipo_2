@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, User } from 'firebase/auth';  // Importar User y otros métodos
+import { Auth, getAuth, signInWithEmailAndPassword, User } from 'firebase/auth';  // Importar User y otros métodos
 import { FirebaseInitService } from 'src/firebase-init.service';
 import { from, Observable } from 'rxjs';
 
@@ -15,8 +15,9 @@ export class AuthService {
   }
 
   // Método para realizar login con email y contraseña
-  login(email: string, password: string): Observable<any> {
-    return from(signInWithEmailAndPassword(this.auth, email, password));
+  async login(email: string, password: string) {
+    const auth = getAuth();
+    return await signInWithEmailAndPassword(auth, email, password);
   }
 
   // Método para obtener el usuario actual

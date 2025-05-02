@@ -7,11 +7,12 @@ import { Router } from '@angular/router';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: false,
+
 })
 export class LoginPage implements OnInit {
   email: string = '';
   password: string = '';
-
+  isLoading: boolean = false;
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
@@ -26,12 +27,54 @@ export class LoginPage implements OnInit {
   }
 
   async onLogin() {
+    if (!this.email || !this.password) {
+      alert('Por favor, ingresa un correo y una contraseña.');
+      return;
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email)) {
+      alert('el correo es inválido.');
+      return;
+    }
+  
+    this.isLoading = true; 
+  
     try {
       const user = await this.authService.login(this.email, this.password);
-      console.log('Usuario logueado:', user);
-      this.router.navigate(['/home']);
-    } catch (error) {
-      alert('Error de login. Verifica tu correo o contraseña.');
+  
+      if (user && user.user) {
+        console.log('Usuario logueado:', user.user);
+        this.router.navigate(['/home']);
+      } else {
+        throw new Error('No se pudo autenticar el usuario.');
+      }
+    } catch (error: any) {
+      this.handleLoginError(error);
+    } finally {
+      this.isLoading = false; 
+    }
+  }
+
+  handleLoginError(error: any) {
+    switch (error.code) {
+      case 'auth/user-not-found':
+        alert('El usuario no existe.');
+        break;
+      case 'auth/wrong-password':
+        alert('Contraseña incorrecta.');
+        break;
+      case 'auth/invalid-email':
+        alert('Correo inválido.');
+        break;
+      case 'auth/invalid-credential':
+      alert('El correo o la contraseña son inválidos.');
+        break;
+
+      default:
+        alert('Error de login. Intenta nuevamente.');
+        console.error(error);
+        break;
     }
   }
 }

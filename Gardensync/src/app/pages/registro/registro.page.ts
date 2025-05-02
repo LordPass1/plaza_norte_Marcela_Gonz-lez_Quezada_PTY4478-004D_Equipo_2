@@ -22,7 +22,7 @@ export class RegistroPage implements OnInit{
     try {
       const uid = await this.firebaseService.registro(this.nombreCompleto, this.correo, this.contrasena);
       console.log('Usuario registrado con UID:', uid);
-      this.router.navigate(['login']);
+      this.router.navigate(['/registro-hogar']);
     } catch (error: any) {
       this.errorMessage = error.message; // Mostrar mensaje de error 
       console.error('Error de registro:', error.message);

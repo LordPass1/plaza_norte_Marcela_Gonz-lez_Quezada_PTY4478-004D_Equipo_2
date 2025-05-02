@@ -13,5 +13,9 @@
     <ion-label position="floating">Contraseña</ion-label>
     <ion-input [(ngModel)]="password" type="password"></ion-input>
   </ion-item>
-  <ion-button expand="full" (click)="onLogin()">Ingresar</ion-button>
+  <ion-button expand="full" (click)="onLogin()" [disabled]="isLoading">
+    <span *ngIf="!isLoading">Iniciar sesión</span>
+    <ion-icon slot="end" name="arrow-forward"></ion-icon>
+    <ion-spinner *ngIf="isLoading" slot="start"></ion-spinner>
+  </ion-button>
 </ion-content>
