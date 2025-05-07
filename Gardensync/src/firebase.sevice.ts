@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, setDoc, getDoc, getDocs } from 'firebase/firestore';
 import { FirebaseInitService } from './firebase-init.service';  // Importa el servicio
 import { createUserWithEmailAndPassword, Auth } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
@@ -71,5 +71,34 @@ export class FirebaseService {
     const macetasRef = collection(this.db, `Personas/${idPersona}/Hogares/${idHogar}/Grupos/${idGrupo}/Macetas`);
     const newMaceta = { nombrePlanta };
     await addDoc(macetasRef, newMaceta);
+  }
+
+// tener datos de la persona
+  async obtenerDatosPersona() {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuario no autenticado');
+
+    const docRef = doc(this.db, `Personas/${user.uid}`);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      throw new Error('Datos de la persona no encontrados');
+    }
+  }
+  async obtenerHogarUsuario() {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuario no autenticado');
+
+    const hogaresRef = collection(this.db, `Personas/${user.uid}/Hogares`);
+    const querySnapshot = await getDocs(hogaresRef);
+
+    if (!querySnapshot.empty) {
+      const hogarDoc = querySnapshot.docs[0]; // Asumimos solo uno
+      return hogarDoc.data(); // Devuelve los datos del hogar
+    } else {
+      throw new Error('No se encontró ningún hogar registrado');
+    }
   }
 }

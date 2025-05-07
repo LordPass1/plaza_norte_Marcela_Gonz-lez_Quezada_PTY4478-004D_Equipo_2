@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Perfil de Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="user-profile">
+    <ion-avatar class="avatar">
+      <img src="https://via.placeholder.com/150" alt="Foto de perfil">
+    </ion-avatar>
+  </div>
+
+  <ion-list>
+    <ion-item>
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <ion-label>Nombre Completo</ion-label>
+      <ion-note slot="end">{{ nombre }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="mail-outline" slot="start"></ion-icon>
+      <ion-label>Correo Electrónico</ion-label>
+      <ion-note slot="end">{{ correo }}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="home-outline" slot="start"></ion-icon>
+      <ion-label>Nombre de Hogar</ion-label>
+      <ion-note slot="end">{{ hogar }}</ion-note>
+    </ion-item>
+  </ion-list>
+
+  <div class="action-buttons">
+    <ion-button expand="block" color="primary">Editar Perfil</ion-button>
+    <ion-button expand="block" color="secondary">Cambiar Contraseña</ion-button>
+    <ion-button (click)="cerrarSesion()" expand="block" color="danger">Cerrar Sesión</ion-button>
+  </div>
+</ion-content>

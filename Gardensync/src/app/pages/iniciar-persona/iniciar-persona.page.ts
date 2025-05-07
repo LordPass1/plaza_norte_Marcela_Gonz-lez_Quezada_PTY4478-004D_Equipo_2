@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-iniciar-persona',
@@ -9,10 +10,19 @@ import { Router } from '@angular/router';
 })
 export class IniciarPersonaPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
+    this.authService.getCurrentUser().subscribe((user) => {
+      if (user) {
+        console.log('Usuario ya logueado', user);
+        this.router.navigate(['/home']);
+      } else {
+        console.log('No hay usuario logueado');
+      }
+    });
   }
+  
 async irAregistro(){
   this.router.navigate(['registro']);
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-p-principal',
@@ -8,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PPrincipalPage implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
-
+perfil(){
+  this.router.navigate(['/perfil-usuario']);
+}
 }

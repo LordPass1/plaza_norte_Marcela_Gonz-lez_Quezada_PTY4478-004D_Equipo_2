@@ -45,6 +45,10 @@ const routes: Routes = [
     path: 'registro-hogar',
     loadChildren: () => import('./pages/registro-hogar/registro-hogar.module').then( m => m.RegistroHogarPageModule)
   },
+  {
+    path: 'perfil-usuario',
+    loadChildren: () => import('./pages/perfil-usuario/perfil-usuario.module').then( m => m.PerfilUsuarioPageModule)
+  },
 
 
 ];
