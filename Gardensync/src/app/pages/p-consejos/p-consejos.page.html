@@ -1,28 +1,26 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Buscador de Plantas (GBIF)</ion-title>
+    <ion-title>Búsqueda de Plantas</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-item>
-    <ion-label position="floating">Nombre de la planta</ion-label>
-    <ion-input [(ngModel)]="query" (keyup.enter)="search()"></ion-input>
-  </ion-item>
-  <ion-button expand="full" (click)="search()">Buscar</ion-button>
+  <ion-searchbar [(ngModel)]="query" (ionInput)="search()" placeholder="Buscar planta..."></ion-searchbar>
 
-  <ion-list>
+  <ion-list *ngIf="speciesList.length > 0">
     <ion-item *ngFor="let species of speciesList" (click)="selectSpecies(species)">
       {{ species.scientificName }}
     </ion-item>
   </ion-list>
 
   <div *ngIf="selectedSpecies">
-    <h2>Detalles de la Especie</h2>
-    <p><strong>Nombre Científico:</strong> {{ selectedSpecies.scientificName }}</p>
-    <p><strong>Reino:</strong> {{ selectedSpecies.kingdom }}</p>
+    <h2>{{ selectedSpecies.scientificName }}</h2>
     <p><strong>Familia:</strong> {{ selectedSpecies.family }}</p>
     <p><strong>Género:</strong> {{ selectedSpecies.genus }}</p>
     <p><strong>Rank:</strong> {{ selectedSpecies.rank }}</p>
+
+    <div *ngIf="imagenPlanta">
+      <img [src]="imagenPlanta" alt="Imagen de planta" style="width: 100%; border-radius: 10px; margin-top: 10px;">
+    </div>
   </div>
 </ion-content>
