@@ -25,3 +25,14 @@
 #container a {
   text-decoration: none;
 }
+
+ion-tab-bar{
+  --background: #9a6c45;
+  ion-icon{
+    color: #ffffff;
+  }
+
+  ion-tab-button{
+    color: #ffffff;
+  }
+}

@@ -1,6 +1,92 @@
-img{
+ion-toolbar{
+    --background: #2dd55b;
+}
+
+ion-menu-button{
+    color: white;
+    font-size: 2rem;
+}
+
+ion-title{
+    text-align: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5 rem;
+}
+
+ion-content{
+    --background: #ffffff;
+}
+
+#perfilHome{
+    font-size: 2rem;
+    color: white;
+}
+
+
+ion-card{  
+    border-radius: 1rem;
+    
+}
+
+ion-card-header{
     display: flex;
-    justify-content: center;
     align-items: center;
     text-align: center;
+    background: #ffffff;
+}
+
+ion-card-title{
+    color: black;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+ion-card-content{
+    background: #a3df5b;
+}
+
+ion-col{
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    text-align: center;
+    
+    ion-icon{
+        font-size: 1.3rem;
+    }
+}
+
+#humedad{
+    ion-icon{
+        color: gray;
+    }
+    p{
+        color: white;
+    }
+}
+
+#temperatura{
+    ion-icon{
+        color: red;
+    }
+    p{
+        color: white;
+    }
+}
+
+#luz{
+    ion-icon{
+        color: yellow;
+    }
+    p{
+        color: white;
+    }
+}
+
+#agua{
+    ion-icon{
+        color: skyblue;
+    }
+    p{
+        color: white;
+    }
 }

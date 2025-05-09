@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-item id="itemAtras">
+      <ion-icon id="atrasVerificarCorreo" name="arrow-back-outline" [routerLink]="['/iniciosesion']"></ion-icon>
+      <ion-title>Ingrese su correo</ion-title>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="card-responsive">
+    <ion-card-content>
+      <form [formGroup]="formularioVerificarCorreo" (keyup.enter)="verificarCorreo()">
+        <ion-item class="correo">
+          <ion-input formControlName="correo" type="email" label="Correo electrónico" labelPlacement="floating" placeholder="Correo a verificar" required></ion-input>
+        </ion-item>
+      </form>
+    </ion-card-content>
+    <div *ngIf="correo?.touched && correo?.invalid" class="error-message">
+      <small *ngIf="correo?.hasError('required')" class="error-text">Es necesario un correo electrónico.</small>
+      <small *ngIf="correo?.hasError('email')" class="error-text">Por favor ingrese un correo válido.</small>
+    </div>
+
+    <ion-button (click)="verificarCorreo()" [disabled]="formularioVerificarCorreo.invalid">
+      Verificar Correo
+    </ion-button>
+  
+    <div *ngIf="loginError" class="error-message">
+      <small class="error-text">{{ loginErrorMessage }}</small>
+    </div>
+  </ion-card>
+</ion-content>

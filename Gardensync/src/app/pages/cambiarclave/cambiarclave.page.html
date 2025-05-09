@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-item>
+      <ion-icon id="atrasEditarPerfil" name="arrow-back-outline" (click)="onBackClick()"></ion-icon>
+      <ion-title>Cambiar contraseña</ion-title>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <form [formGroup]="formularioCambioContrasena" >
+      <ion-list>
+        <ion-item>
+          <ion-input 
+            formControlName="contrasenaActual" 
+            type="password" 
+            label="Contraseña actual" 
+            labelPlacement="floating" 
+            placeholder="Ingrese su contraseña actual">
+          </ion-input>
+        </ion-item>
+        <div *ngIf="contrasenaActual?.invalid && (contrasenaActual?.touched || submitted)" class="error-message">
+          <div *ngIf="contrasenaActual?.errors?.['required']" class="error-text">
+            La contraseña actual es obligatoria.
+          </div>
+          <div *ngIf="contrasenaActual?.errors?.['pattern']" class="error-text">
+            La contraseña debe contener al menos una mayúscula, un número y un carácter especial.
+          </div>
+          <div *ngIf="contrasenaActual?.errors?.['minlength']" class="error-text">
+            La contraseña debe tener al menos 8 caracteres.
+          </div>
+        </div>
+
+        <ion-item>
+          <ion-input 
+            formControlName="nuevaContrasena" 
+            type="password" 
+            label="Nueva contraseña" 
+            labelPlacement="floating" 
+            placeholder="Ingrese su nueva contraseña">
+          </ion-input>
+        </ion-item>
+        <div *ngIf="nuevaContrasena?.invalid && (nuevaContrasena?.touched || submitted)" class="error-message">
+          <div *ngIf="nuevaContrasena?.errors?.['required']" class="error-text">
+            La nueva contraseña es obligatoria.
+          </div>
+          <div *ngIf="nuevaContrasena?.errors?.['pattern']" class="error-text">
+            La contraseña debe contener al menos una mayúscula, un número y un carácter especial.
+          </div>
+        </div>
+
+
+        <ion-item>
+          <ion-input 
+            formControlName="confirmarNuevaContrasena" 
+            type="password" 
+            label="Confirmar nueva contraseña" 
+            labelPlacement="floating" 
+            placeholder="Confirme su nueva contraseña">
+          </ion-input>
+        </ion-item>
+        <div *ngIf="confirmarNuevaContrasena?.invalid && (confirmarNuevaContrasena?.touched || submitted)" class="error-message">
+          <div *ngIf="confirmarNuevaContrasena?.errors?.['required']" class="error-text">
+            Confirmar la contraseña es obligatorio.
+          </div>
+          <div *ngIf="confirmarNuevaContrasena?.errors?.['noCoincide']" class="error-text">
+            Las contraseñas no coinciden.
+          </div>
+        </div>
+      </ion-list>
+    </form>
+  </ion-card>
+
+  <ion-button (click)="cambiarContrasena()" >Cambiar contraseña</ion-button>
+</ion-content>

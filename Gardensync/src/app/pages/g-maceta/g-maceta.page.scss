@@ -1,0 +1,101 @@
+ion-toolbar{
+    --background: #2dd55b;
+    color: #ffffff;
+}
+
+ion-menu-button{
+    color: white;
+    font-size: 2rem;
+}
+
+ion-title{
+    text-align: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+ion-content{
+    display: flex;
+    min-height: 800px;
+    --background: #ffffff;
+}
+
+ion-card{
+    --background: #a3df5b;
+    border-radius: 0.5rem;
+    --box-shadow: black;
+}
+
+
+ion-card-header{
+    display: flex;
+    align-items: start;
+    --background: #ffffff; 
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    ion-avatar{
+        margin-right: 1rem;
+        font-size: 1rem;
+    }
+
+    ion-item{
+        --border-color: transparent;
+        --background: #ffffff;
+    }
+
+    ion-card-title{
+        color: black;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    }
+}
+
+ion-card-content{
+    color: black;
+    --background: #a3df5b;
+
+    ion-item{
+        color:black;
+        margin-bottom: 2rem;
+        margin-left: -1.5rem;
+        --background: #a3df5b;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    }
+}
+
+ion-item{
+    --background: #a3df5b;
+}
+
+#titulos{
+    color: #ffffff;
+}
+
+#descripciones{
+    color: #8f4b0f;
+}
+
+#estado{
+    color: #bd6416;
+}
+
+ion-fab-button{
+    --background: #8fc848;
+   
+    box-shadow: black;
+    ion-icon{
+        color: #ffffff;
+    }
+}
+
+div{
+    margin-left: 1.2rem;
+    ion-button{
+        border: none;
+        box-shadow: none;
+        margin-left: 0.4rem;
+    }
+    ion-icon{
+        font-size: 1.5rem;
+    }
+}

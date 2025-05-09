@@ -1,0 +1,148 @@
+ion-content {
+    --background: #ffffff; 
+    
+    ion-card-title{
+        text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;   
+      color: rgb(92, 74, 29);
+      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+  
+
+    ion-card {
+      margin: 20px; 
+      border-radius: 10px; 
+      box-shadow: 0 2px 10px rgba(49, 48, 48, 0.267);
+      border: none;
+      background-color: #ffffff;
+  
+      ion-card-header {
+        background-color: #ffffff; 
+        border-top-left-radius: 10px; 
+        border-top-right-radius: 10px;
+  
+        ion-card-title {
+          font-size: 1.5rem;
+          font-weight: bold; 
+        }
+      }
+  
+      ion-card-content {
+        padding: 20px; 
+  
+        form {
+          ion-item {
+            margin-bottom: 3rem; 
+            ion-label {
+              font-weight: 600; 
+            }
+  
+            ion-input {
+              --padding-start: 10px;
+              --padding-end: 10px; 
+              --border-radius: 5px; 
+              
+            }
+          }
+  
+
+        }
+      }
+    }
+  }
+  ion-item{
+    display: flex;
+    --background: #ffffff;
+    color: #8f4b0f;
+    --border-color: #2dd55b;
+    justify-content: center;
+    margin-bottom: 2rem;
+    margin-right: 1.5rem;
+  }
+
+  ion-label{
+    color: #8f4b0f;
+    margin-left: 1rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+  
+  ion-text {
+    display: flex;
+    margin-top: 0.5rem; 
+    font-size: 0.9rem; 
+    justify-content: center;
+    color: black;
+    a{
+        margin-top: 0.9rem;
+        margin-left: 0.3rem;
+        text-decoration: none;
+    }
+  }
+  
+  ion-select-option{
+    --background-color: #2dd55b;
+  }
+  
+  .error-message {
+    color: rgb(243, 127, 127);
+    font-size: 13px;
+    margin-left: 1rem;
+    margin-top: -2rem;
+  }
+  
+  .error-message small {
+    font-weight: bold;
+  }
+  
+  .preguntaSeguridad{
+    
+    --border-color: transparent;
+    margin-top: 3.5rem;
+    
+    color: aqua;
+  }
+  
+  .seleccionePregunta{
+    ion-select{
+      margin-left: 1rem;
+      color: white;
+    }
+  }
+  
+  
+  .claseAlerta {
+    --background: rgb(7, 18, 84); 
+    --color: white; 
+    --button-background: rgb(7, 18, 84); 
+    --button-color: white; 
+  }
+  
+  .textoPregunta{
+    p{
+      text-align: left;
+      color: #047422c6;
+      max-width: 350px;
+      margin-left: 1rem;
+      margin-top: 2rem;
+      margin-bottom: -0.3rem;
+    }
+  }
+
+  ion-input{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  ion-button {
+    --background: #2dd55b; 
+    color: white; 
+    border-radius: 10px; 
+    font-size: 1rem; 
+    transition: background-color 0.5s ease; 
+    margin-left: 4rem;
+    margin-right: 4rem;
+    &:hover {
+      background-color: darken(#2dd55b, 10%); 
+    }
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }

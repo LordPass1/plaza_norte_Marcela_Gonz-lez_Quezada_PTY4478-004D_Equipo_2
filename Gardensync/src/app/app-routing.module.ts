@@ -41,10 +41,59 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },  {
+  },
+  {
     path: 'registro-hogar',
     loadChildren: () => import('./pages/registro-hogar/registro-hogar.module').then( m => m.RegistroHogarPageModule)
   },
+  {
+    path: 'banearusuario',
+    loadChildren: () => import('./pages/banearusuario/banearusuario.module').then( m => m.BanearusuarioPageModule)
+  },
+  {
+    path: 'menuadmin',
+    loadChildren: () => import('./pages/menuadmin/menuadmin.module').then( m => m.MenuadminPageModule)
+  },
+  {
+    path: 'agregarmaceta',
+    loadChildren: () => import('./pages/agregarmaceta/agregarmaceta.module').then( m => m.AgregarmacetaPageModule)
+  },
+  {
+    path: 'modificarmaceta',
+    loadChildren: () => import('./pages/modificarmaceta/modificarmaceta.module').then( m => m.ModificarmacetaPageModule)
+  },
+  {
+    path: 'cambiarclave',
+    loadChildren: () => import('./pages/cambiarclave/cambiarclave.module').then( m => m.CambiarclavePageModule)
+  },
+  {
+    path: 'iniciosesion',
+    loadChildren: () => import('./pages/iniciosesion/iniciosesion.module').then( m => m.IniciosesionPageModule)
+  },
+  {
+    path: 'verificarcorreo',
+    loadChildren: () => import('./pages/verificarcorreo/verificarcorreo.module').then( m => m.VerificarcorreoPageModule)
+  },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'registrocris',
+    loadChildren: () => import('./pages/registrocris/registrocris.module').then( m => m.RegistrocrisPageModule)
+  },  
+  {
+    path: '**',
+    loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
+  },
+
+ 
+
+
+
+
+
+
 
 
 ];
