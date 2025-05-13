@@ -1,0 +1,49 @@
+ion-header{
+  box-shadow: none;
+  --border-color: transparent;
+  background: white;
+}
+ion-toolbar{
+    --background: #2dd55b;
+    border-radius: 0 0 15px 15px;
+    ion-item{
+        --background: #2dd55b;
+        --border-color: transparent;
+        color: white;
+        font-size: 1.5rem;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+    }
+
+    ion-title{
+        font-size: 1.5rem;
+    }
+
+    ion-icon{
+        color: white;
+    }
+}
+
+ion-content{
+    --background: #ffffff;
+     
+    ion-item{
+        --background: #ffffff;
+        color: #8f4b0f;
+        margin-right: 2rem;
+        margin-left: 1rem;
+        margin: 1rem;
+    }
+
+    ion-input{
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+}
+
+ion-button{
+    display: flex;
+    padding: 12px 24px;
+    color: white;
+    --background: rgb(244, 81, 81);
+    --border-radius: 1rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

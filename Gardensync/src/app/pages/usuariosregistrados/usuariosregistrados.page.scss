@@ -1,0 +1,87 @@
+ion-header{
+  box-shadow: none;
+  --border-color: transparent;
+}
+ion-toolbar{
+    --background: #2dd55b;
+    color: black;
+    border-radius: 0 0 15px 15px;
+    
+    ion-item{
+        --background: #2dd55b;
+        --border-color: transparent;
+        color: white;
+        font-size: 1.5rem;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+    }
+
+    ion-title{
+        font-size: 1.5rem;
+    }
+
+    ion-icon{
+        color: white;
+    }
+}
+
+ion-content{
+    --background: #ffffff;
+}
+
+
+
+
+img{
+    max-width: 100%;
+    border-radius: 10%;
+    max-height: 250px;
+    width: 100%;
+}
+
+.card-wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 12px#dff8c1;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    
+}
+
+.nombreUsuario{
+    color: black;
+    background: #0abfbc;
+    color: #ffffff;
+    padding: 2px 2px;
+    max-width: 100%;
+    border-radius: 7px;
+    text-align: center;
+}
+
+.id{
+    color: gray;
+}
+
+.contentCard{
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    padding: 1rem 1rem 1rem 1rem;
+    max-height: 100%;
+}
+
+.header{
+    position: relative;
+}
+
+.iconBan {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  font-size: 2rem;
+  color: rgb(244, 81, 81);
+  z-index: 10;
+}

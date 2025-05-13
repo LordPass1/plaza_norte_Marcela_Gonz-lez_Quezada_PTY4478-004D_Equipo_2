@@ -81,11 +81,17 @@ const routes: Routes = [
   {
     path: 'registrocris',
     loadChildren: () => import('./pages/registrocris/registrocris.module').then( m => m.RegistrocrisPageModule)
-  },  
+  }, 
+  {
+    path: 'usuariosregistrados',
+    loadChildren: () => import('./pages/usuariosregistrados/usuariosregistrados.module').then( m => m.UsuariosregistradosPageModule)
+  }, 
   {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
   },
+
+
 
  
 
