@@ -1,11 +1,11 @@
 ion-header{
-  box-shadow: none;
-  --border-color: transparent;
-  background: white;
+  border-radius: 0 0 15px 15px;
 }
+
 ion-toolbar{
     --background: #2dd55b;
     border-radius: 0 0 15px 15px;
+    box-shadow:0 0 6px 6px #2dd55a9e;
     ion-item{
         --background: #2dd55b;
         --border-color: transparent;

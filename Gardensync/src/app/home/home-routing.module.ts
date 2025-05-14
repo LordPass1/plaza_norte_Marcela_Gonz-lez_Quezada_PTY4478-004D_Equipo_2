@@ -24,6 +24,10 @@ const routes: Routes = [
         loadChildren: () => import('../pages/p-principal/p-principal.module').then( m => m.PPrincipalPageModule)
       },
       {
+        path: 'menuadmin',
+        loadChildren: () => import('../pages/menuadmin/menuadmin.module').then( m => m.MenuadminPageModule)
+      },
+      {
         path: '',
         redirectTo: 'p-consejos',
         pathMatch: 'full'

@@ -1,12 +1,11 @@
 ion-header{
-  box-shadow: none;
-  --border-color: transparent;
+  border-radius: 0 0 15px 15px;
 }
+
 ion-toolbar{
     --background: #2dd55b;
-    color: black;
     border-radius: 0 0 15px 15px;
-    
+    box-shadow:0 0 6px 6px #2dd55a9e;
     ion-item{
         --background: #2dd55b;
         --border-color: transparent;
@@ -26,6 +25,20 @@ ion-toolbar{
 
 ion-content{
     --background: #ffffff;
+    ion-item{
+    --background: #ffffff;
+    margin-top: 1rem;
+    margin-left: 1.5rem;
+    margin-right: 3rem;
+    --border-color: #2dd55b;
+    color: black;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+    p{
+        margin-bottom: -0.7rem;
+        color: rgb(50, 174, 62);
+    }
+
+    }
 }
 
 
@@ -46,7 +59,7 @@ img{
     max-width: 100%;
     background: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 0 12px#dff8c1;
+    box-shadow: 0 0 12px#f7d48fbf;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     
 }
@@ -85,3 +98,20 @@ img{
   color: rgb(244, 81, 81);
   z-index: 10;
 }
+
+
+.buscador{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+    display: flex;
+    margin-bottom: -0.5rem;
+    --box-shadow: none;
+  --border-width: 0;
+  --background: transparent;
+  --color: black;
+  --placeholder-color:black;
+  --icon-color: black;
+  --clear-button-color: black;
+  --border-radius: 4px;
+
+}
+

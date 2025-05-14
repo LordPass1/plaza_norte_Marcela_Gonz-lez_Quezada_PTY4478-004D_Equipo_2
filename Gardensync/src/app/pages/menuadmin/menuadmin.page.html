@@ -1,22 +1,25 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-item>
-      <ion-icon id="atrasAdmin" name="arrow-back-outline" [routerLink]="['/home']"></ion-icon>
+      <ion-icon class="atrasMenuAdmin" name="arrow-back-outline" [routerLink]="['/home/p-principal']"></ion-icon>
       <ion-title>Administración</ion-title>
     </ion-item>
   </ion-toolbar>
-
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
   <ion-list>
+    <ion-item [routerLink]="['/usuariosregistrados']">
+      <ion-icon class="usuariosBaneados" name="people-outline"></ion-icon>
+      <ion-label>Usuarios Registrados</ion-label>
+    </ion-item>
     <ion-item [routerLink]="['/banearusuario']">
       <ion-icon class="ban" name="ban-outline"></ion-icon>
-      <ion-label>Banear usuario</ion-label>
+      <ion-label>Banear Usuario</ion-label>
     </ion-item>
     <ion-item [routerLink]="['/usuariosbaneados']">
-      <ion-icon class="usuariosBaneados" name="people-outline"></ion-icon>
-      <ion-label>Usuarios baneados</ion-label>
+      <ion-icon name="person-remove"></ion-icon>
+      <ion-label>Usuarios Baneados</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
