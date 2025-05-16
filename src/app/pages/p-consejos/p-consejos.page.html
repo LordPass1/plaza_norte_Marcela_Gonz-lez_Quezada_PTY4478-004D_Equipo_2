@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Búsqueda de Plantas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-searchbar [(ngModel)]="query" (ionInput)="search()" placeholder="Buscar planta..."></ion-searchbar>
+
+  <ion-list *ngIf="speciesList.length > 0">
+    <ion-item *ngFor="let species of speciesList" (click)="selectSpecies(species)">
+      {{ species.scientificName }}
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="selectedSpecies">
+    <h2>{{ selectedSpecies.scientificName }}</h2>
+    <p><strong>Familia:</strong> {{ selectedSpecies.family }}</p>
+    <p><strong>Género:</strong> {{ selectedSpecies.genus }}</p>
+    <p><strong>Rank:</strong> {{ selectedSpecies.rank }}</p>
+
+    <div *ngIf="imagenPlanta">
+      <img [src]="imagenPlanta" alt="Imagen de planta" style="width: 100%; border-radius: 10px; margin-top: 10px;">
+    </div>
+  </div>
+</ion-content>

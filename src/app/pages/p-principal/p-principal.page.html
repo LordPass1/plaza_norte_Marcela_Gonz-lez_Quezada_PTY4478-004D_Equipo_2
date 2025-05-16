@@ -1,0 +1,68 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <!-- no la pude centrar xd, igual el icono es de muestra nomas, posibles cambios-->
+    <ion-title >
+    <img src="/assets/icon/hoja.png">
+  </ion-title>
+    <ion-buttons slot="end">
+      <!-- a este boton hay que añadirle a futuro el ir a algun perfil de usuario o x algo-->
+      <ion-button (click)="perfil()">
+        <ion-icon  slot="icon-only" name="person-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">p-principal</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Conjunto 1</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <p>Maceta 1</p>
+                </ion-col>
+                <ion-col>
+                  <p>Maceta 2</p>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Conjunto 2</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <p>Maceta 3</p>
+                </ion-col>
+                <ion-col>
+                  <p>Maceta 4</p>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
