@@ -8,7 +8,7 @@
         
 
         <ion-item>
-          <ion-input formControlName="nombree" type="text" label="Nombre de usuario" labelPlacement="floating" placeholder="Ingrese su nombre" maxlength="50" [(ngModel)]="nombre"></ion-input>
+          <ion-input formControlName="nombree" type="text" label="Nombre de usuario" labelPlacement="floating" placeholder="Ingrese su nombre" maxlength="50" [(ngModel)]="nombreCompleto"></ion-input>
         </ion-item>
         <div *ngIf="nombree?.invalid && (nombree?.touched || submitted)" class="error-message">
           <div *ngIf="nombree?.errors?.['required']">

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
+import { FirebaseService } from 'src/firebase.sevice';
 
 @Component({
   selector: 'app-registrocris',
@@ -10,20 +11,23 @@ import { AlertController, NavController } from '@ionic/angular';
   standalone: false
 })
 export class RegistrocrisPage implements OnInit {
-  nombreusuario: string = "";
-  nombre: string = "";
+  nombreCompleto: string = "";
+  //nombre: string = "";
   telefono: string = "";
   correo: string = "";
   contrasena: string = "";
   preguntaseguridad: string = "";
   respuestaseguridad: string = "";
 
+  errorMessage: string = '';
+
   submitted = false;
   formularioRegistro: FormGroup;
   passwordPattern = '^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z0-9!@#$%^&*(),.?":{}|<>]{8,}$';
   correoPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  constructor(    
+  constructor(   
+    private firebaseService: FirebaseService, 
     public fb: FormBuilder, 
     private router: Router, 
     private navCtrl: NavController, 
@@ -122,7 +126,15 @@ export class RegistrocrisPage implements OnInit {
     if (this.formularioRegistro.invalid) {
       return;
     }
-  
+    
+    try {
+      const uid = await this.firebaseService.registro(this.nombreCompleto, this.correo, this.contrasena);
+      console.log('Usuario registrado con UID:', uid);
+      this.router.navigate(['/registro-hogar']);
+    } catch (error: any) {
+      this.errorMessage = error.message; // Mostrar mensaje de error 
+      console.error('Error de registro:', error.message);
+    }
 
 
   

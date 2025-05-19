@@ -13,9 +13,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-grid>
+  <!--<ion-grid>
     <ion-row>
-      <ion-col size="12">
+      <ion-col size="12" size-sm="12" size-md="6" size-lg="4" size-xl="2">
         <ion-card>
           <ion-card-header>
             <ion-avatar>
@@ -66,11 +66,11 @@
         </ion-card>
       </ion-col>
     </ion-row>
-  </ion-grid>
-  <ion-grid>
+  </ion-grid>-->
+  <ion-grid >
     <ion-row>
-      <ion-col size="12">
-        <ion-card>
+      <ion-col >
+        <ion-card class="cardMacetas" size="12" size-sm="12" size-md="6" size-lg="4" size-xl="2">
           <ion-card-header>
             <ion-avatar>
               <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -79,7 +79,6 @@
           </ion-card-header>
 
           <ion-card-content>
-            <ion-grid>
               <ion-row>
                 <div id="humedad">
                   <ion-col>
@@ -112,18 +111,11 @@
                   </ion-col>
                   <p>25%</p>
                 </div>
-
               </ion-row>
-            </ion-grid>
           </ion-card-content>
-
         </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12">
+
+
         <ion-card>
           <ion-card-header>
             <ion-avatar>
@@ -131,9 +123,7 @@
             </ion-avatar>
             <ion-card-title>Plantita 3</ion-card-title>
           </ion-card-header>
-
           <ion-card-content>
-            <ion-grid>
               <ion-row>
                 <div id="humedad">
                   <ion-col>
@@ -166,11 +156,8 @@
                   </ion-col>
                   <p>25%</p>
                 </div>
-
               </ion-row>
-            </ion-grid>
           </ion-card-content>
-
         </ion-card>
       </ion-col>
     </ion-row>

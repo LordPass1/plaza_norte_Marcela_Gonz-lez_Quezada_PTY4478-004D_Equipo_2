@@ -11,7 +11,7 @@
           label-placement="floating" 
           fill="outline"
           placeholder="Ingrese su correo"
-          [(ngModel)]="username" 
+          [(ngModel)]="email" 
           required
         ></ion-input>
         <div *ngIf="correo?.touched && correo?.invalid" class="error-message">
@@ -39,7 +39,9 @@
     
     </form>
 
-    <ion-button class="boton" (click)="iniciar()" type="submit">Iniciar sesión</ion-button>
+    <ion-button class="boton" (click)="onLogin()" type="submit">Iniciar sesión
+      <ion-spinner *ngIf="isLoading" slot="start"></ion-spinner>
+    </ion-button>
     
     <div class="forgot-password">
       <a [routerLink]="['/verificarcorreo']" href="#">¿Olvidaste la contraseña?</a>
@@ -49,6 +51,4 @@
       <p>¿No tienes una cuenta?<a href="/registrocris"> ¡Regístrate!</a></p>
     </div>
   </div>
-
-
 </ion-content>
