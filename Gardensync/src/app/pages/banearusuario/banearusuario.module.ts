@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { MacetaPageRoutingModule } from './maceta-routing.module';
+import { BanearusuarioPageRoutingModule } from './banearusuario-routing.module';
 
-import { MacetaPage } from './maceta.page';
+import { BanearusuarioPage } from './banearusuario.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MacetaPageRoutingModule
+    BanearusuarioPageRoutingModule
   ],
-  declarations: [MacetaPage]
+  declarations: [BanearusuarioPage]
 })
-export class MacetaPageModule {}
+export class BanearusuarioPageModule {}

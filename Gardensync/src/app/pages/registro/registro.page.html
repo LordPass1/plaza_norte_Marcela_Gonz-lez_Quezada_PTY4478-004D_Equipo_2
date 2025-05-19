@@ -1,32 +1,110 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>registro</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">registro</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <div>
-    <form (ngSubmit)="registrar()">
-      <label for="nombre">Nombre Completo</label>
-      <input id="nombre" [(ngModel)]="nombreCompleto" name="nombre" required />
-      
-      <label for="correo">Correo</label>
-      <input id="correo" [(ngModel)]="correo" name="correo" type="email" required />
-      
-      <label for="contraseña">Contraseña</label>
-      <input id="contrasena" [(ngModel)]="contrasena" name="contrasena" type="password" required />
-      
-      <button type="submit">Registrar</button>
-    </form>
-  
+    <ion-card-header>
+      <ion-card-title>¡Registrate!</ion-card-title>
+    </ion-card-header>
 
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-  </div>
+    <ion-card-content>
+      <form [formGroup]="formularioRegistro" (keyup.enter)="registrar()">
+        
+
+        <ion-item>
+          <ion-input formControlName="nombree" type="text" label="Nombre de usuario" labelPlacement="floating" placeholder="Ingrese su nombre" maxlength="50" [(ngModel)]="nombreCompleto"></ion-input>
+        </ion-item>
+        <div *ngIf="nombree?.invalid && (nombree?.touched || submitted)" class="error-message">
+          <div *ngIf="nombree?.errors?.['required']">
+            El nombre es obligatorio.
+          </div>
+
+          <div *ngIf="nombree?.errors?.['minlength']">
+            El nombre debe tener un mínimo de 6 caracteres.
+          </div>
+        </div>
+
+        <ion-item>
+          <ion-input formControlName="telefonoo" type="tel" label="Teléfono" labelPlacement="floating" placeholder="Ingrese su número de teléfono" maxlength="9" [(ngModel)]="telefono"></ion-input>
+        </ion-item>
+        <div *ngIf="telefonoo?.invalid && (telefonoo?.touched || submitted)" class="error-message">
+          <div *ngIf="telefonoo?.errors?.['required']">
+            El teléfono es obligatorio.
+          </div>
+          <div *ngIf="telefonoo?.errors?.['pattern']">
+            El teléfono debe contener exactamente 9 dígitos.
+          </div>
+        </div>
+
+        <ion-item>
+          <ion-input formControlName="correoo" type="email" label="Correo electrónico" labelPlacement="floating" placeholder="Ingrese su correo" [(ngModel)]="correo"></ion-input>
+        </ion-item>
+        <div *ngIf="correoo?.invalid && (correoo?.touched || submitted)" class="error-message">
+          <div *ngIf="correoo?.errors?.['required']">
+            El correo es obligatorio.
+          </div>
+          <div *ngIf="correoo?.errors?.['pattern']">
+            El correo debe ser válido.
+          </div>
+        </div>
+
+        <ion-item>
+          <ion-input formControlName="contrasenaa" type="password" label="Contraseña" labelPlacement="floating" placeholder="Ingrese su contraseña" maxlength="50" [(ngModel)]="contrasena"></ion-input>
+        </ion-item>
+        <div *ngIf="contrasenaa?.invalid && (contrasenaa?.touched || submitted)" class="error-message">
+          <div *ngIf="contrasenaa?.errors?.['required']">
+            La contraseña es obligatoria.
+          </div>
+          <div *ngIf="contrasenaa?.errors?.['pattern']">
+            La contraseña debe contener al menos una mayúscula, un número, un carácter especial y tener un mínimo de 8 caracteres.
+          </div>
+        </div>
+
+        <ion-item>
+          <ion-input formControlName="confirmarContrasena" type="password" label="Confirmar contraseña" labelPlacement="floating" placeholder="Confirme su contraseña" maxlength="50"></ion-input>
+        </ion-item>
+        <div *ngIf="confirmarContrasena?.invalid && (confirmarContrasena?.dirty || confirmarContrasena?.touched || submitted)" class="error-message">
+          <div *ngIf="confirmarContrasena?.errors?.['required']">
+            El campo de confirmación es obligatorio.
+          </div>
+          <div *ngIf="confirmarContrasena?.errors?.['noCoincide']">
+            Las contraseñas no coinciden.
+          </div>
+        </div>
+
+        <!-- PREGUNTA DE SEGURIDAD Y RESPUESTA -->
+        <div class="preguntaSeguridadd">
+          <ion-label>Pregunta de seguridad</ion-label>
+        </div>
+        <ion-item>
+          <ion-select class="seleccionePregunta" formControlName="preguntaSeguridadd" placeholder="Selecciona una pregunta" [(ngModel)]="preguntaseguridad">
+            <ion-select-option value="mascota">¿Cuál es el nombre de tu mascota?</ion-select-option>
+            <ion-select-option value="madre">¿Cómo se llama tu Madre?</ion-select-option>
+            <ion-select-option value="padre">¿Cómo se llama tu Padre</ion-select-option>
+            <ion-select-option value="ciudad">¿En qué ciudad naciste?</ion-select-option>
+            <ion-select-option value="juego">¿Videojuego favorito?</ion-select-option>
+            <ion-select-option value="lugar">¿Lugar favorito?</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        
+        <div class="textoPregunta">
+          <p>(Debe considerar las mayúsculas y minúsculas en su respuesta)</p>
+        </div>
+        <ion-item>
+
+          <ion-input formControlName="respuestaSeguridadd" type="text" label="Respuesta" labelPlacement="floating" placeholder="Respuesta de seguridad" [(ngModel)]="respuestaseguridad"></ion-input>
+        </ion-item>
+        <div *ngIf="respuestaSeguridadd?.invalid && (respuestaSeguridadd?.touched || submitted)" class="error-message">
+          <div *ngIf="respuestaSeguridadd?.errors?.['required']">
+            La respuesta de seguridad es obligatoria.
+          </div>
+        </div>
+
+      </form>
+    </ion-card-content>  
+
+    <ion-button id="botonRegistrarse" (click)="registrar()" expand="full" type="submit">
+      Registrarse
+    </ion-button>
+    
+    <ion-text>
+      <p>¿Ya tienes una cuenta? </p> <a href="/iniciosesion"> Iniciar sesión</a>
+    </ion-text>
 </ion-content>

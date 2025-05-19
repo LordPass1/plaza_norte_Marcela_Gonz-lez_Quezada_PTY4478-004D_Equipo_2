@@ -1,21 +1,54 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Iniciar sesión</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="login-container" [fullscreen]="true">
+  <div class="login-wrapper">
+    <!--<img class="logo" src="assets/img/shartter.png" alt="Logo" >-->
+    
+    <form [formGroup]="formularioLogin" id="formulario">
+      <div class="inputs" >
+        <ion-input 
+          formControlName="correo"
+          type="email"
+          label="Correo electrónico" 
+          label-placement="floating" 
+          fill="outline"
+          placeholder="Ingrese su correo"
+          [(ngModel)]="email" 
+          required
+        ></ion-input>
+        <div *ngIf="correo?.touched && correo?.invalid" class="error-message">
+          <small *ngIf="correo?.hasError('required')" class="error-text">Es necesario un correo electrónico.</small>
+          <small *ngIf="correo?.hasError('email')" class="error-text">Ingrese un correo válido.</small>
+        </div>
 
-<ion-content>
-  <ion-item>
-    <ion-label position="floating">Email poto</ion-label>
-    <ion-input [(ngModel)]="email" type="email"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Contraseña</ion-label>
-    <ion-input [(ngModel)]="password" type="password"></ion-input>
-  </ion-item>
-  <ion-button expand="full" (click)="onLogin()" [disabled]="isLoading">
-    <span *ngIf="!isLoading">Iniciar sesión</span>
-    <ion-icon slot="end" name="arrow-forward"></ion-icon>
-    <ion-spinner *ngIf="isLoading" slot="start"></ion-spinner>
-  </ion-button>
+        <ion-input 
+          formControlName="contrasena"
+          label="Contraseña" 
+          type="password" 
+          label-placement="floating" 
+          fill="outline" 
+          placeholder="Ingrese su contraseña" 
+          [(ngModel)]="password"
+          required
+        ></ion-input>
+        <div *ngIf="contrasena?.touched && contrasena?.invalid" class="error-message">
+          <small *ngIf="contrasena?.hasError('required')" class="error-text">La contraseña es requerida.</small>
+        </div>
+        <div *ngIf="loginError" class="error-message">
+          <small class="error-text">{{ loginErrorMessage }}</small>
+        </div>
+      </div>
+    
+    </form>
+
+    <ion-button class="boton" (click)="onLogin()" type="submit">Iniciar sesión
+      <ion-spinner *ngIf="isLoading" slot="start"></ion-spinner>
+    </ion-button>
+    
+    <div class="forgot-password">
+      <a [routerLink]="['/verificarcorreo']" href="#">¿Olvidaste la contraseñaa?</a>
+    </div>
+
+    <div class="signup-wrapper">
+      <p>¿No tienes una cuenta?<a href="/registrocris"> ¡Regístrate!</a></p>
+    </div>
+  </div>
 </ion-content>

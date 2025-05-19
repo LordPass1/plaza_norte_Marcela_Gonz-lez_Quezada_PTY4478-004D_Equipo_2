@@ -1,0 +1,34 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-item>
+      <ion-icon name="arrow-back-outline" [routerLink]="['/home/g-maceta']"></ion-icon>
+      <ion-title>Agregar Maceta</ion-title>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Modificar Maceta</ion-card-title>
+      <ion-avatar>
+        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-avatar>
+      <b>Cambiar Foto</b>
+    </ion-card-header>
+    <ion-card-content>
+
+      <ion-item>
+        <ion-input label="Nombre" labelPlacement="floating" placeholder="Ingrese un nombre para su maceta"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Especie" labelPlacement="floating" placeholder="Ingrese la especie de tu planta"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Descripción" labelPlacement="floating" placeholder="Ingresa una breve descripción"></ion-input>
+      </ion-item>
+    </ion-card-content>
+    
+  </ion-card>
+  <ion-button class="anadir">Guardar</ion-button>
+</ion-content>

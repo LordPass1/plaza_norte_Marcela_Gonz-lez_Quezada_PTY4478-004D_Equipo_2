@@ -1,0 +1,111 @@
+ion-toolbar{
+    --background: #2dd55b;
+    color: black;
+
+    ion-item{
+        --background: #2dd55b;
+        --border-color: transparent;
+        color: white;
+        font-size: 1.5rem;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+    }
+
+    ion-title{
+        font-size: 1.5rem;
+    }
+
+    ion-icon{
+        color: white;
+    }
+}
+ion-content{
+    --background: #ffffff;
+    
+}
+
+ion-item{
+    --background: #2dd55b;
+    --border-color: transparent;
+}
+
+ion-title{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+ion-icon{
+    color: white;
+    margin-right: 0.5rem;
+}
+
+ion-card{
+    border-radius: 0.8rem;
+    box-shadow: black;
+    ion-card-header{
+        display: flex;
+        align-items: center;
+        text-align: center;
+
+        ion-avatar{
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        b{
+            color: rgb(83, 83, 83);
+        }
+    }
+
+    --background: #ffffff;
+
+    ion-item{
+        color: black;
+        --background: #ffffff; 
+        --border-color: gray;
+    }
+
+    ion-card-title{
+        color: #944907;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    }
+
+    ion-card-subtitle{
+        color: rgb(107, 107, 107);
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    }
+}
+
+
+ion-input{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-bottom: 0.5rem;
+    color: #944907;
+}
+
+.conectarDispositivo{
+    display: flex;
+    justify-content: center;
+    --background: rgb(233, 232, 232);
+    color: black;
+    margin-top: 1rem;
+    padding-right:3rem;
+    padding-left: 3rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    ion-icon{
+        color: black;
+        font-size: 1.3rem;
+    }
+}
+
+.anadir{
+    display: flex;
+    justify-content: center;
+    --background: #2dd55b;
+    color: white;
+    margin-top: 2rem;
+    margin: 1.5rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    --border-radius: 1rem;
+}

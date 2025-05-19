@@ -8,12 +8,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'iniciar-persona',
+    redirectTo: 'registro',
     pathMatch: 'full'
-  },
-  {
-    path: 'maceta',
-    loadChildren: () => import('./pages/maceta/maceta.module').then( m => m.MacetaPageModule)
   },
   {
     path: 'g-maceta',
@@ -41,14 +37,39 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },  {
+  },
+  {
     path: 'registro-hogar',
     loadChildren: () => import('./pages/registro-hogar/registro-hogar.module').then( m => m.RegistroHogarPageModule)
   },
   {
     path: 'perfil-usuario',
     loadChildren: () => import('./pages/perfil-usuario/perfil-usuario.module').then( m => m.PerfilUsuarioPageModule)
+  },  {
+    path: 'agregarmaceta',
+    loadChildren: () => import('./pages/agregarmaceta/agregarmaceta.module').then( m => m.AgregarmacetaPageModule)
   },
+  {
+    path: 'modificarmaceta',
+    loadChildren: () => import('./pages/modificarmaceta/modificarmaceta.module').then( m => m.ModificarmacetaPageModule)
+  },
+  {
+    path: 'menuadmin',
+    loadChildren: () => import('./pages/menuadmin/menuadmin.module').then( m => m.MenuadminPageModule)
+  },
+  {
+    path: 'usuariosregistrados',
+    loadChildren: () => import('./pages/usuariosregistrados/usuariosregistrados.module').then( m => m.UsuariosregistradosPageModule)
+  },
+  {
+    path: 'banearusuario',
+    loadChildren: () => import('./pages/banearusuario/banearusuario.module').then( m => m.BanearusuarioPageModule)
+  },
+  {
+    path: 'cambiarclave',
+    loadChildren: () => import('./pages/cambiarclave/cambiarclave.module').then( m => m.CambiarclavePageModule)
+  },
+
 
 
 ];

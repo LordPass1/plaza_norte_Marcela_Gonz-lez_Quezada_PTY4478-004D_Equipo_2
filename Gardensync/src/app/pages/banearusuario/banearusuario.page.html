@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-item>
+      <ion-icon name="arrow-back-outline" [routerLink]="['/usuariosregistrados']"></ion-icon>
+      <ion-title>Ban Usuario</ion-title>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <form [formGroup]="banForm" (ngSubmit)="submitBan()">
+      <ion-item>
+        <ion-input formControlName="nombre_usuario_ban" label="Nombre de Usuario a Banear" labelPlacement="floating" placeholder="Nombre de usuario" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input formControlName="razon_ban" label="Razón del baneo" labelPlacement="floating" placeholder="Describa la razón" required></ion-input>
+      </ion-item>
+
+      <ion-button type="submit" [disabled]="!banForm.valid">Banear</ion-button>
+    </form>
+</ion-content>
