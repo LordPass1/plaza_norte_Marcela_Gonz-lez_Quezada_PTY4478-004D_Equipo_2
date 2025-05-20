@@ -1,26 +1,49 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Búsqueda de Plantas</ion-title>
+    <ion-title>Buscar Planta</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-searchbar [(ngModel)]="query" (ionInput)="search()" placeholder="Buscar planta..."></ion-searchbar>
+<ion-content>
+  <ion-searchbar
+    [(ngModel)]="query"
+    (ionInput)="sugerirNombres($event)"
+    placeholder="Escribe el nombre..."
+    (ionClear)="sugerencias = []"
+    (ionChange)="resultado = null"
+  ></ion-searchbar>
 
-  <ion-list *ngIf="speciesList.length > 0">
-    <ion-item *ngFor="let species of speciesList" (click)="selectSpecies(species)">
-      {{ species.scientificName }}
+  <ion-list *ngIf="sugerencias.length && !resultado">
+    <ion-item *ngFor="let sugerencia of sugerencias" (click)="query = sugerencia; sugerencias = []; buscarPlanta();">
+      {{ sugerencia }}
     </ion-item>
   </ion-list>
 
-  <div *ngIf="selectedSpecies">
-    <h2>{{ selectedSpecies.scientificName }}</h2>
-    <p><strong>Familia:</strong> {{ selectedSpecies.family }}</p>
-    <p><strong>Género:</strong> {{ selectedSpecies.genus }}</p>
-    <p><strong>Rank:</strong> {{ selectedSpecies.rank }}</p>
+  <ion-button expand="full" (click)="buscarPlanta()" [disabled]="!query">Buscar</ion-button>
 
-    <div *ngIf="imagenPlanta">
-      <img [src]="imagenPlanta" alt="Imagen de planta" style="width: 100%; border-radius: 10px; margin-top: 10px;">
-    </div>
-  </div>
+  <ion-card *ngIf="resultado && !resultado.error">
+    <img [src]="resultado.imagenes[0]" *ngIf="resultado.imagenes && resultado.imagenes.length">
+    <ion-card-header>
+      <ion-card-title>{{ resultado.nombreComun }}</ion-card-title>
+      <ion-card-subtitle>{{ resultado.nombreCientifico }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Tipo:</strong> {{ resultado.tipo }}</p>
+      <p><strong>Humedad:</strong> {{ resultado.humedad }}</p>
+      <p><strong>Comestible:</strong> {{ resultado.comestible ? 'Sí' : 'No' }}</p>
+      <p><strong>Venenosa:</strong> {{ resultado.venenosa ? 'Sí' : 'No' }}</p>
+      <p><strong>Luz:</strong> {{ resultado.luz }}</p>
+      <p><strong>Consejos:</strong></p>
+      <ul>
+        <li *ngFor="let c of resultado.consejos">{{ c }}</li>
+      </ul>
+      <p><strong>Similares:</strong> {{ resultado.sugerenciasSimilares.join(', ') }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="resultado?.error">
+    <ion-card-content>
+      {{ resultado.error }}
+    </ion-card-content>
+  </ion-card>
 </ion-content>

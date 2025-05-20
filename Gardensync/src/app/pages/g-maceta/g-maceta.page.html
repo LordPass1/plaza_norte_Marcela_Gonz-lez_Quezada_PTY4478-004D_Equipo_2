@@ -12,6 +12,7 @@
   </ion-toolbar>
 </ion-header>
 
+<<<<<<< Updated upstream
 <ion-content [fullscreen]="true">
   
     <ion-card>
@@ -248,4 +249,23 @@
     </ion-row>
   </ion-grid>
   <ion-button (click)="agregarBoton()">Agregar Botón</ion-button>-->
+=======
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let maceta of macetas">
+      <ion-label>
+        <h2>{{ maceta.nombre }}</h2>
+        <p>Planta: {{ maceta.planta.nombreComun }}</p>
+        <p>Humedad: {{ maceta.humedadActual }}%</p>
+      </ion-label>
+      <img [src]="maceta.planta.imagen" *ngIf="maceta.planta.imagen" slot="end" width="64"/>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="abrirAgregarPlanta()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+>>>>>>> Stashed changes
 </ion-content>
