@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-usuariosregistrados',
   templateUrl: './usuariosregistrados.page.html',
   styleUrls: ['./usuariosregistrados.page.scss'],
+  standalone: false,
 })
 export class UsuariosregistradosPage implements OnInit {
 
