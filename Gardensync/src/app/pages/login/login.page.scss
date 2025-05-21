@@ -83,15 +83,22 @@
   .signup-wrapper {
     margin-top: 20px;
     color: black;
-    p {
+    p{
       font-size: 14px;
-      a {
+      a{
         color: #28bb50;
         font-weight: bold;
-        text-decoration: none;
+        text-decoration:none;
       }
     }
+
+    a{
+      color: #28bb50;
+      font-weight: bold;
+    }
+
   }
+
   
   ion-input{
     --background: #ffffff;;
