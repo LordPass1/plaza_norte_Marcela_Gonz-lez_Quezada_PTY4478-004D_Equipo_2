@@ -5,8 +5,10 @@
     </ion-buttons>
     <ion-title>Mis Plantitas</ion-title>
     <ion-buttons slot="end">
-      <ion-button [routerLink]="['/perfil']">
-        <ion-icon id="perfilHome" slot="icon-only" name="person-outline" ></ion-icon>
+      <ion-button [routerLink]="['/perfil-usuario']">
+        <ion-avatar class="avatar">
+          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -116,7 +118,7 @@
         </ion-card>
 
 
-        <ion-card>
+        <ion-card class="cardMacetas" size="12" size-sm="12" size-md="6" size-lg="4" size-xl="2">
           <ion-card-header>
             <ion-avatar>
               <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -124,6 +126,7 @@
             <ion-card-title>Plantita 3</ion-card-title>
           </ion-card-header>
           <ion-card-content>
+            <div class="contenedor">
               <ion-row>
                 <div id="humedad">
                   <ion-col>
@@ -157,6 +160,7 @@
                   <p>25%</p>
                 </div>
               </ion-row>
+            </div>
           </ion-card-content>
         </ion-card>
       </ion-col>

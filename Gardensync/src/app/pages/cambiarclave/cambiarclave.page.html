@@ -28,7 +28,7 @@
           <div *ngIf="contrasenaActual?.errors?.['pattern']" class="error-text">
             La contraseña debe contener al menos una mayúscula, un número y un carácter especial.
           </div>
-          <div *ngIf="contrasenaActual?.errors?.['minlength']" class="error-text">
+          <div *ngIf="contrasenaActual?.errors?.['minlength']" class="error-text-caracteres">
             La contraseña debe tener al menos 8 caracteres.
           </div>
         </div>
@@ -48,6 +48,9 @@
           </div>
           <div *ngIf="nuevaContrasena?.errors?.['pattern']" class="error-text">
             La contraseña debe contener al menos una mayúscula, un número y un carácter especial.
+          </div>
+            <div *ngIf="contrasenaActual?.errors?.['minlength']" class="error-text-caracteres">
+            La contraseña debe tener al menos 8 caracteres.
           </div>
         </div>
 

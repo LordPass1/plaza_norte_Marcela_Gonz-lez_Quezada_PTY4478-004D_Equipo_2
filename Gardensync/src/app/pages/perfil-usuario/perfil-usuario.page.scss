@@ -1,32 +1,115 @@
+ion-header{
+  border-radius: 0 0 15px 15px;
+}
 
-  .user-profile {
-    text-align: center;
-    margin-bottom: 20px;
+ion-toolbar{
+    --background: #2dd55b;
+    border-radius: 0 0 20px 20px;
+    box-shadow:0 0 6px 6px #2dd55a9e;
+    ion-item{
+        --background: #2dd55b;
+        --border-color: transparent;
+        color: white;
+        font-size: 1.5rem;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+    }
+
+    ion-title{
+        font-size: 1.5rem;
+    }
+
+    ion-icon{
+        color: white;
+    }
+}
+
+ion-content{
+  --background: #ffffff;
+  color: black;
+}
+
+.user-profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow:3px 3px 3px 3px rgba(0, 0, 0, 0.292);
+}
+
+.user-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 10px 0 5px;
+}
+
+.user-email {
+  font-size: 1rem;
+  color: gray;
+}
+
+.action-buttons {
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+  #botonClave{
+    margin-right: 1rem;
   }
 
-  .avatar {
-    margin: 0 auto;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    overflow: hidden;
+  #cierreSesion{
+    box-shadow:3px 3px 3px 3px #d52d2d83;
+    ion-icon{
+      margin-bottom: 0.3rem;
+      margin-right: 0.3rem;
+    }
+  }
+}
+
+ion-button {
+  text-align: center;
+  margin-bottom: 10px;
+  --background: white;
+  color: black;
+  --border-radius: 0.5rem;
+  border-radius: 20px;
+  box-shadow:3px 3px 2px 2px #2dd55a9e;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.botonesPerfil{
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  ion-icon{
+    margin-bottom: 0.3rem;
+    margin-right: 0.3rem;
+  }
+}
+
+ion-list{
+  border-radius: 20px;
+  background: none;
+  box-shadow:3px 3px 3px 3px #2dd55a9e;
+  padding: 1.5rem;
+  color: black;
+  ion-item{
+    --background: none;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    color: black;
+    --border-color: black;
   }
 
-  .user-name {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: 10px 0 5px;
+  ion-icon{
+    color: black;
   }
 
-  .user-email {
-    font-size: 1rem;
-    color: gray;
+  ion-label{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
-
-  .action-buttons {
-    margin-top: 20px;
-  }
-
-  ion-button {
-    margin-bottom: 10px;
-  }
+}

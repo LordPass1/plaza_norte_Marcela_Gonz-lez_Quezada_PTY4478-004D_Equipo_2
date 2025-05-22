@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-item id="itemAtras">
+      <ion-icon id="atrasPerfil" name="arrow-back-outline" [routerLink]="['/perfil-usuario']"></ion-icon>
+      <ion-title>Editar Perfil</ion-title>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-avatar>
+              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            </ion-avatar>
+            <ion-card-title>Cambiar foto</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-grid>
+              <ion-item id="nombreDeUsuario" >
+                <ion-input
+                  label="Nombre de usuario"
+                  labelPlacement="floating"
+                  placeholder="Ingrese su nombre de usuario"
+                  [(ngModel)]="nombreUsuario">
+                </ion-input>
+              </ion-item>
+              <div *ngIf="!nombreUsuarioValido && nombreUsuarioTouched">
+                <ion-text color="danger" class="error-message">
+                  <p *ngIf="nombreUsuarioErrores?.required">El nombre de usuario es obligatorio.</p>
+                  <p *ngIf="nombreUsuarioErrores?.pattern"> El nombre de usuario debe contener solo minúsculas, números y guiones bajos con un mínimo de 6 caracteres</p>
+                  <p *ngIf="nombreUsuarioErrores?.maxlength">El nombre de usuario no puede tener más de 30 caracteres.</p>
+                </ion-text>
+              </div>
+
+              <ion-item id="correo" >
+                <ion-input
+                  label="Correo Electrónico"
+                  labelPlacement="floating"
+                  placeholder="Ingrese un correo electrónico"
+                  [(ngModel)]="correo">
+                </ion-input>
+              </ion-item>
+
+              <ion-item id="hogar" >
+                <ion-input
+                  label="Nombre del hogar"
+                  labelPlacement="floating"
+                  placeholder="Ingrese el nombre del hogar"
+                  [(ngModel)]="hogar">
+                </ion-input>
+              </ion-item>
+              
+              <ion-item id="telefono" >
+                <ion-input
+                  label="Teléfono"
+                  labelPlacement="floating"
+                  placeholder="Ingrese su número de teléfono"
+                  [(ngModel)]="telefono">
+                </ion-input>
+              </ion-item>
+
+              
+              <ion-button>Guardar</ion-button>
+            </ion-grid>
+          </ion-card-content>
+
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
