@@ -25,7 +25,7 @@ ion-toolbar{
 
 ion-content{
   --background: #ffffff;
-  color: black;
+  color: #944704;
 }
 
 .user-profile {
@@ -74,7 +74,7 @@ ion-button {
   text-align: center;
   margin-bottom: 10px;
   --background: white;
-  color: black;
+  color: #944704;
   --border-radius: 0.5rem;
   border-radius: 20px;
   box-shadow:3px 3px 2px 2px #2dd55a9e;
@@ -96,17 +96,17 @@ ion-list{
   background: none;
   box-shadow:3px 3px 3px 3px #2dd55a9e;
   padding: 1.5rem;
-  color: black;
+  color: #944704;
   ion-item{
     --background: none;
     margin-right: 1rem;
     margin-bottom: 1rem;
-    color: black;
+    color: #944704;
     --border-color: black;
   }
 
   ion-icon{
-    color: black;
+    color: #944704;
   }
 
   ion-label{
