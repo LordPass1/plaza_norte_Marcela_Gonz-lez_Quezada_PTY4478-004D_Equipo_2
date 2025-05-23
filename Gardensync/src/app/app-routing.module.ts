@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'registro',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -45,7 +45,8 @@ const routes: Routes = [
   {
     path: 'perfil-usuario',
     loadChildren: () => import('./pages/perfil-usuario/perfil-usuario.module').then( m => m.PerfilUsuarioPageModule)
-  },  {
+  },
+  {
     path: 'agregarmaceta',
     loadChildren: () => import('./pages/agregarmaceta/agregarmaceta.module').then( m => m.AgregarmacetaPageModule)
   },

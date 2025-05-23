@@ -1,7 +1,11 @@
+ion-header{
+  border-radius: 0 0 20px 20px;
+}
+
 ion-toolbar{
     --background: #2dd55b;
-    color: black;
-
+    border-radius: 0 0 20px 20px;
+    box-shadow:0 0 6px 6px #2dd55a9e;
     ion-item{
         --background: #2dd55b;
         --border-color: transparent;
@@ -16,6 +20,12 @@ ion-toolbar{
 
     ion-icon{
         color: white;
+    }
+
+    ion-avatar{
+       height: 40px;
+       width: 40px;
+       
     }
 }
 ion-content{
@@ -41,6 +51,7 @@ ion-icon{
 ion-card{
     border-radius: 0.8rem;
     box-shadow: black;
+    box-shadow:3px 3px 3px 3px #2dd55ac8;
     ion-card-header{
         display: flex;
         align-items: center;
@@ -49,6 +60,7 @@ ion-card{
         ion-avatar{
             margin-top: 2rem;
             margin-bottom: 0.5rem;
+            box-shadow:3px 3px 3px 3px rgba(0, 0, 0, 0.292);
         }
 
         b{
@@ -102,6 +114,8 @@ ion-input{
 .anadir{
     display: flex;
     justify-content: center;
+    box-shadow:3px 3px 3px 3px #2dd55a83;
+    border-radius: 20px;
     --background: #2dd55b;
     color: white;
     margin-top: 2rem;
