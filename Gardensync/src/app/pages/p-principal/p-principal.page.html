@@ -1,11 +1,11 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar class="olas">
     <ion-buttons id="menu" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Mis Plantitas</ion-title>
     <ion-buttons slot="end">
-      <ion-button [routerLink]="['/perfil-usuario']">
+      <ion-button [routerLink]="['/home/perfil-usuario']">
         <ion-avatar class="avatar">
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
         </ion-avatar>
@@ -71,19 +71,59 @@
   </ion-grid>-->
   <ion-grid >
     <ion-row>
-      <ion-col >
-        <ion-card class="cardMacetas" size="12" size-sm="12" size-md="6" size-lg="4" size-xl="2">
+      <ion-col>
+        <ion-card class="card">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <ion-card-header>
+            <ion-avatar>
+              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            </ion-avatar>
+            <ion-card-title>Plantita 1</ion-card-title>
+          </ion-card-header>
+
+            <ion-card-content>
+              <ion-row>
+                <div id="humedad">
+                  <ion-col>
+                      <ion-icon  name="rainy-outline"></ion-icon>
+                      <p>Humedad</p>
+                  </ion-col>
+                  <p>48%</p>
+                </div>
+
+                <div id="temperatura">
+                  <ion-col>
+                    <ion-icon name="thermometer-outline"></ion-icon>
+                    <p>Temperatura</p>
+                  </ion-col>
+                  <p>15°</p>
+                </div>
+
+              </ion-row>
+            </ion-card-content>
+
+        </ion-card>
+      </ion-col>  
+      <ion-col>
+        <ion-card class="card">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
           <ion-card-header>
             <ion-avatar>
               <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
             </ion-avatar>
             <ion-card-title>Plantita 2</ion-card-title>
           </ion-card-header>
-
           <ion-card-content>
+            <div class="contenedor">
               <ion-row>
                 <div id="humedad">
-                  <ion-col>
+                  <ion-col class="poto">
                       <ion-icon  name="rainy-outline"></ion-icon>
                       <p>Humedad</p>
                   </ion-col>
@@ -97,39 +137,28 @@
                   </ion-col>
                   <p>15°</p>
                 </div>
-
-                <div id="luz">
-                  <ion-col>
-                    <ion-icon name="sunny-outline"></ion-icon>
-                    <p>Luz</p>
-                  </ion-col>
-                  <p>10%</p>
-                </div>
-
-                <div id="agua">
-                  <ion-col>
-                    <ion-icon name="water-outline"></ion-icon>
-                    <p>Agua</p>
-                  </ion-col>
-                  <p>25%</p>
-                </div>
               </ion-row>
+            </div>
           </ion-card-content>
         </ion-card>
-
-
-        <ion-card class="cardMacetas" size="12" size-sm="12" size-md="6" size-lg="4" size-xl="2">
+      </ion-col>
+      <ion-col>
+        <ion-card class="card">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
           <ion-card-header>
             <ion-avatar>
               <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
             </ion-avatar>
-            <ion-card-title>Plantita 3</ion-card-title>
+            <ion-card-title>Plantita 2</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <div class="contenedor">
               <ion-row>
                 <div id="humedad">
-                  <ion-col>
+                  <ion-col class="poto">
                       <ion-icon  name="rainy-outline"></ion-icon>
                       <p>Humedad</p>
                   </ion-col>
@@ -143,21 +172,40 @@
                   </ion-col>
                   <p>15°</p>
                 </div>
-
-                <div id="luz">
-                  <ion-col>
-                    <ion-icon name="sunny-outline"></ion-icon>
-                    <p>Luz</p>
+              </ion-row>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card class="card">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <ion-card-header>
+            <ion-avatar>
+              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            </ion-avatar>
+            <ion-card-title>Plantita 2</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="contenedor">
+              <ion-row>
+                <div id="humedad">
+                  <ion-col class="poto">
+                      <ion-icon  name="rainy-outline"></ion-icon>
+                      <p>Humedad</p>
                   </ion-col>
-                  <p>10%</p>
+                  <p>48%</p>
                 </div>
 
-                <div id="agua">
+                <div id="temperatura">
                   <ion-col>
-                    <ion-icon name="water-outline"></ion-icon>
-                    <p>Agua</p>
+                    <ion-icon name="thermometer-outline"></ion-icon>
+                    <p>Temperatura</p>
                   </ion-col>
-                  <p>25%</p>
+                  <p>15°</p>
                 </div>
               </ion-row>
             </div>

@@ -1,11 +1,13 @@
 ion-header{
   border-radius: 0 0 20px 20px;
+  box-shadow: none;
 }
 
 ion-toolbar{
     --background: #2dd55b;
     border-radius: 0 0 20px 20px;
-    box-shadow:0 0 6px 6px #2dd55a9e;
+    box-shadow:0 0 2px 3px #2dd55b;
+    margin-bottom: 0.5rem;
     ion-item{
         --background: #2dd55b;
         --border-color: transparent;
@@ -41,7 +43,9 @@ ion-title{
 }
 
 ion-content{
+    display: flex;
     --background: #ffffff;
+    min-height: 100vh;
 }
 
 #perfilHome{
@@ -50,18 +54,104 @@ ion-content{
 }
 
 
-.cardMacetas{  
-    display: block;
-    flex-wrap: wrap;
+
+.card{  
+    background: #ffffff;
+    position: relative;
     width: 100%;
-    border-radius: 1rem;
-    max-height: 100%;
+    max-height: 330px;
+    padding: 0.1rem;
+    box-shadow: none;
+    overflow: hidden;
+}
+
+.card span:nth-child(1){
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #2dd55b);
+    animation: animate_one 2s linear infinite;
+}
+
+@keyframes animate_one {
+    0%{
+        transform: translateX(-100%);
+    }
+    100%{
+        transform: translateX(100%);
+    }
+}
+
+
+.card span:nth-child(2){
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, #2dd55b);
+    animation: animate_two 2s linear infinite;
+    animation-delay: 1s;
+}
+
+@keyframes animate_two {
+    0%{
+        transform: translateY(-100%);
+    }
+    100%{
+        transform: translateY(100%);
+    }
+}
+
+
+.card span:nth-child(3){
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to left, transparent, #2dd55b);
+    animation: animate_three 2s linear infinite;
+    animation-delay: 2s;
+}
+
+@keyframes animate_three {
+    0%{
+        transform: translateX(100%);
+    }
+    100%{
+        transform: translateX(-100%);
+    }
+}
+
+
+.card span:nth-child(4){
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(to top, transparent, #2dd55b);
+    animation: animate_four 2s linear infinite;
+    animation-delay: 1s;
+}
+
+@keyframes animate_four {
+    0%{
+        transform: translateY(100%);
+    }
+    100%{
+        transform: translateY(-100%);
+    }
 }
 
 ion-card-header{
     align-items: center;
     text-align: center;
-    background: #ffffff;
+    background: #eeeeee;
+    
 }
 
 ion-card-title{
@@ -71,10 +161,11 @@ ion-card-title{
 
 ion-card-content{
     display: flex;
-    position: relative;
-    width: 100%;
     background: #a3df5b;
     justify-content: center;
+    align-items: center;
+    font-size: 1px;
+    padding: 0.1rem;
 }
 
 ion-col{
@@ -123,3 +214,31 @@ ion-col{
         color: white;
     }
 }
+
+.olas{
+    background: #2dd55b;
+    max-width: 100%;
+    height: 100%;
+    background-size: cover;
+    animation: shape 5s linear infinite;
+
+    @keyframes shape{
+    0%, 100%{
+        border-radius: 40% 60% 70% 30% / 0% 0% 40% 40%;
+    }
+
+    33%{
+        border-radius: 70% 30% 50% 50% / 0% 0% 50% 60%;
+    }
+
+    66%{
+        border-radius: 100% 60% 65% 100% / 0% 0% 60% 60%;
+    }
+    }
+}
+
+
+
+
+
+

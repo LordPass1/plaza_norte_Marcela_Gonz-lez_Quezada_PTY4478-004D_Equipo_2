@@ -24,6 +24,26 @@ const routes: Routes = [
         loadChildren: () => import('../pages/menuadmin/menuadmin.module').then( m => m.MenuadminPageModule)
       },
       {
+        path: 'usuariosregistrados',
+        loadChildren: () => import('../pages/usuariosregistrados/usuariosregistrados.module').then( m => m.UsuariosregistradosPageModule)
+      },
+      {
+        path: 'banearusuario',
+        loadChildren: () => import('../pages/banearusuario/banearusuario.module').then( m => m.BanearusuarioPageModule)
+      },
+      {
+        path: 'perfil-usuario',
+        loadChildren: () => import('../pages/perfil-usuario/perfil-usuario.module').then( m => m.PerfilUsuarioPageModule)
+      },
+      {
+        path: 'editarperfil',
+        loadChildren: () => import('../pages/editarperfil/editarperfil.module').then( m => m.EditarperfilPageModule)
+      },
+      {
+        path: 'cambiarclave',
+        loadChildren: () => import('../pages/cambiarclave/cambiarclave.module').then( m => m.CambiarclavePageModule)
+      },
+      {
         path: '',
         redirectTo: 'p-consejos',
         pathMatch: 'full'

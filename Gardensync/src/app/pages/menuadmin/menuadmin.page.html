@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar class="olas">
     <ion-item>
       <ion-icon class="atrasMenuAdmin" name="arrow-back-outline" [routerLink]="['/home/p-principal']"></ion-icon>
       <ion-title>Administración</ion-title>
@@ -9,11 +9,11 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item [routerLink]="['/usuariosregistrados']">
+    <ion-item [routerLink]="['/home/usuariosregistrados']">
       <ion-icon class="usuariosBaneados" name="people-outline"></ion-icon>
       <ion-label>Usuarios Registrados</ion-label>
     </ion-item>
-    <ion-item [routerLink]="['/banearusuario']">
+    <ion-item [routerLink]="['/home/banearusuario']">
       <ion-icon class="ban" name="ban-outline"></ion-icon>
       <ion-label>Banear Usuario</ion-label>
     </ion-item>

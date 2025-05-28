@@ -1,9 +1,11 @@
-<ion-toolbar>
-  <ion-item id="itemAtras">
-    <ion-icon id="atrasPerfil" name="arrow-back-outline" [routerLink]="['/home/p-principal']"></ion-icon>
-    <ion-title>Mi perfil</ion-title>
-  </ion-item>
-</ion-toolbar>
+<ion-header [translucent]="true">
+  <ion-toolbar class="olas">
+    <ion-item id="itemAtras">
+      <ion-icon id="atrasPerfil" name="arrow-back-outline" [routerLink]="['/home/p-principal']"></ion-icon>
+      <ion-title>Mi perfil</ion-title>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="user-profile">
@@ -34,7 +36,7 @@
       <ion-note slot="end">{{ hogar }}</ion-note>
     </ion-item>
     <div class="botonesPerfil">
-      <ion-button [routerLink]="['/editarperfil']"><ion-icon name="create-outline"></ion-icon>Editar Perfil </ion-button>
+      <ion-button [routerLink]="['/home/editarperfil']"><ion-icon name="create-outline"></ion-icon>Editar Perfil </ion-button>
     </div>
   </ion-list>
   

@@ -1,11 +1,19 @@
-
+ion-header{
+    background: white;
+    box-shadow: none;
+    border-color: transparent;
+    border: none;
+}
 ion-icon{
     color: white;
     margin-right: 0.5rem;
 }
 
 ion-toolbar{
+    border-color: transparent;
+    text-align: center;
     --background: #2dd55b;
+    border-radius:50% 50% 49% 51% / 0% 100% 0% 100% ;
     color: white;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
 }
@@ -28,6 +36,7 @@ ion-item{
 ion-content{
     --background: #ffffff;
     color: #8f4b0f;
+    border-color: transparent;
 }
 
 ion-card{
@@ -49,4 +58,26 @@ ion-list{
 
 ion-title{
     font-size: 1.5rem;
+}
+
+.olas{
+    background: #2dd55b;
+    max-width: 100%;
+    height: 100%;
+    background-size: cover;
+    animation: shape 5s linear infinite;
+
+    @keyframes shape{
+    0%, 100%{
+        border-radius: 40% 60% 70% 30% / 0% 0% 60% 50%;
+    }
+
+    33%{
+        border-radius: 70% 30% 50% 50% / 0% 0% 70% 70%;
+    }
+
+    66%{
+        border-radius: 100% 60% 60% 100% / 0% 0% 60% 60%;
+    }
+    }
 }
