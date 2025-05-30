@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ion-header{
   border-radius: 0 0 20px 20px;
   box-shadow: none;
@@ -115,11 +116,41 @@ ion-list{
 
   ion-icon{
     color: #944704;
+=======
+
+  .user-profile {
+    text-align: center;
+    margin-bottom: 20px;
   }
 
-  ion-label{
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  .avatar {
+    margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
   }
+
+  .user-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 10px 0 5px;
+>>>>>>> parent of fa17693 (modificacion perfil)
+  }
+
+  .user-email {
+    font-size: 1rem;
+    color: gray;
+  }
+
+  .action-buttons {
+    margin-top: 20px;
+  }
+
+  ion-button {
+    margin-bottom: 10px;
+  }
+<<<<<<< HEAD
 }
 
 .olas{
@@ -143,3 +174,5 @@ ion-list{
     }
     }
 }
+=======
+>>>>>>> parent of fa17693 (modificacion perfil)

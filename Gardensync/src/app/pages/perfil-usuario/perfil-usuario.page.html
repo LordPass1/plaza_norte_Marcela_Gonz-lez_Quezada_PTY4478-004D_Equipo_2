@@ -1,23 +1,28 @@
 <ion-header [translucent]="true">
+<<<<<<< HEAD
   <ion-toolbar class="olas">
     <ion-item id="itemAtras">
       <ion-icon id="atrasPerfil" name="arrow-back-outline" [routerLink]="['/home/p-principal']"></ion-icon>
       <ion-title>Mi perfil</ion-title>
     </ion-item>
+=======
+  <ion-toolbar>
+    <ion-title>Perfil de Usuario</ion-title>
+>>>>>>> parent of fa17693 (modificacion perfil)
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="user-profile">
     <ion-avatar class="avatar">
-      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      <img src="https://via.placeholder.com/150" alt="Foto de perfil">
     </ion-avatar>
   </div>
 
   <ion-list>
     <ion-item>
       <ion-icon name="person-outline" slot="start"></ion-icon>
-      <ion-label>Nombre de usuario</ion-label>
+      <ion-label>Nombre Completo</ion-label>
       <ion-note slot="end">{{ nombre }}</ion-note>
     </ion-item>
     <ion-item>
@@ -30,6 +35,7 @@
       <ion-label>Nombre de Hogar</ion-label>
       <ion-note slot="end">{{ hogar }}</ion-note>
     </ion-item>
+<<<<<<< HEAD
     <ion-item>
       <ion-icon name="call-outline" slot="start"></ion-icon>
       <ion-label>Teléfono</ion-label>
@@ -38,10 +44,13 @@
     <div class="botonesPerfil">
       <ion-button [routerLink]="['/home/editarperfil']"><ion-icon name="create-outline"></ion-icon>Editar Perfil </ion-button>
     </div>
+=======
+>>>>>>> parent of fa17693 (modificacion perfil)
   </ion-list>
-  
+
   <div class="action-buttons">
-    <ion-button id="botonClave" [routerLink]="['/cambiarclave']"><ion-icon name="lock-closed-outline"></ion-icon>Cambiar Contraseña</ion-button>
-    <ion-button id="cierreSesion" (click)="cerrarSesion()">Cerrar Sesión</ion-button>
+    <ion-button expand="block" color="primary">Editar Perfil</ion-button>
+    <ion-button expand="block" color="secondary">Cambiar Contraseña</ion-button>
+    <ion-button (click)="cerrarSesion()" expand="block" color="danger">Cerrar Sesión</ion-button>
   </div>
 </ion-content>
