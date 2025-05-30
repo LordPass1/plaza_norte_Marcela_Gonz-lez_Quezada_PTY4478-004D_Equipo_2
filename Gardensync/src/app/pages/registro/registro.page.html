@@ -28,6 +28,8 @@
 <<<<<<< HEAD
     <ion-card-content>
       <form [formGroup]="formularioRegistro" (keyup.enter)="registrar()">
+        
+
         <ion-item>
           <ion-input formControlName="nombree" type="text" label="Nombre de usuario" labelPlacement="floating" placeholder="Ingrese su nombre" maxlength="50" [(ngModel)]="nombreCompleto"></ion-input>
         </ion-item>
@@ -117,6 +119,7 @@
             La respuesta de seguridad es obligatoria.
           </div>
         </div>
+
       </form>
     </ion-card-content>  
 
@@ -125,7 +128,7 @@
     </ion-button>
     
     <ion-text>
-      <p>¿Ya tienes una cuenta? </p> <a href="/login"> Iniciar sesión</a>
+      <p>¿Ya tienes una cuenta? </p> <a href="/iniciosesion"> Iniciar sesión</a>
     </ion-text>
 </ion-content>
 =======
