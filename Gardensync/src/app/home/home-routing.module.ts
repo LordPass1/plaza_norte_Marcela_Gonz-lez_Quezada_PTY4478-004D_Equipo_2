@@ -50,6 +50,7 @@ const routes: Routes = [
         loadChildren: () => import('../pages/cambiarclave/cambiarclave.module').then( m => m.CambiarclavePageModule)
       },
       {
+<<<<<<< HEAD
         path: 'agregarmaceta',
         loadChildren: () => import('../pages/agregarmaceta/agregarmaceta.module').then( m => m.AgregarmacetaPageModule)
       },
@@ -58,6 +59,8 @@ const routes: Routes = [
 >>>>>>> parent of e7aa4f6 (boton admin en Home)
 =======
 >>>>>>> parent of ac67ca7 (mejoras pagina principal)
+=======
+>>>>>>> parent of acb59e0 (correccion error)
         path: '',
         redirectTo: 'p-consejos',
         pathMatch: 'full'
