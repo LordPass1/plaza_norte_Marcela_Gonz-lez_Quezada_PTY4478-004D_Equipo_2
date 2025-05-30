@@ -1,12 +1,12 @@
 <<<<<<< HEAD
 ion-header{
   border-radius: 0 0 20px 20px;
-  box-shadow: none;
 }
 
 ion-toolbar{
     --background: #2dd55b;
     border-radius: 0 0 20px 20px;
+<<<<<<< HEAD
     box-shadow:0 0 2px 3px #2dd55b;
     margin-bottom: 0.5rem;
 =======
@@ -15,6 +15,9 @@ ion-toolbar{
     color: black;
 
 >>>>>>> parent of 7277d51 (modificaciones)
+=======
+    box-shadow:0 0 6px 6px #2dd55a9e;
+>>>>>>> parent of ac67ca7 (mejoras pagina principal)
     ion-item{
         --background: #2dd55b;
         --border-color: transparent;
@@ -32,6 +35,7 @@ ion-toolbar{
     }
 <<<<<<< HEAD
 
+<<<<<<< HEAD
     ion-avatar{
        height: 40px;
        width: 40px;
@@ -39,8 +43,9 @@ ion-toolbar{
     }
 =======
 >>>>>>> parent of 7277d51 (modificaciones)
+=======
+>>>>>>> parent of ac67ca7 (mejoras pagina principal)
 }
-
 ion-content{
     --background: #ffffff;
     
@@ -131,26 +136,4 @@ ion-input{
     margin: 1.5rem;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     --border-radius: 1rem;
-}
-
-.olas{
-    background: #2dd55b;
-    max-width: 100%;
-    height: 100%;
-    background-size: cover;
-    animation: shape 5s linear infinite;
-
-    @keyframes shape{
-    0%, 100%{
-        border-radius: 40% 60% 70% 30% / 0% 0% 40% 40%;
-    }
-
-    33%{
-        border-radius: 70% 30% 50% 50% / 0% 0% 50% 60%;
-    }
-
-    66%{
-        border-radius: 100% 60% 65% 100% / 0% 0% 60% 60%;
-    }
-    }
 }

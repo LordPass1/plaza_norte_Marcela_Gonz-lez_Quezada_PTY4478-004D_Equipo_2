@@ -2,22 +2,29 @@
 ion-header{
 <<<<<<< HEAD
   border-radius: 0 0 20px 20px;
+<<<<<<< HEAD
   box-shadow: none;
 =======
   border-radius: 0 0 15px 15px;
 >>>>>>> parent of fa17693 (modificacion perfil)
+=======
+>>>>>>> parent of ac67ca7 (mejoras pagina principal)
 }
 
 ion-toolbar{
     --background: #2dd55b;
 <<<<<<< HEAD
     border-radius: 0 0 20px 20px;
+<<<<<<< HEAD
     box-shadow:0 0 2px 3px #2dd55b;
     margin-bottom: 0.5rem;
 =======
     border-radius: 0 0 15px 15px;
     box-shadow:0 0 6px 6px #2dd55a9e;
 >>>>>>> parent of fa17693 (modificacion perfil)
+=======
+    box-shadow:0 0 6px 6px #2dd55a9e;
+>>>>>>> parent of ac67ca7 (mejoras pagina principal)
     ion-item{
         --background: #2dd55b;
         --border-color: transparent;
@@ -56,9 +63,7 @@ ion-title{
 }
 
 ion-content{
-    display: flex;
     --background: #ffffff;
-    min-height: 100vh;
 }
 
 #perfilHome{
@@ -67,6 +72,7 @@ ion-content{
 }
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 .card{  
@@ -167,13 +173,20 @@ ion-content{
     border-radius: 1rem;
     
 >>>>>>> parent of fa17693 (modificacion perfil)
+=======
+.cardMacetas{  
+    display: block;
+    flex-wrap: wrap;
+    width: 100%;
+    border-radius: 1rem;
+    max-height: 100%;
+>>>>>>> parent of ac67ca7 (mejoras pagina principal)
 }
 
 ion-card-header{
     align-items: center;
     text-align: center;
-    background: #eeeeee;
-    
+    background: #ffffff;
 }
 
 ion-card-title{
@@ -184,6 +197,7 @@ ion-card-title{
 ion-card-content{
     display: flex;
 <<<<<<< HEAD
+<<<<<<< HEAD
     background: #a3df5b;
     justify-content: center;
     align-items: center;
@@ -193,6 +207,12 @@ ion-card-content{
     max-width: 150px;
     background: #a3df5b;
 >>>>>>> parent of fa17693 (modificacion perfil)
+=======
+    position: relative;
+    width: 100%;
+    background: #a3df5b;
+    justify-content: center;
+>>>>>>> parent of ac67ca7 (mejoras pagina principal)
 }
 
 ion-col{
@@ -240,6 +260,7 @@ ion-col{
     p{
         color: white;
     }
+<<<<<<< HEAD
 }
 
 .olas{
@@ -271,3 +292,6 @@ ion-col{
 
 =======
 >>>>>>> parent of 4b20f61 (Diseño página principal, no definitiva)
+=======
+}
+>>>>>>> parent of ac67ca7 (mejoras pagina principal)

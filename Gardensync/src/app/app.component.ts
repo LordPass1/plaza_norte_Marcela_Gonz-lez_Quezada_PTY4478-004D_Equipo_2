@@ -42,12 +42,12 @@ export class AppComponent {
 
   cerrarSesion() {
     this.menuCtrl.close();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/iniciosesion']);
   }
 
   cerrarMenuYNavegarACambiarContra() {
     this.menuCtrl.close();
-    this.router.navigate(['/home/cambiarclave']);
+    this.router.navigate(['/cambiarclave']);
   }
 =======
   constructor() {}
