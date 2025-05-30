@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AgregarmacetaPage } from './agregarmaceta.page';
+import { MacetaPage } from './maceta.page';
 
-describe('AgregarmacetaPage', () => {
-  let component: AgregarmacetaPage;
-  let fixture: ComponentFixture<AgregarmacetaPage>;
+describe('MacetaPage', () => {
+  let component: MacetaPage;
+  let fixture: ComponentFixture<MacetaPage>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AgregarmacetaPage);
+    fixture = TestBed.createComponent(MacetaPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
