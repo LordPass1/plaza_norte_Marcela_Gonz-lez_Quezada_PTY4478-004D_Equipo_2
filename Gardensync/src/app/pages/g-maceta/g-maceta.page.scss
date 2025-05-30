@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ion-header{
   border-radius: 0 0 20px 20px;
   box-shadow: none;
@@ -30,6 +31,11 @@ ion-toolbar{
        width: 40px;
        box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 0.541);
     }
+=======
+ion-toolbar{
+    --background: #2dd55b;
+    color: #ffffff;
+>>>>>>> parent of 7277d51 (modificaciones)
 }
 
 ion-menu-button{
@@ -50,75 +56,54 @@ ion-content{
 }
 
 ion-card{
+    --background: #a3df5b;
     border-radius: 0.5rem;
     --box-shadow: black;
-    max-width: 100%;
-    margin-bottom: 1.5rem;
-    box-shadow:3px 3px 3px 3px #2dd55ac8;
 }
 
 
 ion-card-header{
     display: flex;
-    align-items: center;
-    
+    align-items: start;
     --background: #ffffff; 
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     ion-avatar{
-        width: 40px;
-        height: 40px;
         margin-right: 1rem;
-        box-shadow: 2px 2px 1.5px 1.5px rgba(0, 0, 0, 0.607);
+        font-size: 1rem;
     }
 
     ion-item{
-        display: flex;
         --border-color: transparent;
         --background: #ffffff;
-
-        .botonesHeader{
-            margin-left: 1.2rem;
-            ion-button{
-                border: none;
-                box-shadow: none;
-                margin-left: 0.4rem;
-            }
-            ion-icon{
-                font-size: 1.5rem;
-                color: black;
-            }
-        }
     }
 
     ion-card-title{
-        display: flex;
         color: black;
         font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        max-width: 500px;
+
     }
 }
 
 ion-card-content{
-    display: flex;
     color: black;
-    --background: #ffffff;
+    --background: #a3df5b;
+
     ion-item{
         color:black;
         margin-bottom: 2rem;
         margin-left: -1.5rem;
-        --background: #ffffff;
+        --background: #a3df5b;
         font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
     }
 }
 
 ion-item{
-    --background: #ffffff;
+    --background: #a3df5b;
 }
 
-
 #titulos{
-    color: black;
+    color: #ffffff;
 }
 
 #descripciones{
@@ -130,15 +115,22 @@ ion-item{
 }
 
 ion-fab-button{
+<<<<<<< HEAD
     --background: #0abfbc;
     margin-bottom: 1rem;
     box-shadow: 3px 3px 2px 2px #28bb50;
     border-radius: 30px;
+=======
+    --background: #8fc848;
+   
+    box-shadow: black;
+>>>>>>> parent of 7277d51 (modificaciones)
     ion-icon{
         color: #ffffff;
     }
 }
 
+<<<<<<< HEAD
 .olas{
     background: #2dd55b;
     max-width: 100%;
@@ -204,3 +196,16 @@ ion-fab-button{
 
 =======
 >>>>>>> parent of de3eab8 (algunas paginas subidas)
+=======
+div{
+    margin-left: 1.2rem;
+    ion-button{
+        border: none;
+        box-shadow: none;
+        margin-left: 0.4rem;
+    }
+    ion-icon{
+        font-size: 1.5rem;
+    }
+}
+>>>>>>> parent of 7277d51 (modificaciones)

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ion-header{
   border-radius: 0 0 20px 20px;
   box-shadow: none;
@@ -8,6 +9,12 @@ ion-toolbar{
     border-radius: 0 0 20px 20px;
     box-shadow:0 0 2px 3px #2dd55b;
     margin-bottom: 0.5rem;
+=======
+ion-toolbar{
+    --background: #2dd55b;
+    color: black;
+
+>>>>>>> parent of 7277d51 (modificaciones)
     ion-item{
         --background: #2dd55b;
         --border-color: transparent;
@@ -23,12 +30,15 @@ ion-toolbar{
     ion-icon{
         color: white;
     }
+<<<<<<< HEAD
 
     ion-avatar{
        height: 40px;
        width: 40px;
        box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 0.541);
     }
+=======
+>>>>>>> parent of 7277d51 (modificaciones)
 }
 ion-content{
     --background: #ffffff;
@@ -53,7 +63,6 @@ ion-icon{
 ion-card{
     border-radius: 0.8rem;
     box-shadow: black;
-    box-shadow:3px 3px 3px 3px #2dd55ac8;
     ion-card-header{
         display: flex;
         align-items: center;
@@ -62,7 +71,6 @@ ion-card{
         ion-avatar{
             margin-top: 2rem;
             margin-bottom: 0.5rem;
-            box-shadow:3px 3px 3px 3px rgba(0, 0, 0, 0.292);
         }
 
         b{
@@ -116,8 +124,6 @@ ion-input{
 .anadir{
     display: flex;
     justify-content: center;
-    box-shadow:3px 3px 3px 3px #2dd55a83;
-    border-radius: 20px;
     --background: #2dd55b;
     color: white;
     margin-top: 2rem;
