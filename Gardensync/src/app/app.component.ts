@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +9,6 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
-<<<<<<< HEAD
   constructor(
     private alertController: AlertController, 
     private router: Router, 
@@ -49,7 +50,4 @@ export class AppComponent {
     this.menuCtrl.close();
     this.router.navigate(['/home/cambiarclave']);
   }
-=======
-  constructor() {}
->>>>>>> parent of 834ec35 (componente para el botón de menu)
 }
