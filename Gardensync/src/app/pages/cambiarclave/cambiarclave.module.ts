@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { MacetaPageRoutingModule } from './maceta-routing.module';
+import { CambiarclavePageRoutingModule } from './cambiarclave-routing.module';
 
-import { MacetaPage } from './maceta.page';
+import { CambiarclavePage } from './cambiarclave.page';
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { MacetaPage } from './maceta.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    MacetaPageRoutingModule
+    CambiarclavePageRoutingModule
   ],
-  declarations: [MacetaPage]
+  declarations: [CambiarclavePage]
 })
-export class MacetaPageModule {}
+export class CambiarclavePageModule {}

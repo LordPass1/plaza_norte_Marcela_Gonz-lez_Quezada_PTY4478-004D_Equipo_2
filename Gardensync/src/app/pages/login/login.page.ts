@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/auth.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,32 @@ export class LoginPage implements OnInit {
   email: string = '';
   password: string = '';
   isLoading: boolean = false;
-  constructor(private authService: AuthService, private router: Router) {}
+  loginError: boolean = false;           
+  loginErrorMessage: string = '';        
+  formularioLogin: FormGroup<{ correo: FormControl<string | null>; contrasena: FormControl<string | null>; }>;
+
+
+  constructor(private authService: AuthService,public fb: FormBuilder, private router: Router,) {
+
+    this.formularioLogin = this.fb.group({
+      'correo': new FormControl("", [Validators.required, Validators.email]),
+      'contrasena': new FormControl("", [Validators.required])
+    });
+  }
+
+  iniciar(){
+
+    this.router.navigate(['/home/p-principal']);
+
+  }
+
+  get correo() {
+    return this.formularioLogin.get('correo');
+  }
+
+  get contrasena() {
+    return this.formularioLogin.get('contrasena');
+  }
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe((user) => {
@@ -24,9 +50,10 @@ export class LoginPage implements OnInit {
         console.log('No hay usuario logueado');
       }
     });
+    
   }
 
-  async onLogin() {
+    async onLogin() {
     if (!this.email || !this.password) {
       alert('Por favor, ingresa un correo y una contraseña.');
       return;
@@ -56,7 +83,8 @@ export class LoginPage implements OnInit {
     }
   }
 
-  handleLoginError(error: any) {
+
+    handleLoginError(error: any) {
     switch (error.code) {
       case 'auth/user-not-found':
         alert('El usuario no existe.');

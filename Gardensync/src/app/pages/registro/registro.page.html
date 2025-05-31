@@ -1,31 +1,8 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>registro</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">registro</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <div>
-    <form (ngSubmit)="registrar()">
-      <label for="nombre">Nombre Completo</label>
-      <input id="nombre" [(ngModel)]="nombreCompleto" name="nombre" required />
-      
-      <label for="correo">Correo</label>
-      <input id="correo" [(ngModel)]="correo" name="correo" type="email" required />
-      
-      <label for="contraseña">Contraseña</label>
-      <input id="contrasena" [(ngModel)]="contrasena" name="contrasena" type="password" required />
-      
-      <button type="submit">Registrar</button>
-    </form>
-  
+    <ion-card-header>
+      <ion-card-title>¡Registrate!</ion-card-title>
+    </ion-card-header>
 
-<<<<<<< HEAD
     <ion-card-content>
       <form [formGroup]="formularioRegistro" (keyup.enter)="registrar()">
         <ion-item>
@@ -128,10 +105,3 @@
       <p>¿Ya tienes una cuenta? </p> <a href="/login"> Iniciar sesión</a>
     </ion-text>
 </ion-content>
-=======
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-  </div>
-</ion-content>
->>>>>>> parent of de3eab8 (algunas paginas subidas)
