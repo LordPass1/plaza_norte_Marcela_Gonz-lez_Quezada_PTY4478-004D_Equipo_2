@@ -12,10 +12,6 @@ const routes: Routes = [
         loadChildren: () => import('../pages/p-consejos/p-consejos.module').then( m => m.PConsejosPageModule)
       },
       {
-        path: 'maceta',
-        loadChildren: () => import('../pages/maceta/maceta.module').then( m => m.MacetaPageModule)
-      },
-      {
         path: 'g-maceta',
         loadChildren: () => import('../pages/g-maceta/g-maceta.module').then( m => m.GMacetaPageModule)
       },
@@ -24,7 +20,6 @@ const routes: Routes = [
         loadChildren: () => import('../pages/p-principal/p-principal.module').then( m => m.PPrincipalPageModule)
       },
       {
-<<<<<<< HEAD
         path: 'menuadmin',
         loadChildren: () => import('../pages/menuadmin/menuadmin.module').then( m => m.MenuadminPageModule)
       },
@@ -53,8 +48,6 @@ const routes: Routes = [
         loadChildren: () => import('../pages/agregarmaceta/agregarmaceta.module').then( m => m.AgregarmacetaPageModule)
       },
       {
-=======
->>>>>>> parent of e7aa4f6 (boton admin en Home)
         path: '',
         redirectTo: 'p-consejos',
         pathMatch: 'full'
