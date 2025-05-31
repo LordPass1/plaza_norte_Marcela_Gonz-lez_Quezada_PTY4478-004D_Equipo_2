@@ -21,7 +21,7 @@ export class PerfilUsuarioPage implements OnInit {
         console.log('Usuario ya logueado', user);
       } else {
         console.log('No hay usuario logueado');
-        this.router.navigate(['/registro']);
+        //this.router.navigate(['/registro']);
       }
     });
   }
@@ -49,7 +49,7 @@ export class PerfilUsuarioPage implements OnInit {
     try {
       await this.authservice.logout();
       console.log('Sesión cerrada correctamente');
-      this.router.navigate(['/iniciar-persona']);
+      this.router.navigate(['/login']);
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }

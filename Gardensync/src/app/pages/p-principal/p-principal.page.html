@@ -6,7 +6,6 @@
     </ion-buttons>
     <ion-title>Mis Plantitas</ion-title>
     <ion-buttons slot="end">
-<<<<<<< HEAD
       <ion-button [routerLink]="['/home/perfil-usuario']">
         <ion-avatar class="avatar">
           <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -22,10 +21,6 @@
       <ion-button (click)="perfil()">
         <ion-icon  slot="icon-only" name="person-outline"></ion-icon>
 >>>>>>> parent of 4b20f61 (Diseño página principal, no definitiva)
-=======
-      <ion-button [routerLink]="['/perfil']">
-        <ion-icon id="perfilHome" slot="icon-only" name="person-outline" ></ion-icon>
->>>>>>> parent of fa17693 (modificacion perfil)
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -111,56 +106,8 @@
             </ion-avatar>
             <ion-card-title>Plantita 2</ion-card-title>
           </ion-card-header>
-<<<<<<< HEAD
-=======
-
           <ion-card-content>
-              <ion-row>
-                <div id="humedad">
-                  <ion-col>
-                      <ion-icon  name="rainy-outline"></ion-icon>
-                      <p>Humedad</p>
-                  </ion-col>
-                  <p>48%</p>
-                </div>
-
-                <div id="temperatura">
-                  <ion-col>
-                    <ion-icon name="thermometer-outline"></ion-icon>
-                    <p>Temperatura</p>
-                  </ion-col>
-                  <p>15°</p>
-                </div>
-
-                <div id="luz">
-                  <ion-col>
-                    <ion-icon name="sunny-outline"></ion-icon>
-                    <p>Luz</p>
-                  </ion-col>
-                  <p>10%</p>
-                </div>
-
-                <div id="agua">
-                  <ion-col>
-                    <ion-icon name="water-outline"></ion-icon>
-                    <p>Agua</p>
-                  </ion-col>
-                  <p>25%</p>
-                </div>
-              </ion-row>
-          </ion-card-content>
-        </ion-card>
-
-
-        <ion-card>
-          <ion-card-header>
-            <ion-avatar>
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-            </ion-avatar>
-            <ion-card-title>Plantita 3</ion-card-title>
-          </ion-card-header>
->>>>>>> parent of fa17693 (modificacion perfil)
-          <ion-card-content>
+            <div class="contenedor">
               <ion-row>
                 <div id="humedad">
                   <ion-col class="poto">
@@ -178,6 +125,7 @@
                   <p>15°</p>
                 </div>
               </ion-row>
+            </div>
           </ion-card-content>
         </ion-card>
       </ion-col>
