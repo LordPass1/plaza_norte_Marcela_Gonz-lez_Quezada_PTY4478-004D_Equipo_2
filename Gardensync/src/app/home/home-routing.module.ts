@@ -29,7 +29,6 @@ const routes: Routes = [
         loadChildren: () => import('../pages/menuadmin/menuadmin.module').then( m => m.MenuadminPageModule)
       },
       {
-<<<<<<< HEAD
         path: 'usuariosregistrados',
         loadChildren: () => import('../pages/usuariosregistrados/usuariosregistrados.module').then( m => m.UsuariosregistradosPageModule)
       },
@@ -56,8 +55,6 @@ const routes: Routes = [
       {
 =======
 >>>>>>> parent of e7aa4f6 (boton admin en Home)
-=======
->>>>>>> parent of ac67ca7 (mejoras pagina principal)
         path: '',
         redirectTo: 'p-consejos',
         pathMatch: 'full'

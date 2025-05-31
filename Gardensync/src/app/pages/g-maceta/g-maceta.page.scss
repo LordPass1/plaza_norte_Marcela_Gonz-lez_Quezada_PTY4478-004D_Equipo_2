@@ -2,12 +2,14 @@
 <<<<<<< HEAD
 ion-header{
   border-radius: 0 0 20px 20px;
+  box-shadow: none;
 }
 
 ion-toolbar{
     --background: #2dd55b;
     border-radius: 0 0 20px 20px;
-    box-shadow:0 0 6px 6px #2dd55a9e;
+    box-shadow:0 0 2px 3px #2dd55b;
+    margin-bottom: 0.5rem;
     ion-item{
         --background: #2dd55b;
         --border-color: transparent;
@@ -25,8 +27,8 @@ ion-toolbar{
     }
 
     ion-avatar{
-        height: 40px;
-        width: 40px;
+       height: 40px;
+       width: 40px;
        box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 0.541);
     }
 =======
@@ -114,13 +116,8 @@ ion-item{
 
 ion-fab-button{
 <<<<<<< HEAD
-<<<<<<< HEAD
     --background: #0abfbc;
     margin-bottom: 1rem;
-=======
-    --background: #2dd55b;
-   
->>>>>>> parent of ac67ca7 (mejoras pagina principal)
     box-shadow: 3px 3px 2px 2px #28bb50;
     border-radius: 30px;
 =======
@@ -132,7 +129,6 @@ ion-fab-button{
         color: #ffffff;
     }
 }
-<<<<<<< HEAD
 
 <<<<<<< HEAD
 .olas{
@@ -213,5 +209,3 @@ div{
     }
 }
 >>>>>>> parent of 7277d51 (modificaciones)
-=======
->>>>>>> parent of ac67ca7 (mejoras pagina principal)
