@@ -32,4 +32,12 @@ async irAlogin(){
 async anonimo(){
   this.router.navigate(['home']);
 }
+
+onVideoEnded() {
+  const video = document.getElementById('bgVideo') as HTMLVideoElement;
+  if (video) {
+    video.pause();
+    video.currentTime = video.duration; 
+
 }
+}}
