@@ -84,15 +84,22 @@
   .signup-wrapper {
     margin-top: 20px;
     color: black;
-    p {
+    p{
       font-size: 14px;
-      a {
+      a{
         color: #28bb50;
         font-weight: bold;
-        text-decoration: none;
+        text-decoration:none;
       }
     }
+
+    a{
+      color: #28bb50;
+      font-weight: bold;
+    }
+
   }
+
   
   ion-input{
     --background: #ffffff;;
@@ -145,8 +152,5 @@
   .inputs{
     text-align: left;
   }
-<<<<<<< HEAD
 =======
 >>>>>>> parent of de3eab8 (algunas paginas subidas)
-=======
->>>>>>> parent of 283b51a (pequeña modificacion login)
