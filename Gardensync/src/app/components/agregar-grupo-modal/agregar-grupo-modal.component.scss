@@ -1,0 +1,63 @@
+ion-toolbar {
+  --background: #256029;
+  --color: #fff;
+  justify-content: center;
+  text-align: center;
+}
+
+ion-title {
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+ion-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 100%;
+  --background: #e9dac5;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+ion-item {
+  --background: #fff;
+  --border-color: #8d6748;
+}
+
+ion-button {
+  --background: #256029; // Mismo verde hoja oscuro
+  --color: #fff;
+  border-radius: 999px;
+}
+
+.error-message {
+  color: #c0392b;
+  margin: 0.5rem 0 0 1rem;
+}
+
+form {
+  width: 100%;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.custom-modal {
+  --width: 320px;
+  --height: 220px;
+  --border-radius: 16px;
+}
+
+ion-modal .modal-wrapper, .custom-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

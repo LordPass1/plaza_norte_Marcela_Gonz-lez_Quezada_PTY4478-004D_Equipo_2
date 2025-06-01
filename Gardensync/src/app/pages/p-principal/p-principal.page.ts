@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FirebaseService } from 'src/firebase.sevice';
+import { ModalController } from '@ionic/angular';
+import { AgregarGrupoModalComponent } from 'src/app/components/agregar-grupo-modal/agregar-grupo-modal.component';
 
 @Component({
   selector: 'app-p-principal',
@@ -8,12 +11,37 @@ import { Router } from '@angular/router';
   standalone: false
 })
 export class PPrincipalPage implements OnInit {
+  grupos: any[] = [];
+  cargando = true;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private firebaseService: FirebaseService,
+    private modalCtrl: ModalController
+  ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.cargarGrupos();
   }
-perfil(){
-  this.router.navigate(['/perfil-usuario']);
+
+  async cargarGrupos() {
+    this.cargando = true;
+    this.grupos = await this.firebaseService.obtenerGruposYMacetas();
+    this.cargando = false;
+  }
+
+  async abrirAgregarGrupo() {
+    const modal = await this.modalCtrl.create({
+      component: AgregarGrupoModalComponent,
+      cssClass: 'custom-modal'
+    });
+    modal.onDidDismiss().then(() => this.cargarGrupos());
+    await modal.present();
+  }
+
+  perfil() {
+    this.router.navigate(['/perfil-usuario']);
+  }
 }
-}
+
+

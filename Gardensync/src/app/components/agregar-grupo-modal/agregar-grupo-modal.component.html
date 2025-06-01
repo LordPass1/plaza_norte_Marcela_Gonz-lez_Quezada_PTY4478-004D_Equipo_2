@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>Agregar Conjunto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="grupoForm" (ngSubmit)="guardar()">
+    <ion-item>
+      <ion-label position="floating">Nombre del conjunto</ion-label>
+      <ion-input formControlName="nombre" maxlength="50"></ion-input>
+    </ion-item>
+    <div *ngIf="grupoForm.get('nombre')?.invalid && grupoForm.get('nombre')?.touched" class="error-message">
+      <ion-text color="danger">El nombre es obligatorio.</ion-text>
+    </div>
+    <ion-button expand="block" type="submit" [disabled]="grupoForm.invalid || cargando">
+      <ion-spinner *ngIf="cargando" slot="start"></ion-spinner>
+      Guardar
+    </ion-button>
+  </form>
+</ion-content>

@@ -1,13 +1,13 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="olas">
-    <ion-item id="itemAtras">
+  <ion-toolbar>
+    <ion-buttons slot="start">
       <ion-icon id="atrasPerfil" name="arrow-back-outline" [routerLink]="['/home/p-principal']"></ion-icon>
-      <ion-title>Mi perfil</ion-title>
-    </ion-item>
+    </ion-buttons>
+    <ion-title>Mi perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="ion-padding perfil-bg">
   <div class="user-profile">
     <ion-avatar class="avatar">
       <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -30,18 +30,17 @@
       <ion-label>Nombre de Hogar</ion-label>
       <ion-note slot="end">{{ hogar }}</ion-note>
     </ion-item>
-    <ion-item>
-      <ion-icon name="call-outline" slot="start"></ion-icon>
-      <ion-label>Teléfono</ion-label>
-      <ion-note slot="end">{{ hogar }}</ion-note>
-    </ion-item>
     <div class="botonesPerfil">
-      <ion-button [routerLink]="['/home/editarperfil']"><ion-icon name="create-outline"></ion-icon>Editar Perfil </ion-button>
+      <ion-button [routerLink]="['/home/editarperfil']">
+        <ion-icon name="create-outline"></ion-icon>Editar Perfil
+      </ion-button>
     </div>
   </ion-list>
   
   <div class="action-buttons">
-    <ion-button id="botonClave" [routerLink]="['/cambiarclave']"><ion-icon name="lock-closed-outline"></ion-icon>Cambiar Contraseña</ion-button>
+    <ion-button id="botonClave" [routerLink]="['/cambiarclave']">
+      <ion-icon name="lock-closed-outline"></ion-icon>Cambiar Contraseña
+    </ion-button>
     <ion-button id="cierreSesion" (click)="cerrarSesion()">Cerrar Sesión</ion-button>
   </div>
 </ion-content>

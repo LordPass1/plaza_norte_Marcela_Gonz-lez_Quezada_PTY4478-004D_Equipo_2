@@ -12,13 +12,7 @@ import { FirebaseService } from 'src/firebase.sevice';
   standalone: false,
 })
 export class RegistroPage implements OnInit{
-  nombreCompleto: string = "";
-  //nombre: string = "";
-  telefono: string = "";
-  correo: string = "";
-  contrasena: string = "";
-  preguntaseguridad: string = "";
-  respuestaseguridad: string = "";
+ 
 
   errorMessage: string = '';
 
@@ -36,20 +30,10 @@ export class RegistroPage implements OnInit{
     private authService: AuthService) { 
 
       this.formularioRegistro = this.fb.group({
-        'nombreUsuario': new FormControl('', [
-          Validators.required,                
-          Validators.pattern('^[a-z0-9_]{6,}$'), 
-          Validators.maxLength(30)                                   
-                   
-        ]),
         'nombree': new FormControl('', [
           Validators.required,               
           Validators.maxLength(50),
           Validators.minLength(6),
-        ]),
-        'telefonoo': new FormControl('', [
-          Validators.required,               
-          Validators.pattern('^[0-9]{9}$')  
         ]),
         'correoo': new FormControl('', [
           Validators.required,
@@ -62,12 +46,6 @@ export class RegistroPage implements OnInit{
         ]),
         'confirmarContrasena': new FormControl('', [
           Validators.required                
-        ]),
-        'preguntaSeguridadd': new FormControl('', [
-          Validators.required
-        ]),
-        'respuestaSeguridadd': new FormControl('', [
-          Validators.required
         ])
       },{ validators: this.confirmarContrasenaValidator}); 
     }
@@ -85,16 +63,10 @@ export class RegistroPage implements OnInit{
     
   }
 
-  get nombreUsuario() {
-    return this.formularioRegistro.get('nombreUsuario');
-  }
+
 
   get nombree() {
     return this.formularioRegistro.get('nombree');
-  }
-
-  get telefonoo() {
-    return this.formularioRegistro.get('telefonoo');
   }
 
   get correoo() {
@@ -109,13 +81,9 @@ export class RegistroPage implements OnInit{
     return this.formularioRegistro.get('confirmarContrasena');
   }
 
-  get preguntaSeguridadd() {
-    return this.formularioRegistro.get('preguntaSeguridadd');
-  }
 
-  get respuestaSeguridadd() {
-    return this.formularioRegistro.get('respuestaSeguridadd');
-  }
+
+ 
 
   confirmarContrasenaValidator(control: FormGroup) {
     const contrasenaa = control.get('contrasenaa');
@@ -131,6 +99,7 @@ export class RegistroPage implements OnInit{
   }
 
   async registrar() {
+    console.log('registrar llamado');
     this.submitted = true; 
   
 
@@ -139,7 +108,8 @@ export class RegistroPage implements OnInit{
     }
     
     try {
-      const uid = await this.firebaseService.registro(this.nombreCompleto, this.correo, this.contrasena);
+      const { nombree, correoo, contrasenaa } = this.formularioRegistro.value;
+      const uid = await this.firebaseService.registro(nombree, correoo, contrasenaa);
       console.log('Usuario registrado con UID:', uid);
       this.router.navigate(['/registro-hogar']);
     } catch (error: any) {
@@ -149,6 +119,6 @@ export class RegistroPage implements OnInit{
 
 
   
-    this.router.navigate(['/iniciosesion']); 
+    this.router.navigate(['/registro-hogar']); 
   }
 }

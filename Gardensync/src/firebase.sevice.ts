@@ -58,12 +58,16 @@ export class FirebaseService {
     return hogarDoc.id;
   }
 
-  // Agrega un grupo dentro de un hogar
-  async addGrupo(idPersona: string, idHogar: string, nombreGrupo: string) {
-    const gruposRef = collection(this.db, `Personas/${idPersona}/Hogares/${idHogar}/Grupos`);
-    const newGrupo = { nombreGrupo };
-    const grupoDoc = await addDoc(gruposRef, newGrupo);
-    return grupoDoc.id;
+async addGrupoToUserHogar(uid: string, nombreGrupo: string) {
+  // Obtén el hogar del usuario
+  const hogaresRef = collection(this.db, `Personas/${uid}/Hogares`);
+  const hogaresSnap = await getDocs(hogaresRef);
+  if (hogaresSnap.empty) throw new Error('No hay hogar creado');
+  const hogarId = hogaresSnap.docs[0].id;
+
+  // Agrega el grupo como subcolección del hogar
+  const gruposRef = collection(this.db, `Personas/${uid}/Hogares/${hogarId}/Grupos`);
+  await addDoc(gruposRef, { nombre: nombreGrupo });
   }
 
   // Agrega una maceta dentro de un grupo
@@ -100,5 +104,33 @@ export class FirebaseService {
     } else {
       throw new Error('No se encontró ningún hogar registrado');
     }
+  }
+
+  // Obtener los grupos del usuario y la cantidad de macetas en cada uno
+  async obtenerGruposYMacetas() {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuario no autenticado');
+
+    const hogaresRef = collection(this.db, `Personas/${user.uid}/Hogares`);
+    const hogaresSnap = await getDocs(hogaresRef);
+
+    if (hogaresSnap.empty) return [];
+
+    const hogarId = hogaresSnap.docs[0].id; // Asume un hogar por usuario
+    const gruposRef = collection(this.db, `Personas/${user.uid}/Hogares/${hogarId}/Grupos`);
+    const gruposSnap = await getDocs(gruposRef);
+
+    const grupos = [];
+    for (const grupoDoc of gruposSnap.docs) {
+      const grupoId = grupoDoc.id;
+      const macetasRef = collection(this.db, `Personas/${user.uid}/Hogares/${hogarId}/Grupos/${grupoId}/Macetas`);
+      const macetasSnap = await getDocs(macetasRef);
+      grupos.push({
+        id: grupoId,
+        nombre: grupoDoc.data()['nombreGrupo'],
+        cantidadMacetas: macetasSnap.size
+      });
+    }
+    return grupos;
   }
 }

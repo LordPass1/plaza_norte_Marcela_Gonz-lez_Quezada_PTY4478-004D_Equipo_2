@@ -1,9 +1,9 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="olas">
+  <ion-toolbar>
     <ion-buttons id="menu" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Mis Plantitas</ion-title>
+    <ion-title>Mis Grupitos</ion-title>
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/home/perfil-usuario']">
         <ion-avatar class="avatar">
@@ -14,204 +14,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!--<ion-grid>
-    <ion-row>
-      <ion-col size="12" size-sm="12" size-md="6" size-lg="4" size-xl="2">
-        <ion-card>
-          <ion-card-header>
-            <ion-avatar>
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-            </ion-avatar>
-            <ion-card-title>Plantita 1</ion-card-title>
-          </ion-card-header>
-
-          <ion-card-content>
-            <ion-grid>
-              <ion-row>
-                <div id="humedad">
-                  <ion-col>
-                      <ion-icon  name="rainy-outline"></ion-icon>
-                      <p>Humedad</p>
-                  </ion-col>
-                  <p>48%</p>
-                </div>
-
-                <div id="temperatura">
-                  <ion-col>
-                    <ion-icon name="thermometer-outline"></ion-icon>
-                    <p>Temperatura</p>
-                  </ion-col>
-                  <p>15°</p>
-                </div>
-
-                <div id="luz">
-                  <ion-col>
-                    <ion-icon name="sunny-outline"></ion-icon>
-                    <p>Luz</p>
-                  </ion-col>
-                  <p>10%</p>
-                </div>
-
-                <div id="agua">
-                  <ion-col>
-                    <ion-icon name="water-outline"></ion-icon>
-                    <p>Agua</p>
-                  </ion-col>
-                  <p>25%</p>
-                </div>
-
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>-->
-  <ion-grid >
-    <ion-row>
-      <ion-col>
-        <ion-card class="card">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <ion-card-header>
-            <ion-avatar>
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-            </ion-avatar>
-            <ion-card-title>Plantita 1</ion-card-title>
-          </ion-card-header>
-
-            <ion-card-content>
-              <ion-row>
-                <div id="humedad">
-                  <ion-col>
-                      <ion-icon  name="rainy-outline"></ion-icon>
-                      <p>Humedad</p>
-                  </ion-col>
-                  <p>48%</p>
-                </div>
-
-                <div id="temperatura">
-                  <ion-col>
-                    <ion-icon name="thermometer-outline"></ion-icon>
-                    <p>Temperatura</p>
-                  </ion-col>
-                  <p>15°</p>
-                </div>
-
-              </ion-row>
-            </ion-card-content>
-
-        </ion-card>
-      </ion-col>  
-      <ion-col>
-        <ion-card class="card">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <ion-card-header>
-            <ion-avatar>
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-            </ion-avatar>
-            <ion-card-title>Plantita 2</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div class="contenedor">
-              <ion-row>
-                <div id="humedad">
-                  <ion-col class="poto">
-                      <ion-icon  name="rainy-outline"></ion-icon>
-                      <p>Humedad</p>
-                  </ion-col>
-                  <p>48%</p>
-                </div>
-
-                <div id="temperatura">
-                  <ion-col>
-                    <ion-icon name="thermometer-outline"></ion-icon>
-                    <p>Temperatura</p>
-                  </ion-col>
-                  <p>15°</p>
-                </div>
-              </ion-row>
+<ion-content [fullscreen]="true" class="principal-bg">
+  <div *ngIf="cargando" class="centrado">
+    <ion-spinner></ion-spinner>
+  </div>
+  <div *ngIf="!cargando && grupos.length === 0" class="centrado">
+    <ion-button color="success" (click)="abrirAgregarGrupo()">
+      Agregar conjunto
+    </ion-button>
+    <p style="color:#8d6748; margin-top:1rem;">Agrega tu primer conjunto de macetas</p>
+  </div>
+  <div *ngIf="!cargando && grupos.length > 0">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" size-md="4" size-lg="3" *ngFor="let grupo of grupos">
+          <ion-button expand="block" class="conjunto-btn" >
+            <div class="info-macetas">
+              <img src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/svg/archive-outline.svg"
+                   alt="Conjunto" style="width:28px;height:28px;display:block;margin:0 auto;" />
+              <div style="font-weight:bold; color:#388e3c; margin-top:0.3rem;">{{ grupo.nombre }}</div>
+              <span style="color:#8d6748;">{{ grupo.cantidadMacetas }} macetas</span>
             </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card class="card">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <ion-card-header>
-            <ion-avatar>
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-            </ion-avatar>
-            <ion-card-title>Plantita 2</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div class="contenedor">
-              <ion-row>
-                <div id="humedad">
-                  <ion-col class="poto">
-                      <ion-icon  name="rainy-outline"></ion-icon>
-                      <p>Humedad</p>
-                  </ion-col>
-                  <p>48%</p>
-                </div>
-
-                <div id="temperatura">
-                  <ion-col>
-                    <ion-icon name="thermometer-outline"></ion-icon>
-                    <p>Temperatura</p>
-                  </ion-col>
-                  <p>15°</p>
-                </div>
-              </ion-row>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card class="card">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <ion-card-header>
-            <ion-avatar>
-              <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-            </ion-avatar>
-            <ion-card-title>Plantita 2</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div class="contenedor">
-              <ion-row>
-                <div id="humedad">
-                  <ion-col class="poto">
-                      <ion-icon  name="rainy-outline"></ion-icon>
-                      <p>Humedad</p>
-                  </ion-col>
-                  <p>48%</p>
-                </div>
-
-                <div id="temperatura">
-                  <ion-col>
-                    <ion-icon name="thermometer-outline"></ion-icon>
-                    <p>Temperatura</p>
-                  </ion-col>
-                  <p>15°</p>
-                </div>
-              </ion-row>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div class="centrado" style="margin-top: 1.5rem;">
+      <ion-button color="success" (click)="abrirAgregarGrupo()">
+        <img src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/svg/add-outline.svg"
+             alt="Agregar" style="width:20px;height:20px;margin-right:0.5rem;" />
+        Agregar conjunto
+      </ion-button>
+    </div>
+  </div>
 </ion-content>
