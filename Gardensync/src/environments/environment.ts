@@ -1,19 +1,16 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { getStorage } from 'firebase/storage';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCWZN6XVLFtP7EtkJZs34dtMTdwUz-3kZE",
-  authDomain: "gardensync-4174d.firebaseapp.com",
-  projectId: "gardensync-4174d",
-  storageBucket: "gardensync-4174d.appspot.com",
-  messagingSenderId: "210753735736",
-  appId: "1:210753735736:android:6b618b3c440752acd36acd",
-};
-
-
 export const environment = {
   production: false,
-  firebase: firebaseConfig
+  firebase: {
+    apiKey:       "<FIREBASE_API_KEY_AQUÍ>",
+    authDomain:   "<FIREBASE_AUTH_DOMAIN_AQUÍ>",
+    projectId:    "<FIREBASE_PROJECT_ID_AQUÍ>",
+    storageBucket:"<FIREBASE_STORAGE_BUCKET_AQUÍ>",
+    messagingSenderId: "<FIREBASE_MESSAGING_SENDER_ID_AQUÍ>",
+    appId:        "<FIREBASE_APP_ID_AQUÍ>",
+    measurementId:"<FIREBASE_MEASUREMENT_ID_AQUÍ>"
+  },
+  gkey: {
+    testKey: "<GPT_API_KEY_AQUÍ>"
+  },
+  perenualeApiKey: "<PERENUAL_API_KEY_AQUÍ>"
 };

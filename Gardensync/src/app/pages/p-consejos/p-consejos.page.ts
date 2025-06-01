@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { PlantSearcherAPIService } from 'src/app/services/plant-searcher-api.service';
-
+import { GPTService } from 'src/app/services/gpt.service';
 
 @Component({
   selector: 'app-p-consejos',
@@ -10,38 +9,80 @@ import { PlantSearcherAPIService } from 'src/app/services/plant-searcher-api.ser
   standalone: false
 })
 export class PConsejosPage {
-  query = '';
-  resultado: any = null;
-  sugerencias: string[] = [];
+  gptResponse: any = null;
+  rawResponse: string = '';
+  loading = false;
+  base64Image: string | null = null; // Guardar imagen para reusar en “Más Consejos”
 
-  constructor(
-    private plantSearcher: PlantSearcherAPIService,
-    private alertController: AlertController
-  ) {}
+  ngOnInit() {}
 
-  buscarPlanta() {
-    this.plantSearcher.buscarPlanta(this.query).subscribe(res => {
-      this.resultado = res;
-    });
-  }
+  constructor(private gptService: GPTService) {}
 
-  sugerirNombres(event: any) {
-    const valor = event.target.value;
-    if (valor && valor.length >= 2) {
-      this.plantSearcher.sugerirNombres(valor).subscribe(sugs => {
-        this.sugerencias = sugs;
-      });
-    } else {
-      this.sugerencias = [];
+  // Solo toma la foto, la envía, y espera el JSON
+  async tomarFotoYEnviar() {
+    this.loading = true;
+    this.gptResponse = null;
+    this.rawResponse = '';
+    this.base64Image = await this.gptService.takePicture();
+    if (!this.base64Image) {
+      this.loading = false;
+      this.rawResponse = "No se seleccionó ninguna imagen.";
+      return;
     }
+    this.gptService.chatConGPT(this.base64Image).subscribe({
+      next: (data) => {
+        let responseText = data.choices[0].message.content.trim();
+        const match = responseText.match(/{[\s\S]*}/);
+        if (match) responseText = match[0];
+
+        try {
+          this.gptResponse = JSON.parse(responseText);
+          this.rawResponse = '';
+        } catch (e) {
+          this.gptResponse = null;
+          this.rawResponse = responseText;
+        }
+        this.loading = false;
+      },
+      error: (err) => {
+        this.gptResponse = null;
+        this.rawResponse = 'Error: ' + JSON.stringify(err);
+        this.loading = false;
+      }
+    });
   }
 
-  async presentAlert(header: string, message: string) {
-    const alert = await this.alertController.create({
-      header,
-      message,
-      buttons: ['OK']
+  // Botón “Más Consejos”
+  pedirMasConsejos() {
+    if (!this.base64Image) return;
+    this.loading = true;
+    this.rawResponse = '';
+    this.gptService.soloConsejos(this.base64Image).subscribe({
+      next: (data) => {
+        
+        try {
+          this.rawResponse = data.choices[0].message.content;
+        } catch (e) {
+          this.rawResponse = "No se pudieron obtener consejos.";
+        }
+        this.loading = false;
+      },
+      error: (err) => {
+        this.rawResponse = 'Error: ' + JSON.stringify(err);
+        this.loading = false;
+      }
     });
-    await alert.present();
+  }
+
+  isObject(val: any): boolean {
+    return val !== null && typeof val === 'object' && !Array.isArray(val);
+  }
+  
+  formatJSON(text: string): string {
+    try {
+      return JSON.stringify(JSON.parse(text), null, 2);
+    } catch {
+      return text;
+    }
   }
 }

@@ -68,3 +68,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Ignorar archivos donde colocaremos las credenciales reales
+Gardensync/src/environments/environment.local.ts
+Gardensync/src/environments/environment.prod.secret.ts
