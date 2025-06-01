@@ -2,14 +2,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.local';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GPTService {
 
-  private apiKey = environment.gkey;
+  private apiKey = environment.gkey.testKey;
   private apiUrl = 'https://api.openai.com/v1/chat/completions';
   
   constructor(private http: HttpClient) { }
