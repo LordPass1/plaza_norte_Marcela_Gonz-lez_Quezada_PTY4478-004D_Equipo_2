@@ -1,0 +1,40 @@
+Arduino MKR1000
+ Conexiones (recordatorio)
+ Sensores de humedad capacitiva (x2)
+
+Sensor #1:
+
+VCC → Pin 3.3 V del MKR1000
+
+GND → Pin GND del MKR1000
+
+SIG → Pin A0 del MKR1000
+
+Sensor #2:
+
+VCC → Pin 3.3 V del MKR1000
+
+GND → Pin GND del MKR1000
+
+SIG → Pin A1 del MKR1000
+
+DHT11
+
+VCC → Pin 3.3 V del MKR1000
+
+GND → Pin GND del MKR1000
+
+Data → Pin D4 del MKR1000
+
+Pull-up 10 kΩ entre Data y 3.3 V
+
+El MKR1000 funciona de forma nativa a 3.3 V, por lo que no necesitas divisor de nivel.
+
+ Librerías necesarias
+Instala la librería DHT de Adafruit, igual que en el caso del Uno:
+
+En Arduino IDE → Sketch → Include Library → Manage Libraries…
+
+Busca “DHT sensor library by Adafruit” e instálala.
+
+El MKR1000 ya trae Serial sobre USB para debug, no necesitas SoftwareSerial.

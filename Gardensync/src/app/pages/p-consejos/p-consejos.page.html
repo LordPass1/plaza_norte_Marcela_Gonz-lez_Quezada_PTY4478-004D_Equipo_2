@@ -1,17 +1,18 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Identificador de Plantas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="content-wrapper">
   <!-- Botón para tomar o seleccionar la foto -->
-  <ion-button expand="block" (click)="tomarFotoYEnviar()" [disabled]="loading">
+  <ion-button class="photo-button" expand="block" (click)="tomarFotoYEnviar()" [disabled]="loading">
     {{ loading ? 'Analizando...' : 'Tomar o seleccionar foto' }}
   </ion-button>
 
   <!-- Vista previa de la imagen seleccionada -->
   <ion-img
+    class="plant-image"
     *ngIf="base64Image"
     [src]="'data:image/jpeg;base64,' + base64Image"
     style="display: block; max-width: 220px; margin: 12px auto 18px auto; border-radius: 12px; box-shadow: 0 2px 8px #3333;">
@@ -21,7 +22,7 @@
   <ion-spinner *ngIf="loading" style="margin: 24px auto; display: block;"></ion-spinner>
 
   <!-- Tarjeta con información de la planta -->
-  <ion-card *ngIf="gptResponse && isObject(gptResponse)">
+  <ion-card class="plant-card" *ngIf="gptResponse && isObject(gptResponse)">
     <ion-card-header>
       <ion-card-title>{{ gptResponse.common_name }}</ion-card-title>
       <ion-card-subtitle>{{ gptResponse.scientific_name?.join(', ') }}</ion-card-subtitle>
@@ -50,7 +51,7 @@
         </span>
       </p>
       <ion-list>
-        <ion-item *ngFor="let anatomy of gptResponse.plant_anatomy">
+        <ion-item class="info-item" *ngFor="let anatomy of gptResponse.plant_anatomy">
           <strong>{{ anatomy.part }}:</strong>
           <span>{{ anatomy.color?.join(', ') }}</span>
         </ion-item>
