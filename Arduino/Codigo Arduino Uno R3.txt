@@ -1,0 +1,95 @@
+#include <DHT.h>
+#include <SoftwareSerial.h>
+
+// --- Parámetros del DHT11 ---
+#define DHTPIN    4     // Pin digital donde está conectado Data del DHT11
+#define DHTTYPE   DHT11 // Modelo de sensor (DHT11)
+
+DHT dht(DHTPIN, DHTTYPE);
+
+// --- Pines de los sensores de humedad capacitiva ---
+const int MOIST_PIN1 = A0;  // Sensor de humedad #1 → A0
+const int MOIST_PIN2 = A1;  // Sensor de humedad #2 → A1
+
+// --- SoftwareSerial para comunicarse con ESP8266 ---
+const int ESP_RX = 2; // Pin del Uno que recibe datos (RX del Uno) ← TX del ESP
+const int ESP_TX = 3; // Pin del Uno que envía datos (TX del Uno) → RX del ESP (dividido a 3.3V)
+
+SoftwareSerial espSerial(ESP_RX, ESP_TX);
+
+// Intervalo de tiempo entre lecturas (en milisegundos)
+const unsigned long INTERVALO_LECTURA = 2000;
+unsigned long tiempoAnterior = 0;
+
+void setup() {
+  // Inicializamos puerto serie (para debug en PC) a 115200 bps
+  Serial.begin(115200);
+  while (!Serial) { ; }
+  Serial.println(F("Inicializando Arduino Uno + ESP8266"));
+
+  // Inicializamos SoftwareSerial para ESP8266 a 9600 bps (configurable según firmware del ESP)
+  espSerial.begin(9600);
+  delay(100);
+
+  // Inicializamos el sensor DHT
+  dht.begin();
+
+  // Configuramos pines analógicos como entrada
+  pinMode(MOIST_PIN1, INPUT);
+  pinMode(MOIST_PIN2, INPUT);
+
+  // ––––– Opcional: aquí podrías mandar algún comando AT al ESP para probar comunicación –––––
+  // espSerial.println("AT");
+  // delay(100);
+  // if (espSerial.available()) {
+  //   Serial.print("ESP_responde: ");
+  //   Serial.println(espSerial.readString());
+  // }
+}
+
+void loop() {
+  unsigned long tiempoActual = millis();
+  if (tiempoActual - tiempoAnterior >= INTERVALO_LECTURA) {
+    tiempoAnterior = tiempoActual;
+
+    // 1) Leer sensores de humedad
+    int valMoist1 = analogRead(MOIST_PIN1); // Rango 0..1023
+    int valMoist2 = analogRead(MOIST_PIN2);
+
+    // 2) Leer DHT11
+    float h = dht.readHumidity();
+    float t = dht.readTemperature();
+
+    // Comprobamos si hubo error de lectura DHT11
+    if (isnan(h) || isnan(t)) {
+      Serial.println(F("Error al leer DHT11"));
+    } else {
+      // 3) Mostrar resultados por Serial Monitor (USB)
+      Serial.print(F("Humedad1 (A0): "));
+      Serial.print(valMoist1);
+      Serial.print(F("  |  Humedad2 (A1): "));
+      Serial.print(valMoist2);
+      Serial.print(F("  ||  Temp (°C): "));
+      Serial.print(t);
+      Serial.print(F("  |  HumedadRel (%): "));
+      Serial.println(h);
+
+      // 4) Enviar datos al ESP8266 vía SoftwareSerial
+      // Formato de mensaje: MO1:valor;MO2:valor;TMP:valor;HUM:valor
+      String mensaje = "";
+      mensaje += "MO1:" + String(valMoist1);
+      mensaje += ";MO2:" + String(valMoist2);
+      mensaje += ";TMP:" + String(t, 1);
+      mensaje += ";HUM:" + String(h, 1);
+      espSerial.println(mensaje);
+
+      // Opcional: eco por USB
+      Serial.print(F("Enviando al ESP: "));
+      Serial.println(mensaje);
+    }
+  }
+
+  // Aquí puedes agregar lógica adicional, por ejemplo:
+  // - Leer respuesta del ESP8266 (espSerial.available())
+  // - Enviar datos a un servidor desde el ESP (HTTP, MQTT, etc.)
+}
