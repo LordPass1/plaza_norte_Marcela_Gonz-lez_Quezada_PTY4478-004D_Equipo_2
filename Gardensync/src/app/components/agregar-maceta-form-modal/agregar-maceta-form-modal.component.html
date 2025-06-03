@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title class="titulo-modal">Añadir Planta</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">
+        <img src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/svg/close-outline.svg" alt="Cerrar" style="width: 22px; height: 22px;" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="macetaForm" (ngSubmit)="guardarMaceta()" style="padding: 1rem;">
+    <ion-item>
+      <ion-label position="floating">Nombre de la planta</ion-label>
+      <ion-input formControlName="nombrePlanta"></ion-input>
+      <ion-button fill="clear" slot="end" (click)="usarIA()" type="button">
+        <img src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/svg/camera-outline.svg" alt="Cámara" style="width: 22px; height: 22px;" />
+      </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Temperatura (°C)</ion-label>
+      <ion-input formControlName="temperatura" readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Humedad (%)</ion-label>
+      <ion-input formControlName="humedad" readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Nivel de agua (%)</ion-label>
+      <ion-input formControlName="nivelAgua" readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Estado</ion-label>
+      <ion-input formControlName="estado" readonly></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="!iotConectado || macetaForm.invalid">
+      Guardar Planta
+    </ion-button>
+    <ion-text color="danger" *ngIf="!iotConectado">
+      <p>Esperando conexión con el sensor...</p>
+    </ion-text>
+  </form>
+
+  <ion-card *ngIf="consejosIA" style="margin: 1rem;">
+    <ion-card-header>
+      <ion-card-title>Consejos:</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div [innerHTML]="consejosIA"></div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

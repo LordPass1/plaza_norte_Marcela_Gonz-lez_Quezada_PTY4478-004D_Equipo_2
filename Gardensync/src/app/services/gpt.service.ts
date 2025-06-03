@@ -139,4 +139,34 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
     };
     return this.http.post(this.apiUrl, body, { headers });
   }
+  obtenerConsejosPorNombre(nombrePlanta: string): Observable<any> {
+  const SYSTEM_PROMPT = `
+Eres un experto botánico. Responde exclusivamente usando el siguiente objeto JSON (sin ningún texto antes o después):
+
+{
+  "common_name": string,
+  "scientific_name": string[],
+  "family": string,
+  "watering": string,
+  "description": string
+}
+
+Dame información y consejos útiles para la planta llamada "${nombrePlanta}". Si no la reconoces, responde con un JSON vacío ({}).
+`;
+
+  const headers = new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Authorization': `Bearer ${this.apiKey}`
+  });
+
+  const body = {
+    model: 'gpt-4o',
+    messages: [
+      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'user', content: nombrePlanta }
+    ],
+    max_tokens: 600
+  };
+  return this.http.post(this.apiUrl, body, { headers });
+}
 }

@@ -71,9 +71,18 @@ async addGrupoToUserHogar(uid: string, nombreGrupo: string) {
   }
 
   // Agrega una maceta dentro de un grupo
-  async addMaceta(idPersona: string, idHogar: string, idGrupo: string, nombrePlanta: string) {
+  async addMaceta(
+    idPersona: string,
+    idHogar: string,
+    idGrupo: string,
+    nombrePlanta: string,
+    temperatura: number,
+    humedad: number,
+    nivelAgua: number,
+    estado: string
+  ) {
     const macetasRef = collection(this.db, `Personas/${idPersona}/Hogares/${idHogar}/Grupos/${idGrupo}/Macetas`);
-    const newMaceta = { nombrePlanta };
+    const newMaceta = { nombrePlanta, temperatura, humedad, nivelAgua, estado };
     await addDoc(macetasRef, newMaceta);
   }
 
@@ -132,5 +141,11 @@ async addGrupoToUserHogar(uid: string, nombreGrupo: string) {
       });
     }
     return grupos;
+  }
+
+  async obtenerMacetasDeGrupo(idPersona: string, idHogar: string, idGrupo: string) {
+    const macetasRef = collection(this.db, `Personas/${idPersona}/Hogares/${idHogar}/Grupos/${idGrupo}/Macetas`);
+    const macetasSnap = await getDocs(macetasRef);
+    return macetasSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   }
 }

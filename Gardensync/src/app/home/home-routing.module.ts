@@ -44,10 +44,6 @@ const routes: Routes = [
         loadChildren: () => import('../pages/cambiarclave/cambiarclave.module').then( m => m.CambiarclavePageModule)
       },
       {
-        path: 'agregarmaceta',
-        loadChildren: () => import('../pages/agregarmaceta/agregarmaceta.module').then( m => m.AgregarmacetaPageModule)
-      },
-      {
         path: '',
         pathMatch: 'full'
       }

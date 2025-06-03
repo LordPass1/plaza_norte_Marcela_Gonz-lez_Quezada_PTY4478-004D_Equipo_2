@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FirebaseService } from 'src/firebase.sevice';
 import { ModalController } from '@ionic/angular';
 import { AgregarGrupoModalComponent } from 'src/app/components/agregar-grupo-modal/agregar-grupo-modal.component';
+import { AgregarMacetaModalComponent } from 'src/app/components/agregar-maceta-modal/agregar-maceta-modal.component';
 
 @Component({
   selector: 'app-p-principal',
@@ -36,6 +37,15 @@ export class PPrincipalPage implements OnInit {
       cssClass: 'custom-modal'
     });
     modal.onDidDismiss().then(() => this.cargarGrupos());
+    await modal.present();
+  }
+
+  async abrirModalMacetas(grupo: any) {
+    const modal = await this.modalCtrl.create({
+      component: AgregarMacetaModalComponent,
+      componentProps: { idGrupo: grupo.id },
+      cssClass: 'custom-modal'
+    });
     await modal.present();
   }
 

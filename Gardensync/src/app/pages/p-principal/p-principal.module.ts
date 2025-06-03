@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PPrincipalPageRoutingModule } from './p-principal-routing.module';
 
 import { PPrincipalPage } from './p-principal.page';
-import { AgregarGrupoModalComponent } from 'src/app/components/agregar-grupo-modal/agregar-grupo-modal.component';
 
 @NgModule({
   imports: [
@@ -15,6 +14,6 @@ import { AgregarGrupoModalComponent } from 'src/app/components/agregar-grupo-mod
     ReactiveFormsModule,
     PPrincipalPageRoutingModule
   ],
-  declarations: [PPrincipalPage, AgregarGrupoModalComponent]
+  declarations: [PPrincipalPage]
 })
 export class PPrincipalPageModule {}
