@@ -17,7 +17,7 @@ export class AgregarPlantaComponent  implements OnInit {
   ngOnInit() {}
 
   tomarFoto() {
-    // lógica para usar la cámara/cargar foto
+    
   }
 
   identificarPlanta() {

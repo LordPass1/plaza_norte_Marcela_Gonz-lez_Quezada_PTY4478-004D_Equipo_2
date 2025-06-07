@@ -22,7 +22,7 @@ export class AgregarMacetaModalComponent implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private firebaseService: FirebaseService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     const auth = getAuth();
@@ -32,7 +32,7 @@ export class AgregarMacetaModalComponent implements OnInit {
 
     // Obtener el hogar del usuario (asumiendo uno solo)
     const hogaresRef = await this.firebaseService.obtenerHogarUsuario();
-    this.idHogar = hogaresRef['id'];
+    this.idHogar = hogaresRef.id;
 
     this.macetas = await this.firebaseService.obtenerMacetasDeGrupo(
       this.idPersona,
@@ -45,7 +45,8 @@ export class AgregarMacetaModalComponent implements OnInit {
   cerrar() {
     this.modalCtrl.dismiss();
   }
- async cargarMacetas() {
+
+  async cargarMacetas() {
     this.cargando = true;
     this.macetas = await this.firebaseService.obtenerMacetasDeGrupo(
       this.idPersona,
@@ -54,7 +55,7 @@ export class AgregarMacetaModalComponent implements OnInit {
     );
     this.cargando = false;
   }
-  
+
   async abrirAgregarMaceta() {
     const modal = await this.modalCtrl.create({
       component: AgregarMacetaFormModalComponent,
@@ -71,4 +72,4 @@ export class AgregarMacetaModalComponent implements OnInit {
       await this.cargarMacetas();
     }
   }
-  }
+}

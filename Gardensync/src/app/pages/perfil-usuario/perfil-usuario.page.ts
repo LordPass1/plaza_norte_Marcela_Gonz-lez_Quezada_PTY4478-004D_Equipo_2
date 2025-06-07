@@ -13,6 +13,7 @@ export class PerfilUsuarioPage implements OnInit {
   hogar: any;
   nombre: string = '';
   correo: string = '';
+
   ngOnInit() {
     this.cargarDatosPerfil();
     this.cargardaratosHogar();
@@ -21,7 +22,7 @@ export class PerfilUsuarioPage implements OnInit {
         console.log('Usuario ya logueado', user);
       } else {
         console.log('No hay usuario logueado');
-        //this.router.navigate(['/registro']);
+        this.router.navigate(['/registro']);
       }
     });
   }
@@ -38,7 +39,7 @@ export class PerfilUsuarioPage implements OnInit {
   async cargardaratosHogar() {
     try {
       const datos = await this.firebaseService.obtenerHogarUsuario();
-      this.hogar = datos['nombreHogar'];
+      this.hogar = datos;
       console.log(datos);
     } catch (error) {
       console.error('Error al cargar los datos del hogar:', error);

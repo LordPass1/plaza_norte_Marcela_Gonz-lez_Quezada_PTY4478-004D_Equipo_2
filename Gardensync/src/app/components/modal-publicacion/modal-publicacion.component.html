@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+   <div class="titulo-modal">Publicación</div>
+  <ion-card>
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img src="assets/img/Perfil.png" />
+      </ion-avatar>
+      <ion-label>
+        <h2 class="modal-publicacion-autor">{{ publicacion.nombre }}</h2>
+        <p class="modal-publicacion-texto">{{ publicacion.contenido }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-row class="ion-padding-start">
+      <ion-button fill="clear" size="small" (click)="like()">👍 {{ publicacion.likes || 0 }}</ion-button>
+      <ion-button fill="clear" size="small" (click)="dislike()">👎 {{ publicacion.dislikes || 0 }}</ion-button>
+    </ion-row>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Comentarios</ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="comentarios.length > 0">
+      <ion-item *ngFor="let comentario of comentarios">
+        <ion-avatar slot="start">
+          <img src='assets/img/Perfil.png' />
+        </ion-avatar>
+        <ion-label>
+          <h3 class="comentario-autor">{{ comentario.nombre }}</h3>
+          <p>{{ comentario.contenido }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+    <ion-card-content *ngIf="comentarios.length === 0 && !cargandoComentarios">
+      <p>No hay comentarios aún.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-item>
+    <ion-textarea [(ngModel)]="nuevoComentario" placeholder="Escribe un comentario..."></ion-textarea>
+  </ion-item>
+  <ion-button class="enviar" expand="block" (click)="enviarComentario()">Comentar</ion-button>
+  <ion-button class="cerrar" expand="block" color="medium" (click)="cerrar()">Cerrar</ion-button>
+</ion-content>

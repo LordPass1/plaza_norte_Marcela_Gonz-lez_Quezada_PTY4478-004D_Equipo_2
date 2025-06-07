@@ -10,7 +10,7 @@
 <ion-content [fullscreen]="true" class="ion-padding perfil-bg">
   <div class="user-profile">
     <ion-avatar class="avatar">
-      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      <img src="assets/img/Perfil.png" alt="Avatar">
     </ion-avatar>
   </div>
 
@@ -22,16 +22,16 @@
     </ion-item>
     <ion-item>
       <ion-icon name="mail-outline" slot="start"></ion-icon>
-      <ion-label>Correo Electrónico</ion-label>
+      <ion-label>Correo</ion-label>
       <ion-note slot="end">{{ correo }}</ion-note>
     </ion-item>
     <ion-item>
       <ion-icon name="home-outline" slot="start"></ion-icon>
       <ion-label>Nombre de Hogar</ion-label>
-      <ion-note slot="end">{{ hogar }}</ion-note>
+      <ion-note slot="end">{{ hogar.nombreHogar }}</ion-note>
     </ion-item>
     <div class="botonesPerfil">
-      <ion-button [routerLink]="['/home/editarperfil']">
+      <ion-button [routerLink]="['/home/editarperfil']" hidden="true">
         <ion-icon name="create-outline"></ion-icon>Editar Perfil
       </ion-button>
     </div>

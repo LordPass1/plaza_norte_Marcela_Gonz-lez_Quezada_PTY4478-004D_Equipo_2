@@ -2,9 +2,6 @@
   <ion-toolbar>
     <ion-title>Plantas</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cerrar()">
-        <ion-icon name="close"></ion-icon>
-      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -42,6 +39,7 @@
              alt="Agregar" style="width:20px;height:20px;margin-right:0.5rem;" />
         Añadir planta
       </ion-button>
+      <ion-button class="cerrar" expand="block" color="medium" (click)="cerrar()">Cerrar</ion-button>
     </div>
   </div>
 </ion-content>

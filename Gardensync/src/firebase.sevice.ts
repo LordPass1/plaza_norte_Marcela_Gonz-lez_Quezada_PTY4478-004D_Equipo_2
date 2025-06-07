@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { collection, addDoc, doc, setDoc, getDoc, getDocs } from 'firebase/firestore';
+import { collection, addDoc, doc, setDoc, getDoc, getDocs, updateDoc, increment, query, orderBy } from 'firebase/firestore';
 import { FirebaseInitService } from './firebase-init.service';  // Importa el servicio
 import { createUserWithEmailAndPassword, Auth } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +11,12 @@ import { FirebaseError } from 'firebase/app';
 export class FirebaseService {
   private db;
   private auth: Auth;
+  private storage;
 
   constructor(private firebaseInitService: FirebaseInitService) {
     this.db = firebaseInitService.db;
     this.auth = firebaseInitService.auth;
+    this.storage = firebaseInitService.storage;
   }
 
   // Método para registrar usuario
@@ -22,10 +25,12 @@ export class FirebaseService {
       const userCredential = await createUserWithEmailAndPassword(this.auth, correo, contraseña);
       const uid = userCredential.user.uid;
 
+
+
       const personaRef = doc(this.db, 'Personas', uid);
       await setDoc(personaRef, {
         nombreCompleto,
-        correo
+        correo,
       });
 
       return uid;
@@ -49,7 +54,76 @@ export class FirebaseService {
       }
     }
   }
-  
+
+  async crearPublicacion(contenido: string) {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuario no autenticado');
+
+    const personaRef = doc(this.db, `Personas/${user.uid}`);
+    const personaSnap = await getDoc(personaRef);
+    if (!personaSnap.exists()) throw new Error('Datos de la persona no encontrados');
+
+    const { nombreCompleto } = personaSnap.data() as any;
+
+    const publicacionesRef = collection(this.db, 'Publicaciones');
+    await addDoc(publicacionesRef, {
+      uidPersona: user.uid,
+      nombre: nombreCompleto,
+      contenido: contenido,
+      fecha: new Date(),
+      likes: 0,
+      dislikes: 0
+    });
+  }
+
+  async obtenerPublicaciones() {
+    const publicacionesRef = collection(this.db, 'Publicaciones');
+    const q = query(publicacionesRef, orderBy('fecha', 'desc'));
+    const publicacionesSnap = await getDocs(q);
+
+    return publicacionesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  }
+
+  async comentar(publicacionId: string, contenido: string) {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuario no autenticado');
+
+    const personaRef = doc(this.db, `Personas/${user.uid}`);
+    const personaSnap = await getDoc(personaRef);
+    if (!personaSnap.exists()) throw new Error('Datos de la persona no encontrados');
+
+    const { nombreCompleto } = personaSnap.data() as any;
+
+    const comentariosRef = collection(this.db, `Publicaciones/${publicacionId}/Comentarios`);
+    await addDoc(comentariosRef, {
+      uidPersona: user.uid,
+      nombre: nombreCompleto,
+      contenido: contenido,
+      fecha: new Date()
+    });
+  }
+
+  async obtenerComentarios(publicacionId: string) {
+    const comentariosRef = collection(this.db, `Publicaciones/${publicacionId}/Comentarios`);
+    const q = query(comentariosRef, orderBy('fecha', 'desc'));
+    const comentariosSnap = await getDocs(q);
+
+    return comentariosSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  }
+
+  async darLike(publicacionId: string) {
+    const publicacionRef = doc(this.db, `Publicaciones/${publicacionId}`);
+    await updateDoc(publicacionRef, {
+      likes: increment(1)
+    });
+  }
+
+  async darDislike(publicacionId: string) {
+    const publicacionRef = doc(this.db, `Publicaciones/${publicacionId}`);
+    await updateDoc(publicacionRef, {
+      dislikes: increment(1)
+    });
+  }
   // Agrega un hogar dentro de una persona
   async addHogar(idPersona: string, nombreHogar: string) {
     const hogaresRef = collection(this.db, `Personas/${idPersona}/Hogares`);
@@ -58,16 +132,16 @@ export class FirebaseService {
     return hogarDoc.id;
   }
 
-async addGrupoToUserHogar(uid: string, nombreGrupo: string) {
-  // Obtén el hogar del usuario
-  const hogaresRef = collection(this.db, `Personas/${uid}/Hogares`);
-  const hogaresSnap = await getDocs(hogaresRef);
-  if (hogaresSnap.empty) throw new Error('No hay hogar creado');
-  const hogarId = hogaresSnap.docs[0].id;
+  async addGrupoToUserHogar(uid: string, nombreGrupo: string) {
+    // Obtén el hogar del usuario
+    const hogaresRef = collection(this.db, `Personas/${uid}/Hogares`);
+    const hogaresSnap = await getDocs(hogaresRef);
+    if (hogaresSnap.empty) throw new Error('No hay hogar creado');
+    const hogarId = hogaresSnap.docs[0].id;
 
-  // Agrega el grupo como subcolección del hogar
-  const gruposRef = collection(this.db, `Personas/${uid}/Hogares/${hogarId}/Grupos`);
-  await addDoc(gruposRef, { nombre: nombreGrupo });
+    // Agrega el grupo como subcolección del hogar
+    const gruposRef = collection(this.db, `Personas/${uid}/Hogares/${hogarId}/Grupos`);
+    await addDoc(gruposRef, { nombre: nombreGrupo });
   }
 
   // Agrega una maceta dentro de un grupo
@@ -81,12 +155,17 @@ async addGrupoToUserHogar(uid: string, nombreGrupo: string) {
     nivelAgua: number,
     estado: string
   ) {
-    const macetasRef = collection(this.db, `Personas/${idPersona}/Hogares/${idHogar}/Grupos/${idGrupo}/Macetas`);
-    const newMaceta = { nombrePlanta, temperatura, humedad, nivelAgua, estado };
-    await addDoc(macetasRef, newMaceta);
+    try {
+      const macetasRef = collection(this.db, `Personas/${idPersona}/Hogares/${idHogar}/Grupos/${idGrupo}/Macetas`);
+      const newMaceta = { nombrePlanta, temperatura, humedad, nivelAgua, estado };
+      const docRef = await addDoc(macetasRef, newMaceta);
+      console.log("Maceta creada con ID:", docRef.id);
+    } catch (error) {
+      console.error("Error al crear maceta:", error);
+    }
   }
 
-// tener datos de la persona
+  // tener datos de la persona
   async obtenerDatosPersona() {
     const user = this.auth.currentUser;
     if (!user) throw new Error('Usuario no autenticado');
@@ -108,8 +187,11 @@ async addGrupoToUserHogar(uid: string, nombreGrupo: string) {
     const querySnapshot = await getDocs(hogaresRef);
 
     if (!querySnapshot.empty) {
-      const hogarDoc = querySnapshot.docs[0]; // Asumimos solo uno
-      return hogarDoc.data(); // Devuelve los datos del hogar
+      const hogarDoc = querySnapshot.docs[0];
+      return {
+        id: hogarDoc.id,       // El id del documento
+        ...hogarDoc.data()     // Los datos del documento
+      };
     } else {
       throw new Error('No se encontró ningún hogar registrado');
     }
@@ -120,27 +202,35 @@ async addGrupoToUserHogar(uid: string, nombreGrupo: string) {
     const user = this.auth.currentUser;
     if (!user) throw new Error('Usuario no autenticado');
 
+    const gruposConMacetas: any[] = [];
+
+    // Obtener ID del hogar
     const hogaresRef = collection(this.db, `Personas/${user.uid}/Hogares`);
     const hogaresSnap = await getDocs(hogaresRef);
-
     if (hogaresSnap.empty) return [];
+    const hogarId = hogaresSnap.docs[0].id;
 
-    const hogarId = hogaresSnap.docs[0].id; // Asume un hogar por usuario
+    // Obtener los grupos
     const gruposRef = collection(this.db, `Personas/${user.uid}/Hogares/${hogarId}/Grupos`);
     const gruposSnap = await getDocs(gruposRef);
 
-    const grupos = [];
     for (const grupoDoc of gruposSnap.docs) {
       const grupoId = grupoDoc.id;
+      const grupoData = grupoDoc.data();
+
+      // Contar las macetas dentro del grupo
       const macetasRef = collection(this.db, `Personas/${user.uid}/Hogares/${hogarId}/Grupos/${grupoId}/Macetas`);
       const macetasSnap = await getDocs(macetasRef);
-      grupos.push({
+      const cantidadMacetas = macetasSnap.size;
+
+      gruposConMacetas.push({
         id: grupoId,
-        nombre: grupoDoc.data()['nombreGrupo'],
-        cantidadMacetas: macetasSnap.size
+        nombre: grupoData['nombre'] || 'Sin nombre',
+        cantidadMacetas: cantidadMacetas
       });
     }
-    return grupos;
+
+    return gruposConMacetas;
   }
 
   async obtenerMacetasDeGrupo(idPersona: string, idHogar: string, idGrupo: string) {

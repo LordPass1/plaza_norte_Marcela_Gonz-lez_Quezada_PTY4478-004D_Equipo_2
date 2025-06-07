@@ -1,0 +1,93 @@
+:host {
+  display: block;
+  --width: 90%;
+  --height: auto;
+}
+
+/* Fondo y estructura del modal */
+ion-content {
+  --background: #e9dac5;;
+  padding: 1rem;
+  border-radius: 20px;
+}
+
+ion-toolbar {
+  --background: #256029; // Verde hoja más oscuro
+}
+
+.titulo-modal {
+  text-align: center;
+  font-weight: bold;
+  color: #256029;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+/* Tarjeta de la publicación dentro del modal */
+.modal-publicacion {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(56, 142, 60, 0.15);
+  padding: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.modal-publicacion-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-publicacion-autor {
+  font-weight: bold;
+  color: #388e3c;
+}
+
+.modal-publicacion-texto {
+  color: #333;
+  margin: 0.4rem 0;
+  white-space: pre-line;
+}
+
+/* Comentarios */
+.comentario {
+  background: #f4f4f4;
+  padding: 0.5rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.comentario-autor {
+  font-weight: bold;
+  color: #256029;
+  margin-bottom: 0.2rem;
+}
+
+ion-textarea {
+  --background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 0.5rem;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+ion-button.enviar {
+  --background: #388e3c;
+  --color: white;
+  width: 100%;
+  font-weight: bold;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+}
+
+ion-button.cerrar {
+  --background: #8d6748;
+  --color: white;
+  width: 100%;
+  font-weight: bold;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+}

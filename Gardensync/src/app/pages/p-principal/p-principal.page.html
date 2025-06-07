@@ -7,7 +7,7 @@
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/home/perfil-usuario']">
         <ion-avatar class="avatar">
-          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          <img src="assets/img/Perfil.png" />
         </ion-avatar>
       </ion-button>
     </ion-buttons>
@@ -30,9 +30,10 @@
         <ion-col size="6" size-md="4" size-lg="3" *ngFor="let grupo of grupos">
           <ion-button expand="block" class="conjunto-btn" (click)="abrirModalMacetas(grupo)">
             <div class="info-macetas">
-              <img src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/svg/archive-outline.svg"
-                   alt="Conjunto" style="width:28px;height:28px;display:block;margin:0 auto;" />
               <div style="font-weight:bold; color:#388e3c; margin-top:0.3rem;">{{ grupo.nombre }}</div>
+              <img src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/svg/archive-outline.svg" alt="Conjunto"
+                style="width:28px;height:28px;display:block;margin:0 auto;" />
+
               <span style="color:#8d6748;">{{ grupo.cantidadMacetas }} macetas</span>
             </div>
           </ion-button>
@@ -41,8 +42,8 @@
     </ion-grid>
     <div class="centrado" style="margin-top: 1.5rem;">
       <ion-button color="success" (click)="abrirAgregarGrupo()">
-        <img src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/svg/add-outline.svg"
-             alt="Agregar" style="width:20px;height:20px;margin-right:0.5rem;" />
+        <img src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/svg/add-outline.svg" alt="Agregar"
+          style="width:20px;height:20px;margin-right:0.5rem;" />
         Agregar conjunto
       </ion-button>
     </div>

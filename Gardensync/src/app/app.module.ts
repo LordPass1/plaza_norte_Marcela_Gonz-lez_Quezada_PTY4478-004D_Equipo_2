@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgregarMacetaFormModalComponent } from './components/agregar-maceta-form-modal/agregar-maceta-form-modal.component';
 import { AgregarMacetaModalComponent } from './components/agregar-maceta-modal/agregar-maceta-modal.component';
 import { AgregarGrupoModalComponent } from './components/agregar-grupo-modal/agregar-grupo-modal.component';
+import { ModalPublicacionComponent } from './components/modal-publicacion/modal-publicacion.component';
 
 // 👉 Función que llama a init() al iniciar la app
 export function initializeFirebase(firebaseInitService: FirebaseInitService) {
@@ -22,6 +23,7 @@ export function initializeFirebase(firebaseInitService: FirebaseInitService) {
     AgregarMacetaFormModalComponent,
     AgregarMacetaModalComponent,
     AgregarGrupoModalComponent,
+    ModalPublicacionComponent,
     // ...otros componentes
   ],
   imports: [

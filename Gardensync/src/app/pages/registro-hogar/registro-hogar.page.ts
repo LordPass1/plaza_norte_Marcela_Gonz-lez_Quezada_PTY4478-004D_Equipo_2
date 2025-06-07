@@ -29,7 +29,7 @@ export class RegistroHogarPage implements OnInit {
       const uid = user.uid;
       const hogarId = await this.firebaseservice.addHogar(uid, this.nombreHogar);
       console.log('Hogar registrado con ID:', hogarId);
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home/p-principal']);
     } catch (error: any) {
       console.error('Error de registro:', error.message);
     }

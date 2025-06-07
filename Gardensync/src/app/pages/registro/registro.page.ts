@@ -11,8 +11,7 @@ import { FirebaseService } from 'src/firebase.sevice';
   styleUrls: ['./registro.page.scss'],
   standalone: false,
 })
-export class RegistroPage implements OnInit{
- 
+export class RegistroPage implements OnInit {
 
   errorMessage: string = '';
 
@@ -21,35 +20,35 @@ export class RegistroPage implements OnInit{
   passwordPattern = '^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z0-9!@#$%^&*(),.?":{}|<>]{8,}$';
   correoPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  constructor(   
-    private firebaseService: FirebaseService, 
-    public fb: FormBuilder, 
-    private router: Router, 
-    private navCtrl: NavController, 
+  constructor(
+    private firebaseService: FirebaseService,
+    public fb: FormBuilder,
+    private router: Router,
+    private navCtrl: NavController,
     private alertController: AlertController,
-    private authService: AuthService) { 
+    private authService: AuthService) {
 
-      this.formularioRegistro = this.fb.group({
-        'nombree': new FormControl('', [
-          Validators.required,               
-          Validators.maxLength(50),
-          Validators.minLength(6),
-        ]),
-        'correoo': new FormControl('', [
-          Validators.required,
-          Validators.pattern(this.correoPattern),               
-          Validators.email                   
-        ]),
-        'contrasenaa': new FormControl('', [
-          Validators.required,               
-          Validators.pattern(this.passwordPattern)  
-        ]),
-        'confirmarContrasena': new FormControl('', [
-          Validators.required                
-        ])
-      },{ validators: this.confirmarContrasenaValidator}); 
-    }
- 
+    this.formularioRegistro = this.fb.group({
+      'nombree': new FormControl('', [
+        Validators.required,
+        Validators.maxLength(50),
+        Validators.minLength(6),
+      ]),
+      'correoo': new FormControl('', [
+        Validators.required,
+        Validators.pattern(this.correoPattern),
+        Validators.email
+      ]),
+      'contrasenaa': new FormControl('', [
+        Validators.required,
+        Validators.pattern(this.passwordPattern)
+      ]),
+      'confirmarContrasena': new FormControl('', [
+        Validators.required
+      ])
+    }, { validators: this.confirmarContrasenaValidator });
+  }
+
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe((user) => {
@@ -60,9 +59,8 @@ export class RegistroPage implements OnInit{
         console.log('No hay usuario logueado');
       }
     });
-    
-  }
 
+  }
 
 
   get nombree() {
@@ -83,7 +81,7 @@ export class RegistroPage implements OnInit{
 
 
 
- 
+
 
   confirmarContrasenaValidator(control: FormGroup) {
     const contrasenaa = control.get('contrasenaa');
@@ -100,13 +98,13 @@ export class RegistroPage implements OnInit{
 
   async registrar() {
     console.log('registrar llamado');
-    this.submitted = true; 
-  
+    this.submitted = true;
+
 
     if (this.formularioRegistro.invalid) {
       return;
     }
-    
+
     try {
       const { nombree, correoo, contrasenaa } = this.formularioRegistro.value;
       const uid = await this.firebaseService.registro(nombree, correoo, contrasenaa);
@@ -118,7 +116,7 @@ export class RegistroPage implements OnInit{
     }
 
 
-  
-    this.router.navigate(['/registro-hogar']); 
+
+    this.router.navigate(['/registro-hogar']);
   }
 }

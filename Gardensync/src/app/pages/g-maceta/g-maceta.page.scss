@@ -1,203 +1,96 @@
-ion-header{
+/* Estilo general para el foro */
+ion-header {
   border-radius: 0 0 20px 20px;
   box-shadow: none;
 }
 
-ion-toolbar{
-    --background: #2dd55b;
-    border-radius: 0 0 20px 20px;
-    box-shadow:0 0 2px 3px #2dd55b;
-    margin-bottom: 0.5rem;
-    ion-item{
-        --background: #2dd55b;
-        --border-color: transparent;
-        color: white;
-        font-size: 1.5rem;
-        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
-    }
-
-    ion-title{
-        font-size: 1.5rem;
-    }
-
-    ion-icon{
-        color: white;
-    }
-
-    ion-avatar{
-       height: 40px;
-       width: 40px;
-       box-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 0.541);
-    }
+ion-toolbar {
+  --background: #256029; // Verde hoja más oscuro
+  color: #fff;
+  border-radius: 0 0 20px 20px;
 }
 
-ion-menu-button{
-    color: white;
-    font-size: 2rem;
+ion-title {
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 1.5rem;
+  color: #fff;
 }
 
-ion-title{
-    text-align: center;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
+ion-content.foro-bg {
+  --background: #e9dac5; // Fondo ecológico claro
+  min-height: 100vh;
+  padding: 1rem;
 }
 
-ion-content{
-    display: flex;
-    min-height: 800px;
-    --background: #ffffff;
+/* Tarjeta de publicación */
+ion-card.publicacion {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(56, 142, 60, 0.15);
+  margin-bottom: 1.2rem;
+  padding: 0.8rem;
 }
 
-ion-card{
-    border-radius: 0.5rem;
-    --box-shadow: black;
-    max-width: 100%;
-    margin-bottom: 1.5rem;
-    box-shadow:3px 3px 3px 3px #2dd55ac8;
-}
-
-
-ion-card-header{
-    display: flex;
-    align-items: center;
-    
-    --background: #ffffff; 
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    ion-avatar{
-        width: 40px;
-        height: 40px;
-        margin-right: 1rem;
-        box-shadow: 2px 2px 1.5px 1.5px rgba(0, 0, 0, 0.607);
-    }
-
-    ion-item{
-        display: flex;
-        --border-color: transparent;
-        --background: #ffffff;
-
-        .botonesHeader{
-            margin-left: 1.2rem;
-            ion-button{
-                border: none;
-                box-shadow: none;
-                margin-left: 0.4rem;
-            }
-            ion-icon{
-                font-size: 1.5rem;
-                color: black;
-            }
-        }
-    }
-
-    ion-card-title{
-        display: flex;
-        color: black;
-        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        max-width: 500px;
-    }
-}
-
-ion-card-content{
-    display: flex;
-    color: black;
-    --background: #ffffff;
-    ion-item{
-        color:black;
-        margin-bottom: 2rem;
-        margin-left: -1.5rem;
-        --background: #ffffff;
-        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
-    }
-}
-
-ion-item{
-    --background: #ffffff;
-}
-
-
-#titulos{
-    color: black;
-}
-
-#descripciones{
-    color: #8f4b0f;
-}
-
-#estado{
-    color: #bd6416;
-}
-
-ion-fab-button{
-    --background: #0abfbc;
-    margin-bottom: 1rem;
-    box-shadow: 3px 3px 2px 2px #28bb50;
-    border-radius: 30px;
-    ion-icon{
-        color: #ffffff;
-    }
-}
-
-.olas{
-    background: #2dd55b;
-    max-width: 100%;
-    height: 100%;
-    background-size: cover;
-    animation: shape 5s linear infinite;
-
-    @keyframes shape{
-    0%, 100%{
-        border-radius: 40% 60% 70% 30% / 0% 0% 40% 40%;
-    }
-
-    33%{
-        border-radius: 70% 30% 50% 50% / 0% 0% 50% 60%;
-    }
-
-    66%{
-        border-radius: 100% 60% 65% 100% / 0% 0% 60% 60%;
-    }
-    }
-}
-
-.fab {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  width: 80px;
-  height: 80px;
-  background-color: #23c5c3;
-  color: white;
-  border-radius: 50%;
+ion-card-header {
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 32px;
-  box-shadow:0 0 2px 3px #09a8a5c3;
-  cursor: pointer;
-  z-index: 1000;
-  transition: transform 0.2s ease-in-out;
-  background-size: cover;
-  animation: shape2 5s linear infinite;
-
-  @keyframes shape2 {
-    0%, 100%{
-        border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
-    }
-    33%{
-        border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
-    }
-    66%{
-        border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
-    }
-    
-}
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
 }
 
-.fab:hover {
-  transform: scale(1.1);
+ion-avatar {
+  width: 40px;
+  height: 40px;
 }
 
+.publicacion-autor {
+  font-weight: bold;
+  color: #388e3c;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
 
+.publicacion-texto {
+  color: #4a4a4a;
+  font-size: 1rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.6rem;
+  white-space: pre-line;
+}
 
+.publicacion-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #666;
+  font-size: 0.9rem;
+}
 
+ion-button.btn-like,
+ion-button.btn-dislike {
+  --background: transparent;
+  --color: #388e3c;
+  font-size: 1.1rem;
+  padding: 0;
+  margin-right: 0.5rem;
+}
+
+ion-button.btn-dislike {
+  --color: #8d6748;
+}
+
+ion-button.btn-comentar {
+  --background: #388e3c;
+  --color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  height: 36px;
+  font-size: 0.9rem;
+}
+
+.btns-interaccion {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

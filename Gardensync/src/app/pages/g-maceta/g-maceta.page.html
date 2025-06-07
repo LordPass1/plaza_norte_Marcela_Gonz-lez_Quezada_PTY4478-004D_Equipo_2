@@ -1,268 +1,44 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="olas">
-    <ion-buttons id="menu" slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Mis Macetas</ion-title>
-    <ion-buttons slot="end">
-      <ion-button [routerLink]="['/perfil-usuario']">
-        <ion-avatar class="avatar">
-          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-        </ion-avatar>
-      </ion-button>
-    </ion-buttons>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Foro Macetitas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-    <ion-card>
-      <ion-card-header>
-        <ion-item>
-          <ion-avatar>
-            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-          </ion-avatar>
-          <ion-card-title>Nombre Maceta</ion-card-title>
-          <div class="botonesHeader">
-            <ion-button  id="editarMaceta" color="white" [routerLink]="['/modificarmaceta']">
-              <ion-icon name="pencil-outline"></ion-icon>
-            </ion-button>
-  
-            <ion-button  id="eliminarMaceta" color="white">
-              <ion-icon name="trash-outline"></ion-icon>
-            </ion-button>
-          </div>
-        </ion-item>
-      </ion-card-header>
-
-      <ion-item>
-        <ion-card-content>
-          <ion-grid>
-            <ion-item>
-              <ion-row>
-                <div>
-                  <ion-col>
-                      <label id="titulos">Especie:</label>
-                  </ion-col>
-                </div>
-                <div>
-                  <ion-col>
-                      <label id="descripciones">Violetta </label>
-                  </ion-col>
-                </div>
-              </ion-row>
-            </ion-item>
-
-            <ion-item>
-              <ion-row>
-                <div>
-                  <ion-col>
-                      <label id="titulos">Descripción:</label>
-                  </ion-col>
-                </div>
-                <div>
-                  <ion-col>
-                      <label id="descripciones">Es bonita, el color es violeta xd </label>
-                  </ion-col>
-                </div>
-              </ion-row>
-            </ion-item>
-
-            <ion-item>
-              <ion-row>
-                <div>
-                  <ion-col>
-                      <label id="titulos">Estado:</label>
-                  </ion-col>
-                </div>
-                <div>
-                  <ion-col>
-                      <label id="estado">Maseta activa</label>
-                  </ion-col>
-                </div>
-              </ion-row>
-            </ion-item>
-          </ion-grid>
-        </ion-card-content>
-      </ion-item>
-    </ion-card>
-
-    <ion-card>
-      <ion-card-header>
-        <ion-item>
-          <ion-avatar>
-            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-          </ion-avatar>
-          <ion-card-title>Nombre Maceta</ion-card-title>
-          <div class="botonesHeader">
-            <ion-button  id="editarMaceta" color="white" [routerLink]="['/modificarmaceta']">
-              <ion-icon name="pencil-outline"></ion-icon>
-            </ion-button>
-            
-            <ion-button  id="eliminarMaceta" color="white">
-              <ion-icon name="trash-outline"></ion-icon>
-            </ion-button>
-          </div>
-        </ion-item>
-
-      </ion-card-header>
-      <ion-item>
-        <ion-card-content>
-          <ion-grid>
-            <ion-item>
-              <ion-row>
-                <div>
-                  <ion-col>
-                      <label id="titulos">Especie:</label>
-                  </ion-col>
-                </div>
-                <div>
-                  <ion-col>
-                      <label id="descripciones">Violetta </label>
-                  </ion-col>
-                </div>
-              </ion-row>
-            </ion-item>
-
-            <ion-item>
-              <ion-row>
-                <div>
-                  <ion-col>
-                      <label id="titulos">Descripción:</label>
-                  </ion-col>
-                </div>
-                <div>
-                  <ion-col>
-                      <label id="descripciones">Es bonita, el color es violeta xd </label>
-                  </ion-col>
-                </div>
-              </ion-row>
-            </ion-item>
-
-            <ion-item>
-              <ion-row>
-                <div>
-                  <ion-col>
-                      <label id="titulos">Estado:</label>
-                  </ion-col>
-                </div>
-                <div>
-                  <ion-col>
-                      <label id="estado">Maseta activa</label>
-                  </ion-col>
-                </div>
-              </ion-row>
-            </ion-item>
-          </ion-grid>
-        </ion-card-content>
-      </ion-item>
-    </ion-card>
-
-
-    <ion-card>
-      <ion-card-header>
-        <ion-item>
-          <ion-avatar>
-            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-          </ion-avatar>
-          <ion-card-title>Nombre Maceta</ion-card-title>
-          <div class="botonesHeader">
-            <ion-button  id="editarMaceta" color="white" [routerLink]="['/modificarmaceta']">
-              <ion-icon name="pencil-outline"></ion-icon>
-            </ion-button>
-            
-            <ion-button  id="eliminarMaceta" color="white">
-              <ion-icon name="trash-outline"></ion-icon>
-            </ion-button>
-          </div>
-        </ion-item>
-      </ion-card-header>
-      <ion-item>
-        <ion-card-content>
-          <ion-grid>
-            <ion-item>
-              <ion-row>
-                <div>
-                  <ion-col>
-                      <label id="titulos">Especie:</label>
-                  </ion-col>
-                </div>
-                <div>
-                  <ion-col>
-                      <label id="descripciones">Violetta </label>
-                  </ion-col>
-                </div>
-              </ion-row>
-            </ion-item>
-
-            <ion-item>
-              <ion-row>
-                <div>
-                  <ion-col>
-                      <label id="titulos">Descripción:</label>
-                  </ion-col>
-                </div>
-                <div>
-                  <ion-col>
-                      <label id="descripciones">Es bonita, el color es violeta xd </label>
-                  </ion-col>
-                </div>
-              </ion-row>
-            </ion-item>
-
-            <ion-item>
-              <ion-row>
-                <div>
-                  <ion-col>
-                      <label id="titulos">Estado:</label>
-                  </ion-col>
-                </div>
-                <div>
-                  <ion-col>
-                      <label id="estado">Maseta activa</label>
-                  </ion-col>
-                </div>
-              </ion-row>
-            </ion-item>
-          </ion-grid>
-        </ion-card-content>
-      </ion-item>
-    </ion-card>
-
-
-    <div class="fab" [routerLink]="['/home/agregarmaceta']">
-        <ion-icon name="add-outline"></ion-icon>
-        <ion-icon name="leaf-outline"></ion-icon>
-    </div>
-
-
-  <!--<ion-grid>
-    <ion-row class="ion-justify-content-center" *ngFor="let fila of agruparBotones(lista_btn, 3)">
-      <ion-col size="4" *ngFor="let btn of fila;">
-        <ion-button class="icon-button" fill="clear">
-          <ion-img [src]="btn.imagen"></ion-img>
-        </ion-button>
-       {{btn.nombre}}
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ion-button (click)="agregarBoton()">Agregar Botón</ion-button>-->
-
-  
-<!--<ion-content>
-  <ion-list>
-    <ion-item *ngFor="let maceta of macetas">
-      <ion-label>
-        <h2>{{ maceta.nombre }}</h2>
-        <p>Planta: {{ maceta.planta.nombreComun }}</p>
-        <p>Humedad: {{ maceta.humedadActual }}%</p>
-      </ion-label>
-      <img [src]="maceta.planta.imagen" *ngIf="maceta.planta.imagen" slot="end" width="64"/>
+<ion-content class="foro-bg">
+<ion-card>
+  <ion-card-content>
+    <ion-item>
+      <ion-textarea
+        [(ngModel)]="textoPublicacion"
+        placeholder="¿Qué estás pensando?"
+        autoGrow="true">
+      </ion-textarea>
     </ion-item>
-  </ion-list>
+    <ion-button expand="full" (click)="crearPublicacion()">
+      Publicar
+    </ion-button>
+  </ion-card-content>
+</ion-card>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="abrirAgregarPlanta()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>-->
+<ion-list *ngIf="!cargando">
+  <ion-card class="publicacion" *ngFor="let publi of publicaciones" (click)="abrirPost(publi)">
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img src="assets/img/Perfil.png" />
+      </ion-avatar>
+      <ion-label>
+        <h2 class="publicacion-autor">{{ publi.nombre }}</h2>
+        <p class="publicacion-texto">{{ publi.contenido }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-row class="ion-justify-content-between ion-padding-horizontal">
+      <ion-button class="btn-like" fill="clear" size="small" (click)="like(publi.id); $event.stopPropagation()">
+        👍 {{ publi.likes || 0 }}
+      </ion-button>
+      <ion-button class="btn-dislike" fill="clear" size="small" (click)="dislike(publi.id); $event.stopPropagation()">
+        👎 {{ publi.dislikes || 0 }}
+      </ion-button>
+    </ion-row>
+  </ion-card>
+</ion-list>
 </ion-content>

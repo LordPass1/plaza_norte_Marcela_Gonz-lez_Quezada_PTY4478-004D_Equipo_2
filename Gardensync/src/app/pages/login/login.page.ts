@@ -45,7 +45,7 @@ export class LoginPage implements OnInit {
     this.authService.getCurrentUser().subscribe((user) => {
       if (user) {
         console.log('Usuario ya logueado', user);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home/p-principal']);
       } else {
         console.log('No hay usuario logueado');
       }

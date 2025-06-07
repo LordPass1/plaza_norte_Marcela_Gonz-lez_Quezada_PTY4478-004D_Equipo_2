@@ -6,8 +6,10 @@
       </ion-card-header>
       <ion-card-content>
         <form [formGroup]="formularioRegistro" (ngSubmit)="registrar()">
+        
           <ion-item>
-            <ion-input formControlName="nombree" type="text" label="Nombre de usuario" labelPlacement="floating" placeholder="Ingrese su nombre" maxlength="50"></ion-input>
+            <ion-input formControlName="nombree" type="text" label="Nombre de usuario" labelPlacement="floating"
+              placeholder="Ingrese su nombre" maxlength="50"></ion-input>
           </ion-item>
           <div *ngIf="nombree?.invalid && (nombree?.touched || submitted)" class="error-message">
             <div *ngIf="nombree?.errors?.['required']">
@@ -18,8 +20,10 @@
             </div>
           </div>
 
+
           <ion-item>
-            <ion-input formControlName="correoo" type="email" label="Correo electrónico" labelPlacement="floating" placeholder="Ingrese su correo"></ion-input>
+            <ion-input formControlName="correoo" type="email" label="Correo electrónico" labelPlacement="floating"
+              placeholder="Ingrese su correo"></ion-input>
           </ion-item>
           <div *ngIf="correoo?.invalid && (correoo?.touched || submitted)" class="error-message">
             <div *ngIf="correoo?.errors?.['required']">
@@ -31,21 +35,26 @@
           </div>
 
           <ion-item>
-            <ion-input formControlName="contrasenaa" type="password" label="Contraseña" labelPlacement="floating" placeholder="Ingrese su contraseña" maxlength="50"></ion-input>
+            <ion-input formControlName="contrasenaa" type="password" label="Contraseña" labelPlacement="floating"
+              placeholder="Ingrese su contraseña" maxlength="50"></ion-input>
           </ion-item>
           <div *ngIf="contrasenaa?.invalid && (contrasenaa?.touched || submitted)" class="error-message">
             <div *ngIf="contrasenaa?.errors?.['required']">
               La contraseña es obligatoria.
             </div>
             <div *ngIf="contrasenaa?.errors?.['pattern']">
-              La contraseña debe contener al menos una mayúscula, un número, un carácter especial y tener un mínimo de 8 caracteres.
+              La contraseña debe contener al menos una mayúscula, un número, un carácter especial y tener un mínimo de 8
+              caracteres.
             </div>
           </div>
 
           <ion-item>
-            <ion-input formControlName="confirmarContrasena" type="password" label="Confirmar contraseña" labelPlacement="floating" placeholder="Confirme su contraseña" maxlength="50"></ion-input>
+            <ion-input formControlName="confirmarContrasena" type="password" label="Confirmar contraseña"
+              labelPlacement="floating" placeholder="Confirme su contraseña" maxlength="50"></ion-input>
           </ion-item>
-          <div *ngIf="confirmarContrasena?.invalid && (confirmarContrasena?.dirty || confirmarContrasena?.touched || submitted)" class="error-message">
+          <div
+            *ngIf="confirmarContrasena?.invalid && (confirmarContrasena?.dirty || confirmarContrasena?.touched || submitted)"
+            class="error-message">
             <div *ngIf="confirmarContrasena?.errors?.['required']">
               El campo de confirmación es obligatorio.
             </div>
