@@ -13,8 +13,8 @@ export class PerfilUsuarioPage implements OnInit {
   hogar: any;
   nombre: string = '';
   correo: string = '';
-
-  ngOnInit() {
+  esAnonimo = false;
+  async ngOnInit() {
     this.cargarDatosPerfil();
     this.cargardaratosHogar();
     this.authservice.getCurrentUser().subscribe((user) => {
@@ -25,6 +25,7 @@ export class PerfilUsuarioPage implements OnInit {
         this.router.navigate(['/registro']);
       }
     });
+    this.esAnonimo = await this.authservice.isAnonimo();
   }
   async cargarDatosPerfil() {
     try {

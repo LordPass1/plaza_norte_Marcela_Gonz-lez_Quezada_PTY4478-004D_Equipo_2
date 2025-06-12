@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, getAuth, signInWithEmailAndPassword, User } from 'firebase/auth';  // Importar User y otros métodos
+import { Auth, getAuth, signInWithEmailAndPassword, User, signInAnonymously } from 'firebase/auth';  // Importar User y otros métodos
 import { FirebaseInitService } from 'src/firebase-init.service';
 import { from, Observable } from 'rxjs';
 
@@ -20,6 +20,22 @@ export class AuthService {
     return await signInWithEmailAndPassword(auth, email, password);
   }
 
+  async loginAnonimo() {
+    try {
+      const userCredential = await signInAnonymously(this.auth);
+      console.log('UID anónimo:', userCredential.user.uid);
+      return userCredential.user;
+    } catch (error) {
+      console.error('Error login anónimo', error);
+      throw error;
+    }
+  }
+
+  async isAnonimo(): Promise<boolean> {
+    const user = this.auth.currentUser;
+    return user ? user.isAnonymous : false;
+  }
+  
   // Método para obtener el usuario actual
   getCurrentUser(): Observable<User | null> {
     return new Observable((observer) => {

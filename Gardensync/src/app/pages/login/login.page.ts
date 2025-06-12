@@ -42,14 +42,18 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getCurrentUser().subscribe((user) => {
-      if (user) {
-        console.log('Usuario ya logueado', user);
-        this.router.navigate(['/home/p-principal']);
+      this.authService.getCurrentUser().subscribe((user) => {
+    if (user) {
+      if (!user.isAnonymous) {
+        console.log('Usuario con cuenta, redirigiendo a home:', user);
+        this.router.navigate(['/home']);
       } else {
-        console.log('No hay usuario logueado');
+        console.log('Usuario anónimo, puede registrarse o iniciar sesión');
       }
-    });
+    } else {
+      console.log('No hay usuario logueado');
+    }
+  });
     
   }
 
@@ -58,7 +62,7 @@ export class LoginPage implements OnInit {
       alert('Por favor, ingresa un correo y una contraseña.');
       return;
     }
-  
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(this.email)) {
       alert('el correo es inválido.');
@@ -105,4 +109,12 @@ export class LoginPage implements OnInit {
         break;
     }
   }
+  async loginInvitado() {
+  try {
+    const user = await this.authService.loginAnonimo();
+    this.router.navigate(['/registro-hogar']);
+  } catch (error) {
+    console.error('Error en login invitado:', error);
+  }
+}
 }

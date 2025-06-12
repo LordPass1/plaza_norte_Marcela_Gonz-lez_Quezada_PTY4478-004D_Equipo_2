@@ -51,14 +51,18 @@ export class RegistroPage implements OnInit {
 
 
   ngOnInit() {
-    this.authService.getCurrentUser().subscribe((user) => {
-      if (user) {
-        console.log('Usuario ya logueado', user);
+  this.authService.getCurrentUser().subscribe((user) => {
+    if (user) {
+      if (!user.isAnonymous) {
+        console.log('Usuario con cuenta, redirigiendo a home:', user);
         this.router.navigate(['/home']);
       } else {
-        console.log('No hay usuario logueado');
+        console.log('Usuario anónimo, puede registrarse o iniciar sesión');
       }
-    });
+    } else {
+      console.log('No hay usuario logueado');
+    }
+  });
 
   }
 
@@ -97,26 +101,24 @@ export class RegistroPage implements OnInit {
   }
 
   async registrar() {
-    console.log('registrar llamado');
-    this.submitted = true;
+  console.log('registrar llamado');
+  this.submitted = true;
 
-
-    if (this.formularioRegistro.invalid) {
-      return;
-    }
-
-    try {
-      const { nombree, correoo, contrasenaa } = this.formularioRegistro.value;
-      const uid = await this.firebaseService.registro(nombree, correoo, contrasenaa);
-      console.log('Usuario registrado con UID:', uid);
-      this.router.navigate(['/registro-hogar']);
-    } catch (error: any) {
-      this.errorMessage = error.message; // Mostrar mensaje de error 
-      console.error('Error de registro:', error.message);
-    }
-
-
-
-    this.router.navigate(['/registro-hogar']);
+  if (this.formularioRegistro.invalid) {
+    return;
   }
+
+  try {
+    const { nombree, correoo, contrasenaa } = this.formularioRegistro.value;
+    // Llamamos a registro() que hace la vinculación si hay sesión anónima
+    const uid = await this.firebaseService.registro(nombree, correoo, contrasenaa);
+    console.log('Usuario registrado con UID:', uid);
+
+    // Aquí navegas solo después del registro correcto
+    this.router.navigate(['/registro-hogar']);
+  } catch (error: any) {
+    this.errorMessage = error.message; // Mostrar mensaje de error
+    console.error('Error de registro:', error.message);
+  }
+}
 }

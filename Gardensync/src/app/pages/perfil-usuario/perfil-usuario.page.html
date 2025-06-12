@@ -8,39 +8,57 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding perfil-bg">
-  <div class="user-profile">
-    <ion-avatar class="avatar">
-      <img src="assets/img/Perfil.png" alt="Avatar">
-    </ion-avatar>
-  </div>
 
-  <ion-list>
-    <ion-item>
-      <ion-icon name="person-outline" slot="start"></ion-icon>
-      <ion-label>Nombre de usuario</ion-label>
-      <ion-note slot="end">{{ nombre }}</ion-note>
-    </ion-item>
-    <ion-item>
-      <ion-icon name="mail-outline" slot="start"></ion-icon>
-      <ion-label>Correo</ion-label>
-      <ion-note slot="end">{{ correo }}</ion-note>
-    </ion-item>
-    <ion-item>
-      <ion-icon name="home-outline" slot="start"></ion-icon>
-      <ion-label>Nombre de Hogar</ion-label>
-      <ion-note slot="end">{{ hogar.nombreHogar }}</ion-note>
-    </ion-item>
-    <div class="botonesPerfil">
-      <ion-button [routerLink]="['/home/editarperfil']" hidden="true">
-        <ion-icon name="create-outline"></ion-icon>Editar Perfil
-      </ion-button>
+  <ng-container *ngIf="!esAnonimo; else invitacionRegistroPerfil">
+
+    <div class="user-profile">
+      <ion-avatar class="avatar">
+        <img src="assets/img/Perfil.png" alt="Avatar" />
+      </ion-avatar>
     </div>
-  </ion-list>
-  
-  <div class="action-buttons">
-    <ion-button id="botonClave" [routerLink]="['/cambiarclave']">
-      <ion-icon name="lock-closed-outline"></ion-icon>Cambiar Contraseña
-    </ion-button>
-    <ion-button id="cierreSesion" (click)="cerrarSesion()">Cerrar Sesión</ion-button>
-  </div>
+
+    <ion-list>
+      <ion-item>
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label>Nombre de usuario</ion-label>
+        <ion-note slot="end">{{ nombre }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-label>Correo</ion-label>
+        <ion-note slot="end">{{ correo }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        <ion-label>Nombre de Hogar</ion-label>
+        <ion-note slot="end">{{ hogar.nombreHogar }}</ion-note>
+      </ion-item>
+      <div class="botonesPerfil">
+        <ion-button [routerLink]="['/home/editarperfil']">
+          <ion-icon name="create-outline"></ion-icon>Editar Perfil
+        </ion-button>
+      </div>
+    </ion-list>
+
+    <div class="action-buttons">
+      <ion-button id="botonClave" [routerLink]="['/cambiarclave']">
+        <ion-icon name="lock-closed-outline"></ion-icon>Cambiar Contraseña
+      </ion-button>
+      <ion-button id="cierreSesion" (click)="cerrarSesion()">Cerrar Sesión</ion-button>
+    </div>
+
+  </ng-container>
+
+  <ng-template #invitacionRegistroPerfil>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Acceso restringido</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Para ver y editar tu perfil, por favor regístrate o inicia sesión.</p>
+        <ion-button routerLink="/registro">Ir a Registrarse</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+
 </ion-content>

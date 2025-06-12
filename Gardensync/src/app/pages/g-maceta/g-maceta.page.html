@@ -5,40 +5,56 @@
 </ion-header>
 
 <ion-content class="foro-bg">
-<ion-card>
-  <ion-card-content>
-    <ion-item>
-      <ion-textarea
-        [(ngModel)]="textoPublicacion"
-        placeholder="¿Qué estás pensando?"
-        autoGrow="true">
-      </ion-textarea>
-    </ion-item>
-    <ion-button expand="full" (click)="crearPublicacion()">
-      Publicar
-    </ion-button>
-  </ion-card-content>
-</ion-card>
 
-<ion-list *ngIf="!cargando">
-  <ion-card class="publicacion" *ngFor="let publi of publicaciones" (click)="abrirPost(publi)">
-    <ion-item lines="none">
-      <ion-avatar slot="start">
-        <img src="assets/img/Perfil.png" />
-      </ion-avatar>
-      <ion-label>
-        <h2 class="publicacion-autor">{{ publi.nombre }}</h2>
-        <p class="publicacion-texto">{{ publi.contenido }}</p>
-      </ion-label>
-    </ion-item>
-    <ion-row class="ion-justify-content-between ion-padding-horizontal">
-      <ion-button class="btn-like" fill="clear" size="small" (click)="like(publi.id); $event.stopPropagation()">
-        👍 {{ publi.likes || 0 }}
-      </ion-button>
-      <ion-button class="btn-dislike" fill="clear" size="small" (click)="dislike(publi.id); $event.stopPropagation()">
-        👎 {{ publi.dislikes || 0 }}
-      </ion-button>
-    </ion-row>
-  </ion-card>
-</ion-list>
+  <ng-container *ngIf="!esAnonimo; else invitacionRegistro">
+    <ion-card>
+      <ion-card-content>
+        <ion-item>
+          <ion-textarea
+            [(ngModel)]="textoPublicacion"
+            placeholder="¿Qué estás pensando?"
+            autoGrow="true">
+          </ion-textarea>
+        </ion-item>
+        <ion-button expand="full" (click)="crearPublicacion()">
+          Publicar
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-list *ngIf="!cargando">
+      <ion-card class="publicacion" *ngFor="let publi of publicaciones" (click)="abrirPost(publi)">
+        <ion-item lines="none">
+          <ion-avatar slot="start">
+            <img src="assets/img/Perfil.png" />
+          </ion-avatar>
+          <ion-label>
+            <h2 class="publicacion-autor">{{ publi.nombre }}</h2>
+            <p class="publicacion-texto">{{ publi.contenido }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-row class="ion-justify-content-between ion-padding-horizontal">
+          <ion-button class="btn-like" fill="clear" size="small" (click)="like(publi.id); $event.stopPropagation()">
+            👍 {{ publi.likes || 0 }}
+          </ion-button>
+          <ion-button class="btn-dislike" fill="clear" size="small" (click)="dislike(publi.id); $event.stopPropagation()">
+            👎 {{ publi.dislikes || 0 }}
+          </ion-button>
+        </ion-row>
+      </ion-card>
+    </ion-list>
+  </ng-container>
+
+  <ng-template #invitacionRegistro>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Acceso restringido</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Para usar el foro, necesitas registrarte o iniciar sesión.</p>
+        <ion-button routerLink="/registro">Ir a Registrarse</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+
 </ion-content>

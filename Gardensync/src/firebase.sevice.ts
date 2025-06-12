@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { collection, addDoc, doc, setDoc, getDoc, getDocs, updateDoc, increment, query, orderBy } from 'firebase/firestore';
 import { FirebaseInitService } from './firebase-init.service';  // Importa el servicio
-import { createUserWithEmailAndPassword, Auth } from 'firebase/auth';
+import { createUserWithEmailAndPassword, Auth, EmailAuthProvider, linkWithCredential } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
@@ -21,39 +21,54 @@ export class FirebaseService {
 
   // Método para registrar usuario
   async registro(nombreCompleto: string, correo: string, contraseña: string) {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(this.auth, correo, contraseña);
-      const uid = userCredential.user.uid;
+  try {
+    const currentUser = this.auth.currentUser;
 
+    // Crear credenciales con email y contraseña
+    const credential = EmailAuthProvider.credential(correo, contraseña);
 
+    let userCredential;
 
-      const personaRef = doc(this.db, 'Personas', uid);
-      await setDoc(personaRef, {
-        nombreCompleto,
-        correo,
-      });
+    if (currentUser && currentUser.isAnonymous) {
+      // Vincular usuario anónimo con las credenciales de registro
+      userCredential = await linkWithCredential(currentUser, credential);
+    } else {
+      // Si no hay usuario anónimo, crea cuenta nueva normal
+      userCredential = await createUserWithEmailAndPassword(this.auth, correo, contraseña);
+    }
 
-      return uid;
-    } catch (error: any) {
-      if (error instanceof FirebaseError) {
-        switch (error.code) {
-          case 'auth/email-already-in-use':
-            throw new Error('El correo electrónico ya está en uso.');
-          case 'auth/weak-password':
-            throw new Error('La contraseña debe tener al menos 6 caracteres.');
-          case 'auth/invalid-email':
-            throw new Error('El correo electrónico no tiene un formato válido.');
-          case 'auth/operation-not-allowed':
-            throw new Error('El registro con correo y contraseña no está habilitado en Firebase.');
-          default:
-            throw new Error('Ocurrió un error desconocido: ' + error.code);
-        }
-      } else {
-        console.error('Error no reconocido:', error);
-        throw new Error('Error inesperado. Revisa la consola para más detalles.');
+    const uid = userCredential.user.uid;
+
+    // Guardar datos en Firestore (si es la primera vez, puede que quieras verificar si ya existe)
+    const personaRef = doc(this.db, 'Personas', uid);
+    await setDoc(personaRef, {
+      nombreCompleto,
+      correo,
+    });
+
+    return uid;
+
+  } catch (error: any) {
+    // Manejo de errores igual que antes
+    if (error instanceof FirebaseError) {
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          throw new Error('El correo electrónico ya está en uso.');
+        case 'auth/weak-password':
+          throw new Error('La contraseña debe tener al menos 6 caracteres.');
+        case 'auth/invalid-email':
+          throw new Error('El correo electrónico no tiene un formato válido.');
+        case 'auth/operation-not-allowed':
+          throw new Error('El registro con correo y contraseña no está habilitado en Firebase.');
+        default:
+          throw new Error('Ocurrió un error desconocido: ' + error.code);
       }
+    } else {
+      console.error('Error no reconocido:', error);
+      throw new Error('Error inesperado. Revisa la consola para más detalles.');
     }
   }
+}
 
   async crearPublicacion(contenido: string) {
     const user = this.auth.currentUser;

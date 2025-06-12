@@ -15,12 +15,12 @@ export class GMacetaPage implements OnInit {
   publicaciones: any[] = [];
   cargando = true;
   textoPublicacion = '';
-
+  esAnonimo = false;
   constructor(private firebaseService: FirebaseService, private auth: AuthService, private router: Router, private modalCtrl: ModalController) {
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.cargarPublicaciones();
     this.auth.getCurrentUser().subscribe((user) => {
       if (user) {
@@ -30,6 +30,8 @@ export class GMacetaPage implements OnInit {
         this.router.navigate(['/registro']);
       }
     });
+    this.esAnonimo = await this.auth.isAnonimo();
+  
   }
   async crearPublicacion() {
     if (!this.textoPublicacion.trim()) return;
