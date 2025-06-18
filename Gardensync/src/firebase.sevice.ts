@@ -3,7 +3,20 @@ import { collection, addDoc, doc, setDoc, getDoc, getDocs, updateDoc, increment,
 import { FirebaseInitService } from './firebase-init.service';  // Importa el servicio
 import { createUserWithEmailAndPassword, Auth, EmailAuthProvider, linkWithCredential } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, uploadBytes } from 'firebase/storage';
+import { getDatabase, ref, onValue } from 'firebase/database';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { PushNotifications } from '@capacitor/push-notifications';
+
+export interface Maceta {
+  id: string;
+  nombrePlanta: string;
+  temperatura: number;
+  humedad: number;
+  nivelAgua: number;
+  estado: string;
+  sensorId: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -168,11 +181,12 @@ export class FirebaseService {
     temperatura: number,
     humedad: number,
     nivelAgua: number,
-    estado: string
+    estado: string,
+    sensorId: string // Nuevo campo para asociar el sensor
   ) {
     try {
       const macetasRef = collection(this.db, `Personas/${idPersona}/Hogares/${idHogar}/Grupos/${idGrupo}/Macetas`);
-      const newMaceta = { nombrePlanta, temperatura, humedad, nivelAgua, estado };
+      const newMaceta = { nombrePlanta, temperatura, humedad, nivelAgua, estado, sensorId };
       const docRef = await addDoc(macetasRef, newMaceta);
       console.log("Maceta creada con ID:", docRef.id);
     } catch (error) {
@@ -248,9 +262,108 @@ export class FirebaseService {
     return gruposConMacetas;
   }
 
-  async obtenerMacetasDeGrupo(idPersona: string, idHogar: string, idGrupo: string) {
+  async obtenerMacetasDeGrupo(idPersona: string, idHogar: string, idGrupo: string): Promise<Maceta[]> {
     const macetasRef = collection(this.db, `Personas/${idPersona}/Hogares/${idHogar}/Grupos/${idGrupo}/Macetas`);
     const macetasSnap = await getDocs(macetasRef);
-    return macetasSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return macetasSnap.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    } as Maceta)); // 👈 Usa el tipo Maceta aquí
+  }
+
+  async obtenerDatosSensorRealtime(sensorId: string): Promise<any> {
+    const db = getDatabase(); // Inicializa Realtime Database
+    const sensorRef = ref(db, `sensores/${sensorId}`); // Ruta del sensor en Realtime Database
+
+    return new Promise((resolve, reject) => {
+      onValue(sensorRef, (snapshot) => {
+        if (snapshot.exists()) {
+          resolve(snapshot.val()); // Devuelve los datos del sensor
+        } else {
+          reject('Sensor no encontrado en Realtime Database');
+        }
+      });
+    });
+  }
+
+  
+
+  async detectarEstadoCritico(sensorId: string) {
+    const db = getDatabase();
+    const sensorRef = ref(db, `sensores/${sensorId}`);
+
+    onValue(sensorRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const datosSensor = snapshot.val();
+        const humedad = datosSensor.soil_humidity_pct;
+
+        if (humedad < 47) { // Nivel de humedad crítico
+          this.enviarNotificacionLocal(
+            'Humedad baja',
+            `La humedad está en ${humedad}%. Es necesario regar la planta.`
+          );
+
+          // Reenviar la notificación en 30 minutos
+          setTimeout(() => {
+            this.enviarNotificacionLocal(
+              'Recordatorio: Humedad baja',
+              `La humedad sigue en ${humedad}%. Por favor, riega la planta.`
+            );
+          }, 30 * 60 * 1000); // 30 minutos en milisegundos
+        }
+      }
+    });
+  }
+
+  async enviarNotificacionLocal(titulo: string, mensaje: string) {
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: titulo,
+          body: mensaje,
+          id: new Date().getTime(),
+          schedule: { at: new Date(Date.now() + 1000) }, // Enviar en 1 segundo
+          sound: 'default',
+        },
+      ],
+    });
   }
 }
+
+PushNotifications.requestPermissions().then((result) => {
+  if (result.receive === 'granted') {
+    PushNotifications.register();
+  } else {
+    console.error('Permisos de notificación no concedidos');
+  }
+});
+
+
+
+PushNotifications.addListener('pushNotificationReceived', (notification) => {
+  console.log('Notificación recibida:', notification);
+});
+
+PushNotifications.addListener('pushNotificationActionPerformed', (notification) => {
+  console.log('Acción de notificación:', notification);
+});
+
+LocalNotifications.requestPermissions().then((result) => {
+  if (result.display === 'granted') {
+    console.log('Permisos concedidos');
+  } else {
+    console.error('Permisos no concedidos');
+  }
+});
+
+LocalNotifications.schedule({
+  notifications: [
+    {
+      title: 'Temperatura alta',
+      body: 'La temperatura ha superado los 30°C',
+      id: new Date().getTime(),
+      schedule: { at: new Date(Date.now() + 1000) }, // Enviar en 1 segundo
+      sound: 'default',
+    },
+  ],
+});

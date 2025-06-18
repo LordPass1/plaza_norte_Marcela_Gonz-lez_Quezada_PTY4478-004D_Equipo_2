@@ -16,7 +16,6 @@ export class AgregarMacetaFormModalComponent implements OnInit {
   @Input() idHogar!: string;
 
   macetaForm: FormGroup;
-  iotConectado = false;
   consejosIA: string | null = null;
 
   constructor(
@@ -30,22 +29,12 @@ export class AgregarMacetaFormModalComponent implements OnInit {
       temperatura: [{ value: 0, disabled: true }],
       humedad: [{ value: 0, disabled: true }],
       nivelAgua: [{ value: 0, disabled: true }],
-      estado: [{ value: '', disabled: true }]
+      estado: [{ value: '', disabled: true }],
+      sensorId: ['192_168_100_254', Validators.required] // 
     });
   }
 
   ngOnInit() {
-    setInterval(() => {
-      this.iotConectado = true;
-      this.macetaForm.patchValue({
-        temperatura: Math.floor(Math.random() * 10) + 20,
-        humedad: Math.floor(Math.random() * 40) + 40,
-        nivelAgua: Math.floor(Math.random() * 100),
-        estado: 'Óptimo'
-      });
-    }, 2000);
-
-    // Cuando el usuario escribe el nombre, pide consejos a la IA
     this.macetaForm.get('nombrePlanta')?.valueChanges.subscribe(val => {
       if (val && val.trim().length > 2 && val !== 'Desconocida') {
         this.obtenerConsejosPorNombre(val.trim());
@@ -53,6 +42,35 @@ export class AgregarMacetaFormModalComponent implements OnInit {
         this.consejosIA = null;
       }
     });
+
+    // Escuchar datos en tiempo real desde Firebase Realtime Database
+    this.obtenerDatosSensorRealtime();
+  }
+
+  async obtenerDatosSensorRealtime() {
+    const sensorId = '192_168_100_254'; // Cambia esto por el ID del sensor correspondiente
+
+    try {
+      const datosSensor = await this.firebaseService.obtenerDatosSensorRealtime(sensorId);
+
+      // Actualiza el formulario con los datos del sensor
+      this.macetaForm.patchValue({
+        temperatura: datosSensor.temperature_c || 0,
+        humedad: datosSensor.air_humidity || 0,
+        nivelAgua: datosSensor.soil_humidity_pct || 0,
+        estado: 'Actualizado'
+      });
+    } catch (error) {
+      console.error(`Error al obtener datos del sensor ${sensorId}:`, error);
+
+      // Si no hay conexión, muestra valores en 0
+      this.macetaForm.patchValue({
+        temperatura: 0,
+        humedad: 0,
+        nivelAgua: 0,
+        estado: 'Sin conexión'
+      });
+    }
   }
 
   async usarIA() {
@@ -122,8 +140,14 @@ export class AgregarMacetaFormModalComponent implements OnInit {
   }
 
   async guardarMaceta() {
-    if (!this.iotConectado) return;
+
+
+
     const { nombrePlanta, temperatura, humedad, nivelAgua, estado } = this.macetaForm.getRawValue();
+
+    // Asegúrate de incluir el sensorId aquí
+    const sensorId = '192_168_100_254'; // 👈 Cambia esto por el ID del sensor correspondiente
+
     await this.firebaseService.addMaceta(
       this.idPersona,
       this.idHogar,
@@ -132,8 +156,10 @@ export class AgregarMacetaFormModalComponent implements OnInit {
       temperatura,
       humedad,
       nivelAgua,
-      estado
+      estado,
+      sensorId //  Incluye el sensorId
     );
+
     this.modalCtrl.dismiss(true);
   }
 

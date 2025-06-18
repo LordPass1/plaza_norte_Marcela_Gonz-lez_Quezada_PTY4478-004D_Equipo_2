@@ -36,11 +36,11 @@
       <ion-input formControlName="estado" readonly></ion-input>
     </ion-item>
 
-    <ion-button expand="block" type="submit" [disabled]="!iotConectado || macetaForm.invalid">
+    <ion-button expand="block" type="submit" [disabled]="!macetaForm.get('sensorId')?.value || macetaForm.invalid">
       Guardar Planta
     </ion-button>
-    <ion-text color="danger" *ngIf="!iotConectado">
-      <p>Esperando conexión con el sensor...</p>
+    <ion-text color="danger" *ngIf="!macetaForm.get('sensorId')?.value">
+      <p>Debe asociar un sensor para guardar la planta.</p>
     </ion-text>
   </form>
 

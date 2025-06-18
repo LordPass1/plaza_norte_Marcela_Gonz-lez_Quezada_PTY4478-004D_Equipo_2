@@ -1,7 +1,10 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="success">
     <ion-title>Plantas</ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -20,23 +23,23 @@
     <ion-grid>
       <ion-row>
         <ion-col size="12" size-md="6" size-lg="4" *ngFor="let maceta of macetas">
-          <ion-button expand="block" class="conjunto-btn">
-            <div class="info-macetas">
-              <img src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/svg/leaf-outline.svg"
-                   alt="Planta" style="width:28px;height:28px;display:block;margin:0 auto;" />
-              <div style="font-weight:bold; color:#388e3c; margin-top:0.3rem;">{{ maceta.nombrePlanta }}</div>
-              <span style="color:#8d6748;">Temp: {{ maceta.temperatura }}°C</span>
-              <span style="color:#8d6748;">Humedad: {{ maceta.humedad }}%</span>
-              <span style="color:#388e3c;">Estado: {{ maceta.estado }}</span>
-            </div>
-          </ion-button>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{ maceta.nombrePlanta }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>Temperatura: {{ maceta.temperatura }}°C</p>
+              <p>Humedad: {{ maceta.humedad }}%</p>
+              <p>Nivel de agua: {{ maceta.nivelAgua }}%</p>
+              <p>Estado: {{ maceta.estado }}</p>
+            </ion-card-content>
+          </ion-card>
         </ion-col>
       </ion-row>
     </ion-grid>
     <div class="centrado" style="margin-top: 1.5rem;">
       <ion-button color="success" (click)="abrirAgregarMaceta()">
-        <img src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/svg/add-outline.svg"
-             alt="Agregar" style="width:20px;height:20px;margin-right:0.5rem;" />
+        <ion-icon name="add-outline"></ion-icon>
         Añadir planta
       </ion-button>
       <ion-button class="cerrar" expand="block" color="medium" (click)="cerrar()">Cerrar</ion-button>

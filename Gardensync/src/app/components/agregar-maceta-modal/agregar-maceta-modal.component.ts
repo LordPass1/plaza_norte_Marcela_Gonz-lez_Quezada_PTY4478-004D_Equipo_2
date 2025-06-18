@@ -2,9 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FirebaseService } from 'src/firebase.sevice';
 import { getAuth } from 'firebase/auth';
-import { AgregarMacetaFormModalComponent } from 'src/app/components/agregar-maceta-form-modal/agregar-maceta-form-modal.component'; // importa tu modal de formulario
-import { IonicModule } from '@ionic/angular';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AgregarMacetaFormModalComponent } from 'src/app/components/agregar-maceta-form-modal/agregar-maceta-form-modal.component';
+import { Maceta } from 'src/firebase.sevice'; // Asegúrate de importar el tipo
 
 @Component({
   selector: 'app-agregar-maceta-modal',
@@ -14,7 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 })
 export class AgregarMacetaModalComponent implements OnInit {
   @Input() idGrupo!: string;
-  macetas: any[] = [];
+  macetas: Maceta[] = []; // 👈 Usa el tipo aquí
   cargando = true;
   idPersona = '';
   idHogar = '';
@@ -22,7 +21,7 @@ export class AgregarMacetaModalComponent implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private firebaseService: FirebaseService
-  ) { }
+  ) {}
 
   async ngOnInit() {
     const auth = getAuth();
@@ -34,12 +33,10 @@ export class AgregarMacetaModalComponent implements OnInit {
     const hogaresRef = await this.firebaseService.obtenerHogarUsuario();
     this.idHogar = hogaresRef.id;
 
-    this.macetas = await this.firebaseService.obtenerMacetasDeGrupo(
-      this.idPersona,
-      this.idHogar,
-      this.idGrupo
-    );
-    this.cargando = false;
+    await this.cargarMacetas();
+
+    const sensorId = '192_168_100_254'; // Cambia esto por el ID del sensor correspondiente
+    this.firebaseService.detectarEstadoCritico(sensorId);
   }
 
   cerrar() {
@@ -48,11 +45,34 @@ export class AgregarMacetaModalComponent implements OnInit {
 
   async cargarMacetas() {
     this.cargando = true;
-    this.macetas = await this.firebaseService.obtenerMacetasDeGrupo(
+
+    const macetasFirestore = await this.firebaseService.obtenerMacetasDeGrupo(
       this.idPersona,
       this.idHogar,
       this.idGrupo
     );
+
+    this.macetas = await Promise.all(
+      macetasFirestore.map(async (maceta) => {
+        try {
+          const datosSensor = await this.firebaseService.obtenerDatosSensorRealtime(maceta.sensorId);
+          return {
+            ...maceta,
+            temperatura: datosSensor.temperature_c || maceta.temperatura,
+            humedad: datosSensor.air_humidity || maceta.humedad,
+            nivelAgua: datosSensor.soil_humidity_pct || maceta.nivelAgua,
+            estado: 'Actualizado',
+          };
+        } catch (error) {
+          console.error(`Error al obtener datos del sensor ${maceta.sensorId}:`, error);
+          return {
+            ...maceta,
+            estado: 'Sin conexión',
+          };
+        }
+      })
+    );
+
     this.cargando = false;
   }
 
@@ -62,8 +82,8 @@ export class AgregarMacetaModalComponent implements OnInit {
       componentProps: {
         idPersona: this.idPersona,
         idHogar: this.idHogar,
-        idGrupo: this.idGrupo
-      }
+        idGrupo: this.idGrupo,
+      },
     });
     await modal.present();
 

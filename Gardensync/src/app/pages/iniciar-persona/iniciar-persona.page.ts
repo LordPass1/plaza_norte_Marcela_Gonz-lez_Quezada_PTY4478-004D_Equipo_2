@@ -17,7 +17,7 @@ export class IniciarPersonaPage implements OnInit {
     if (user) {
       if (!user.isAnonymous) {
         console.log('Usuario con cuenta, redirigiendo a home:', user);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home/p-principal']);
       } else {
         console.log('Usuario anónimo, puede registrarse o iniciar sesión');
         // No redirigimos, queda en registro/login

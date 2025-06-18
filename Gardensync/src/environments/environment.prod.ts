@@ -11,6 +11,6 @@ export const environment_prod = {
     measurementId: "G-2V6G9EXX8C"
   },
   GPTkey: {
-  testKey:"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"
+  testKey:"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"
   }
 };
