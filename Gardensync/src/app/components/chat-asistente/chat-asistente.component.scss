@@ -1,0 +1,16 @@
+ion-item.user {
+  justify-content: flex-end;
+  ion-label {
+    background: #dcf8c6;
+    border-radius: 12px;
+    padding: 6px 12px;
+  }
+}
+ion-item.assistant {
+  justify-content: flex-start;
+  ion-label {
+    background: #f1f0f0;
+    border-radius: 12px;
+    padding: 6px 12px;
+  }
+}

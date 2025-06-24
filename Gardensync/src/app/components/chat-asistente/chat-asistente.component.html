@@ -1,0 +1,26 @@
+<ion-content>
+  <ion-list lines="none">
+    <ion-item 
+      *ngFor="let msg of messages" 
+      [class.user]="msg.sender==='user'" 
+      [class.assistant]="msg.sender==='assistant'">
+      <ion-label>{{ msg.content }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-input
+      [(ngModel)]="uInput"
+      placeholder="Escribe tu mensaje..."
+      (keyup.enter)="mandarMSG()"
+      [disabled]="loading">
+    </ion-input>
+    <ion-button
+      (click)="mandarMSG()"
+      [disabled]="loading || !uInput.trim()">
+      {{ loading ? '…' : 'Enviar' }}
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

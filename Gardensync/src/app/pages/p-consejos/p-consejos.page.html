@@ -5,77 +5,21 @@
 </ion-header>
 
 <ion-content class="content-wrapper">
-  <!-- Botón para tomar o seleccionar la foto -->
-  <ion-button class="photo-button" expand="block" (click)="tomarFotoYEnviar()" [disabled]="loading">
+  <ion-button expand="block" (click)="datosImagen()" [disabled]="loading">
     {{ loading ? 'Analizando...' : 'Tomar o seleccionar foto' }}
   </ion-button>
 
-  <!-- Vista previa de la imagen seleccionada -->
-  <ion-img
-    class="plant-image"
-    *ngIf="base64Image"
-    [src]="'data:image/jpeg;base64,' + base64Image"
-    style="display: block; max-width: 220px; margin: 12px auto 18px auto; border-radius: 12px; box-shadow: 0 2px 8px #3333;">
-  </ion-img>
-
-  <!-- Spinner de carga -->
-  <ion-spinner *ngIf="loading" style="margin: 24px auto; display: block;"></ion-spinner>
-
-  <!-- Tarjeta con información de la planta -->
-  <ion-card class="plant-card" *ngIf="gptResponse && isObject(gptResponse)">
+  <ion-card *ngIf="data && data['nombre_común']">
     <ion-card-header>
-      <ion-card-title>{{ gptResponse.common_name }}</ion-card-title>
-      <ion-card-subtitle>{{ gptResponse.scientific_name?.join(', ') }}</ion-card-subtitle>
+      <ion-card-title>{{ data['nombre_común'] }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <img
-        *ngIf="gptResponse.default_image?.medium_url"
-        [src]="gptResponse.default_image.medium_url"
-        alt="Imagen de la planta"
-        style="width: 100%; max-width: 320px; margin-bottom: 14px; border-radius: 8px;">
-      <p><strong>Familia:</strong> {{ gptResponse.family }}</p>
-      <p><strong>Origen:</strong> {{ gptResponse.origin || 'Desconocido' }}</p>
-      <p><strong>Tipo:</strong> {{ gptResponse.type }}</p>
-      <p><strong>Ciclo:</strong> {{ gptResponse.cycle }}</p>
-      <p><strong>Luz solar:</strong> {{ gptResponse.sunlight?.join(', ') }}</p>
-      <p><strong>Riego:</strong> {{ gptResponse.watering }}</p>
-      <p><strong>Descripción:</strong> {{ gptResponse.description }}</p>
-      <p><strong>Comestible:</strong>
-        {{ gptResponse.edible_fruit || gptResponse.edible_leaf ? 'Sí' : 'No' }}
-      </p>
-      <p><strong>Medicinal:</strong> {{ gptResponse.medicinal ? 'Sí' : 'No' }}</p>
-      <p><strong>Dimensiones:</strong>
-        <span *ngIf="gptResponse.dimensions">
-          {{ gptResponse.dimensions.min_value }}-{{ gptResponse.dimensions.max_value }}
-          {{ gptResponse.dimensions.unit }}
-        </span>
-      </p>
-      <ion-list>
-        <ion-item class="info-item" *ngFor="let anatomy of gptResponse.plant_anatomy">
-          <strong>{{ anatomy.part }}:</strong>
-          <span>{{ anatomy.color?.join(', ') }}</span>
-        </ion-item>
-      </ion-list>
-      <!-- Puedes agregar más campos relevantes aquí -->
-    </ion-card-content>
-    <ion-button expand="block" color="success" (click)="pedirMasConsejos()" [disabled]="loading">
-      Más Consejos
-    </ion-button>
-  </ion-card>
-
-  <!-- Consejos adicionales: -->
-  <ion-card *ngIf="gptResponse && rawResponse">
-    <ion-card-content>
-      <strong>Consejos extra:</strong>
-      <p>{{ rawResponse }}</p>
+      <p><strong>Familia:</strong> {{ data.familia }}</p>
+      <p><strong>Tipo:</strong> {{ data.tipo }}</p>
+      <p><strong>Ciclo:</strong> {{ data.ciclo }}</p>
+      <!-- ...más campos según tu JSON -->
     </ion-card-content>
   </ion-card>
 
-  <!-- Si hubo error o la respuesta es texto en bruto -->
- <ion-card *ngIf="rawResponse">
-  <ion-card-content>
-    <pre>{{ formatJSON(rawResponse) }}</pre>
-  </ion-card-content>
-  </ion-card>
-
+  <app-chat-asistente></app-chat-asistente>
 </ion-content>

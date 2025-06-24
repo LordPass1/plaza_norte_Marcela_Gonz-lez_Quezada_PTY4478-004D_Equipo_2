@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AlertController } from '@ionic/angular';
 import { GPTService } from 'src/app/services/gpt.service';
 
@@ -9,80 +10,72 @@ import { GPTService } from 'src/app/services/gpt.service';
   standalone: false
 })
 export class PConsejosPage {
-  gptResponse: any = null;
-  rawResponse: string = '';
+  data: any = {};
   loading = false;
-  base64Image: string | null = null; // Guardar imagen para reusar en “Más Consejos”
 
-  ngOnInit() {}
+  constructor(private gptService: GPTService,
+              private alertController: AlertController
+  ) {}
 
-  constructor(private gptService: GPTService) {}
+  ngOnInit(){
+    this.gptService.planta$.subscribe(json =>{
+      this.presentAlert('[PConsejosPage]','planta$ emission:', json);
+      this.data = json;
+    })
+  }
 
-  // Solo toma la foto, la envía, y espera el JSON
-  async tomarFotoYEnviar() {
+  async datosImagen() {
     this.loading = true;
-    this.gptResponse = null;
-    this.rawResponse = '';
-    this.base64Image = await this.gptService.takePicture();
-    if (!this.base64Image) {
-      this.loading = false;
-      this.rawResponse = "No se seleccionó ninguna imagen.";
-      return;
+    try{
+      const base64Image = await this.tomarFoto();
+      if (!base64Image){
+        this.presentAlert('Algo salio mal :(', 'No se ha proporcionado una imagen', 'Debe proporcionar una Imagen para poder utilizar esta función' )
+        this.loading = false;
+        return;
+      }
+      this.gptService.enviarImagen(base64Image).subscribe({
+        next: parsedJson => {
+          this.presentAlert('[PConsejosPage]','subscribe next:  ', parsedJson);
+          this.loading = false;
+        },
+        error: err => {
+          console.error('[PConsejosPage] subscribe error:', err);
+          this.presentAlert('Error API', '', JSON.stringify(err));
+          this.loading = false;
+        }
+      });
+    } catch(e){
+      this.presentAlert('Error','Error en datosImagen():  ',e)
+      this.loading = false
     }
-    this.gptService.chatConGPT(this.base64Image).subscribe({
-      next: (data) => {
-        let responseText = data.choices[0].message.content.trim();
-        const match = responseText.match(/{[\s\S]*}/);
-        if (match) responseText = match[0];
-
-        try {
-          this.gptResponse = JSON.parse(responseText);
-          this.rawResponse = '';
-        } catch (e) {
-          this.gptResponse = null;
-          this.rawResponse = responseText;
-        }
-        this.loading = false;
-      },
-      error: (err) => {
-        this.gptResponse = null;
-        this.rawResponse = 'Error: ' + JSON.stringify(err);
-        this.loading = false;
-      }
-    });
-  }
-
-  // Botón “Más Consejos”
-  pedirMasConsejos() {
-    if (!this.base64Image) return;
-    this.loading = true;
-    this.rawResponse = '';
-    this.gptService.soloConsejos(this.base64Image).subscribe({
-      next: (data) => {
-        
-        try {
-          this.rawResponse = data.choices[0].message.content;
-        } catch (e) {
-          this.rawResponse = "No se pudieron obtener consejos.";
-        }
-        this.loading = false;
-      },
-      error: (err) => {
-        this.rawResponse = 'Error: ' + JSON.stringify(err);
-        this.loading = false;
-      }
-    });
-  }
-
-  isObject(val: any): boolean {
-    return val !== null && typeof val === 'object' && !Array.isArray(val);
   }
   
-  formatJSON(text: string): string {
-    try {
-      return JSON.stringify(JSON.parse(text), null, 2);
-    } catch {
-      return text;
-    }
+  private async tomarFoto(): Promise<string | null> {
+    const image = await Camera.getPhoto({
+      quality: 80,
+      allowEditing: false,
+      resultType: CameraResultType.Base64, 
+      source: CameraSource.Prompt,
+    });
+    return image?.base64String ?? null;
+  }
+
+  async presentAlert(t:string,st:string,m:any) {
+    const alert = await this.alertController.create({
+      header: t,
+      subHeader: st,
+      message: m,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
+  recibirJson(){
+
+  }
+
+  pedirConsejos(){
+    
   }
 }

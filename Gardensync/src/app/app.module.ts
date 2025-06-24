@@ -24,7 +24,6 @@ export function initializeFirebase(firebaseInitService: FirebaseInitService) {
     AgregarMacetaModalComponent,
     AgregarGrupoModalComponent,
     ModalPublicacionComponent,
-    // ...otros componentes
   ],
   imports: [
     BrowserModule,

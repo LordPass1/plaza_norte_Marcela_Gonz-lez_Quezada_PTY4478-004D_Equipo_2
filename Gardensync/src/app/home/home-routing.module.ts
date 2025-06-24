@@ -45,6 +45,7 @@ const routes: Routes = [
       },
       {
         path: '',
+        redirectTo: 'p-consejos',
         pathMatch: 'full'
       }
     ]

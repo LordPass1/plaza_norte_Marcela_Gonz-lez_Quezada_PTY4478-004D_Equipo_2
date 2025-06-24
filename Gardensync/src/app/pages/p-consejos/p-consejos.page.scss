@@ -126,3 +126,23 @@
   font-family: monospace;
   white-space: pre-wrap;
 }
+
+.chat-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* para que flex funcione */
+}
+
+/* La lista ocupa todo el espacio “flexible” */
+.chat-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Este div siempre pegado abajo, justo encima de la tab-bar */
+.chat-input {
+  flex-shrink: 0;
+  border-top: 1px solid var(--ion-border-color);
+  background: var(--ion-background-color);
+  padding: 4px 0;
+}

@@ -1,8 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { Observable } from 'rxjs';
+import { asapScheduler, BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.local';
+import { Agent, run } from '@openai/agents';
+import { AlertController } from '@ionic/angular';
+import { ControlContainer } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -11,89 +14,123 @@ export class GPTService {
 
   private apiKey = environment.gkey.testKey;
   private apiUrl = 'https://api.openai.com/v1/chat/completions';
-  
-  constructor(private http: HttpClient) { }
 
-  async takePicture(): Promise<string | null> {
-    const image = await Camera.getPhoto({
-      quality: 80,
-      allowEditing: false,
-      resultType: CameraResultType.Base64, // O DataUrl
-      source: CameraSource.Prompt, // Galería o cámara
+  //Agente
+  private BotaniBot = new Agent({
+    name: "BotaniBot",
+    instructions: "Eres un experto botanico",
+    model: "o4-mini",
+  })
+
+  //BehaviorSubject
+  private plantaSubject = new BehaviorSubject<any>({}); //JSON de la planta
+  //Subscibe ;) 
+  public planta$ = this.plantaSubject.asObservable();
+
+  constructor(private http: HttpClient,
+              private alertController: AlertController
+  ) { }
+
+  async presentAlert(t:string,st:string,m:any) {
+    const alert = await this.alertController.create({
+      header: t,
+      subHeader: st,
+      message: m,
+      buttons: ['Action'],
     });
-
-    return image?.base64String ?? null;
   }
-
-  chatConGPT(base64Image: string): Observable<any> {
+  enviarImagen(base64Image: string): Observable<any> {
     const SYSTEM_PROMPT = `
 Eres un experto botánico al cual le estoy pasando una imagen de una planta. 
 Debes identificar la planta y responder **exclusivamente** usando el siguiente objeto JSON (sin ningún texto antes o después):
-
 {
-  "id": number,
-  "common_name": string,
-  "scientific_name": string[],
-  "other_name": string[],
-  "family": string,
-  "origin": string|null,
-  "type": string,
-  "dimensions": {
-    "type": string|null,
-    "min_value": number,
-    "max_value": number,
-    "unit": string
+  "nombre_común": "",
+  "nombres_científicos": [],
+  "otros_nombres": [],
+  "familia": "",
+  "origen": null,
+  "tipo": "",
+  "dimensiones": {
+    "tipo": null,
+    "valor_mínimo": null,
+    "valor-máximo": null,
+    "unidad": ""
   },
-  "cycle": string,
-  "watering": string,
-  "watering_general_benchmark": {
-    "value": number,
-    "unit": string
+  "ciclo": "",
+  "riego": "",
+  "referencia_general_riego": {
+    "valor": null,
+    "unidad": ""
   },
-  "plant_anatomy": { part: string, color: string[] }[],
-  "sunlight": string[],
-  "pruning_month": string[],
-  "pruning_count": { amount: number, interval: string },
-  "seeds": number,
-  "attracts": string[],
-  "propagation": string[],
-  "flowers": boolean,
-  "flowering_season": string|null,
-  "soil": any[],
-  "pest_susceptibility": any|null,
-  "cones": boolean,
-  "fruits": boolean,
-  "edible_fruit": boolean,
-  "fruiting_season": string|null,
-  "harvest_season": string|null,
-  "harvest_method": string,
-  "leaf": boolean,
-  "edible_leaf": boolean,
-  "growth_rate": string,
-  "maintenance": string,
-  "medicinal": boolean,
-  "poisonous_to_humans": boolean,
-  "poisonous_to_pets": boolean,
-  "drought_tolerant": boolean,
-  "salt_tolerant": boolean,
-  "thorny": boolean,
-  "invasive": boolean,
-  "rare": boolean,
-  "tropical": boolean,
-  "cuisine": boolean,
-  "indoor": boolean,
-  "care_level": string,
-  "description": string,
-  "default_image": { image_id: number, license: number, license_name: string, license_url: string, original_url: string, regular_url: string, medium_url: string, small_url: string, thumbnail: string },
-  "other_images": Array< { image_id: number, license: number, license_name: string, license_url: string, original_url: string, regular_url: string, medium_url: string, small_url: string, thumbnail: string } >,
-  "xWateringQuality": string[],
-  "xWateringPeriod": string[],
-  "xWateringAvgVolumeRequirement": any[],
-  "xWateringDepthRequirement": any[],
-  "xWateringBasedTemperature": { unit: string, min: number, max: number },
-  "xWateringPhLevel": { min: number, max: number },
-  "xSunlightDuration": { min: string, max: string, unit: string }
+  "anatomía_de_la_planta": [
+    {
+      "parte": "",
+      "color": []
     }
+  ],
+  "exposición_al_sol": [],
+  "meses_de_poda": [],
+  "frecuencia_de_poda": {
+    "cantidad": null,
+    "intervalo": ""
+  },
+  "semillas": null,
+  "atrae": [],
+  "propagación": [],
+  "resistencia": {
+    "mínima": null,
+    "máxima": null
+  },
+  "ubicación_mapa_de_resistencia": {
+    "url_completa": "",
+    "iframe_completo": ""
+  },
+  "flores": null,
+  "temporada_de_floración": "",
+  "suelo": [],
+  "susceptibilidad_a_plagas": null,
+  "piñas": null,
+  "frutos": null,
+  "fruto_comestible": null,
+  "temporada_de_fructificación": null,
+  "temporada_de_cosecha": null,
+  "método_de_cosecha": "",
+  "hoja": null,
+  "hoja_comestible": null,
+  "tasa_de_crecimiento": "",
+  "mantenimiento": "",
+  "medicinal": null,
+  "tóxico_para_humanos": null,
+  "tóxico_para_mascotas": null,
+  "tolerante_a_la_sequía": null,
+  "tolerante_a_la_sal": null,
+  "espinoso": null,
+  "invasivo": null,
+  "raro": null,
+  "tropical": null,
+  "culinario": null,
+  "interior": null,
+  "nivel_de_cuidado": "",
+  "descripción": "",
+  "calidades_de_riego": [],
+  "periodos_de_riego": [],
+  "volumen_promedio_requerido_de_riego": [],
+  "profundidad_requerida_de_riego": [],
+  "riego_según_temperatura": {
+    "unidad": "",
+    "mínimo": null,
+    "máximo": null
+  },
+  "nivel_de_ph_del_agua": {
+    "mínimo": null,
+    "máximo": null
+  },
+  "duración_de_luz_solar": {
+    "mínimo": null,
+    "máximo": null,
+    "unidad": ""
+  }
+}
   Solo responde con el objeto JSON solicitado. No escribas ningún texto adicional antes o después del JSON. Si no puedes identificar la planta, responde con un JSON vacío ({}).
 `;
     const headers = new HttpHeaders({
@@ -114,59 +151,29 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
       ],
       max_tokens: 1800
     };
-    return this.http.post(this.apiUrl, body, { headers });
-  }
-
-  soloConsejos(base64Image: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Authorization': `Bearer ${this.apiKey}`
-    });
-
-    const body = {
-      model: 'gpt-4o',
-      messages: [
-        { role: 'system', content: 'Eres un experto botánico.' },
-        {
-          role: 'user',
-          content: [
-            { type: 'text', text: 'Dame más consejos sobre esta planta' },
-            { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${base64Image}` } }
-          ]
+    return this.http.post<any>(this.apiUrl, body, { headers }).pipe(
+      tap(res => this.presentAlert('[GPTService]', 'Rawresponse:  ',res)),
+      map(res => {
+        const content: string = res.choices?.[0]?.message?.content ?? '';
+        this.presentAlert('[GPTService]', 'Rawresponse string:  ',content);
+        try{
+          return JSON.parse(content);
+        }catch (e){
+          this.presentAlert('[GPTService]', 'JSON.parse failed:  ', e);
+          return{};
         }
-      ],
-    max_tokens: 500
-    };
-    return this.http.post(this.apiUrl, body, { headers });
+      }),
+      tap(parsed => {
+        this.presentAlert('GPTService','parsedd JSON:', parsed)
+        this.plantaSubject.next(parsed)
+      })
+    );
   }
-  obtenerConsejosPorNombre(nombrePlanta: string): Observable<any> {
-  const SYSTEM_PROMPT = `
-Eres un experto botánico. Responde exclusivamente usando el siguiente objeto JSON (sin ningún texto antes o después):
+  
 
-{
-  "common_name": string,
-  "scientific_name": string[],
-  "family": string,
-  "watering": string,
-  "description": string
-}
-
-Dame información y consejos útiles para la planta llamada "${nombrePlanta}". Si no la reconoces, responde con un JSON vacío ({}).
-`;
-
-  const headers = new HttpHeaders({
-    'Content-Type':  'application/json',
-    'Authorization': `Bearer ${this.apiKey}`
-  });
-
-  const body = {
-    model: 'gpt-4o',
-    messages: [
-      { role: 'system', content: SYSTEM_PROMPT },
-      { role: 'user', content: nombrePlanta }
-    ],
-    max_tokens: 600
-  };
-  return this.http.post(this.apiUrl, body, { headers });
-}
+  async consejosPrompt(prompt: string, json_archivo: any): Promise<string> {
+    const result = await run(this.BotaniBot, prompt, json_archivo);
+    // result.finalOutput contiene la respuesta en texto plano
+    return result.finalOutput as string;
+  }
 }

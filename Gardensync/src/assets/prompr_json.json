@@ -1,0 +1,88 @@
+{
+  "nombre_común": "",
+  "nombres_científicos": [],
+  "otros_nombres": [],
+  "familia": "",
+  "origen": null,
+  "tipo": "",
+  "dimensiones": {
+    "tipo": null,
+    "valor_mínimo": null,
+    "valor-máximo": null,
+    "unidad": ""
+  },
+  "ciclo": "",
+  "riego": "",
+  "referencia_general_riego": {
+    "valor": null,
+    "unidad": ""
+  },
+  "anatomía_de_la_planta": [
+    {
+      "parte": "",
+      "color": []
+    }
+  ],
+  "exposición_al_sol": [],
+  "meses_de_poda": [],
+  "frecuencia_de_poda": {
+    "cantidad": null,
+    "intervalo": ""
+  },
+  "semillas": null,
+  "atrae": [],
+  "propagación": [],
+  "resistencia": {
+    "mínima": null,
+    "máxima": null
+  },
+  "ubicación_mapa_de_resistencia": {
+    "url_completa": "",
+    "iframe_completo": ""
+  },
+  "flores": null,
+  "temporada_de_floración": "",
+  "suelo": [],
+  "susceptibilidad_a_plagas": null,
+  "piñas": null,
+  "frutos": null,
+  "fruto_comestible": null,
+  "temporada_de_fructificación": null,
+  "temporada_de_cosecha": null,
+  "método_de_cosecha": "",
+  "hoja": null,
+  "hoja_comestible": null,
+  "tasa_de_crecimiento": "",
+  "mantenimiento": "",
+  "medicinal": null,
+  "tóxico_para_humanos": null,
+  "tóxico_para_mascotas": null,
+  "tolerante_a_la_sequía": null,
+  "tolerante_a_la_sal": null,
+  "espinoso": null,
+  "invasivo": null,
+  "raro": null,
+  "tropical": null,
+  "culinario": null,
+  "interior": null,
+  "nivel_de_cuidado": "",
+  "descripción": "",
+  "calidades_de_riego": [],
+  "periodos_de_riego": [],
+  "volumen_promedio_requerido_de_riego": [],
+  "profundidad_requerida_de_riego": [],
+  "riego_según_temperatura": {
+    "unidad": "",
+    "mínimo": null,
+    "máximo": null
+  },
+  "nivel_de_ph_del_agua": {
+    "mínimo": null,
+    "máximo": null
+  },
+  "duración_de_luz_solar": {
+    "mínimo": null,
+    "máximo": null,
+    "unidad": ""
+  }
+}
