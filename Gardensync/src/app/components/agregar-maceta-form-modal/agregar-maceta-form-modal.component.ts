@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FirebaseService } from 'src/firebase.sevice';
 import { GPTService } from 'src/app/services/gpt.service';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-agregar-maceta-form-modal',
@@ -37,7 +38,7 @@ export class AgregarMacetaFormModalComponent implements OnInit {
   ngOnInit() {
     this.macetaForm.get('nombrePlanta')?.valueChanges.subscribe(val => {
       if (val && val.trim().length > 2 && val !== 'Desconocida') {
-        this.obtenerConsejosPorNombre(val.trim());
+       /* this.obtenerConsejosPorNombre(val.trim());*/
       } else {
         this.consejosIA = null;
       }
@@ -45,6 +46,16 @@ export class AgregarMacetaFormModalComponent implements OnInit {
 
     // Escuchar datos en tiempo real desde Firebase Realtime Database
     this.obtenerDatosSensorRealtime();
+  }
+
+  private async tomarFoto(): Promise<string | null> {
+    const image = await Camera.getPhoto({
+      quality: 80,
+      allowEditing: false,
+      resultType: CameraResultType.Base64, 
+      source: CameraSource.Prompt,
+    });
+    return image?.base64String ?? null;
   }
 
   async obtenerDatosSensorRealtime() {
@@ -75,13 +86,13 @@ export class AgregarMacetaFormModalComponent implements OnInit {
 
   async usarIA() {
     this.consejosIA = 'Identificando planta...';
-    const base64 = await this.gptService.takePicture();
+    const base64 = await this.tomarFoto() ;
     if (!base64) {
       this.consejosIA = 'No se seleccionó ninguna imagen.';
       this.macetaForm.patchValue({ nombrePlanta: 'Desconocida' });
       return;
     }
-    this.gptService.chatConGPT(base64).subscribe({
+    this.gptService.enviarImagen(base64).subscribe({
       next: (data) => {
         try {
           let responseText = data.choices[0].message.content.trim();
@@ -113,6 +124,7 @@ export class AgregarMacetaFormModalComponent implements OnInit {
   }
 
   // Nuevo método para obtener consejos por nombre
+  /*
   obtenerConsejosPorNombre(nombre: string) {
     this.consejosIA = 'Buscando consejos...';
     this.gptService.obtenerConsejosPorNombre(nombre).subscribe({
@@ -137,7 +149,7 @@ export class AgregarMacetaFormModalComponent implements OnInit {
         this.consejosIA = 'Error al consultar la IA.';
       }
     });
-  }
+  }*/
 
   async guardarMaceta() {
 

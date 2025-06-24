@@ -1,26 +1,39 @@
-<ion-content>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Chat Botánico</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="chat-content" [scrollEvents]="true">
   <ion-list lines="none">
     <ion-item 
       *ngFor="let msg of messages" 
       [class.user]="msg.sender==='user'" 
       [class.assistant]="msg.sender==='assistant'">
-      <ion-label>{{ msg.content }}</ion-label>
+      <ion-label class="bubble">{{ msg.content }}</ion-label>
     </ion-item>
   </ion-list>
+  <ion-toolbar>
+    <ion-item lines="none" class="input-item">
+      <ion-input
+        [(ngModel)]="uInput"
+        placeholder="Escribe tu mensaje..."
+        (keyup.enter)="mandarMSG()"
+        [disabled]="loading"
+        class="input-field">
+      </ion-input>
+      <ion-button 
+        fill="clear" 
+        size="small" 
+        shape="round"
+        [disabled]="!uInput.trim() || loading"
+        (click)="mandarMSG()">
+        <ion-icon name="send-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar>
-    <ion-input
-      [(ngModel)]="uInput"
-      placeholder="Escribe tu mensaje..."
-      (keyup.enter)="mandarMSG()"
-      [disabled]="loading">
-    </ion-input>
-    <ion-button
-      (click)="mandarMSG()"
-      [disabled]="loading || !uInput.trim()">
-      {{ loading ? '…' : 'Enviar' }}
-    </ion-button>
-  </ion-toolbar>
+  
 </ion-footer>

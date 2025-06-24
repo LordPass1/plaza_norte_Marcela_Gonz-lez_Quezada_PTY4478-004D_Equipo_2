@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { asapScheduler, BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment.local';
-import { Agent, run } from '@openai/agents';
+import { Agent, run, setDefaultOpenAIClient } from '@openai/agents';
+import { OpenAI } from 'openai';
 import { AlertController } from '@ionic/angular';
 import { ControlContainer } from '@angular/forms';
 
@@ -11,34 +11,45 @@ import { ControlContainer } from '@angular/forms';
   providedIn: 'root'
 })
 export class GPTService {
-
+  //para obtener el JSON de la API openAI
   private apiKey = environment.gkey.testKey;
   private apiUrl = 'https://api.openai.com/v1/chat/completions';
 
-  //Agente
-  private BotaniBot = new Agent({
-    name: "BotaniBot",
-    instructions: "Eres un experto botanico",
-    model: "o4-mini",
-  })
-
+  //OpenAI client para el SDK Assistant
+  private client : OpenAI;
+  private BotaniBot: Agent;
+  
   //BehaviorSubject
   private plantaSubject = new BehaviorSubject<any>({}); //JSON de la planta
   //Subscibe ;) 
   public planta$ = this.plantaSubject.asObservable();
 
-  constructor(private http: HttpClient,
-              private alertController: AlertController
-  ) { }
+
+  constructor(private http: HttpClient, private alertController: AlertController) {
+    this.client = new OpenAI({
+      apiKey: this.apiKey,
+      dangerouslyAllowBrowser: true
+    })
+    setDefaultOpenAIClient(this.client as any);
+
+    this.BotaniBot = new Agent({
+      name: 'BotaniBot',
+      instructions: 'Eres un experto botánico.',
+      model: 'o4-mini'
+    });
+   }
+  //Agente
 
   async presentAlert(t:string,st:string,m:any) {
     const alert = await this.alertController.create({
       header: t,
       subHeader: st,
       message: m,
-      buttons: ['Action'],
+      buttons: ['OK'],
     });
+    await alert.present()
   }
+  //—————————————— función para obtener el JSON ——————————————
   enviarImagen(base64Image: string): Observable<any> {
     const SYSTEM_PROMPT = `
 Eres un experto botánico al cual le estoy pasando una imagen de una planta. 
@@ -152,18 +163,20 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
       max_tokens: 1800
     };
     return this.http.post<any>(this.apiUrl, body, { headers }).pipe(
-      tap(res => this.presentAlert('[GPTService]', 'Rawresponse:  ',res)),
-      map(res => {
-        const content: string = res.choices?.[0]?.message?.content ?? '';
-        this.presentAlert('[GPTService]', 'Rawresponse string:  ',content);
+      tap(raw => this.presentAlert('[GPTService]', 'Raw HTTP response:  ',raw)),
+      map(raw => {
+        const content = raw.choices?.[0]?.message?.content ?? '';
+        console.log('[GPTService] Raw content string: ', content)
         try{
           return JSON.parse(content);
         }catch (e){
+          console.error('[GPTService] JSON.parse failed: ', e)
           this.presentAlert('[GPTService]', 'JSON.parse failed:  ', e);
           return{};
         }
       }),
       tap(parsed => {
+        console.log('[GPTService] Parsed JSON object:', parsed)
         this.presentAlert('GPTService','parsedd JSON:', parsed)
         this.plantaSubject.next(parsed)
       })
@@ -171,9 +184,18 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
   }
   
 
-  async consejosPrompt(prompt: string, json_archivo: any): Promise<string> {
-    const result = await run(this.BotaniBot, prompt, json_archivo);
-    // result.finalOutput contiene la respuesta en texto plano
+   // —————————————— nuevo método de chat ——————————————
+  async consejosPrompt(prompt: string, jsonData: any): Promise<string> {
+    const systemContent = `Estos son los datos de la planta (JSON): ${JSON.stringify(jsonData, null, 2)}
+    Ahora responde basándote en esta información
+    Deberas explicarle al usuario tus consejos.
+    Tus consejos no deberan ser mas largos que 500 caracteres`.trim();
+
+    const result = await run(this.BotaniBot, [
+      { role: 'system', content: systemContent },
+      { role: 'user', content: prompt }
+    ]);
+
     return result.finalOutput as string;
   }
 }

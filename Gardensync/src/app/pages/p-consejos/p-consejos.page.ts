@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AlertController } from '@ionic/angular';
+import { filter, skip } from 'rxjs';
 import { GPTService } from 'src/app/services/gpt.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class PConsejosPage {
   ) {}
 
   ngOnInit(){
-    this.gptService.planta$.subscribe(json =>{
+    this.gptService.planta$.pipe(filter(obj => obj && Object.keys(obj).length>0))
+    .subscribe(json =>{
       this.presentAlert('[PConsejosPage]','planta$ emission:', json);
       this.data = json;
     })
@@ -35,12 +37,12 @@ export class PConsejosPage {
       }
       this.gptService.enviarImagen(base64Image).subscribe({
         next: parsedJson => {
-          this.presentAlert('[PConsejosPage]','subscribe next:  ', parsedJson);
+          this.presentAlert('[PConsejosPage]','subscribe next:  ', JSON.stringify(parsedJson, null, 2));
           this.loading = false;
         },
         error: err => {
           console.error('[PConsejosPage] subscribe error:', err);
-          this.presentAlert('Error API', '', JSON.stringify(err));
+          this.presentAlert('Error API', '', typeof err === 'string' ? err : JSON.stringify(err, null, 2));
           this.loading = false;
         }
       });

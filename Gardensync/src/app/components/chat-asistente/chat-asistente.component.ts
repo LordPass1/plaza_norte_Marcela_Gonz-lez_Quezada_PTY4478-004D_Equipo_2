@@ -31,6 +31,7 @@ export class ChatAsistenteComponent  implements OnInit {
   }
 
   async mandarMSG(){
+    this.loading = true
     const text = this.uInput.trim();
     if(!text){return;}
 
@@ -38,12 +39,17 @@ export class ChatAsistenteComponent  implements OnInit {
     this.uInput = '';
     this.loading = true;
 
-    try{
-      const respuesta = await this.gpt.consejosPrompt(text, this.data);
-      this.messages.push({sender:'assistant', content: respuesta});
-    } catch (e){
-      this.messages.push({sender: 'assistant', content: 'Lo siento ha ocurrido un error al procesar tu mensaje.'})
-    }finally{
+    try {
+      const reply = await this.gpt.consejosPrompt(this.uInput, this.data);
+      this.messages.push({ sender: 'assistant', content: reply });
+    } catch (err: any) {                  // <— aqui
+      console.error('[ChatComponent] sendMessage ERROR:', err);
+      const errMsg = err.message ?? JSON.stringify(err);
+      this.messages.push({
+        sender: 'assistant',
+        content: `Lo siento, ha ocurrido un error: ${errMsg}`
+      });
+    } finally {
       this.loading = false;
     }
   }
