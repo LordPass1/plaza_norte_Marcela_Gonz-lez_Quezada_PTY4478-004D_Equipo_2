@@ -4,22 +4,63 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="content-wrapper">
-  <ion-button expand="block" (click)="datosImagen()" [disabled]="loading">
-    {{ loading ? 'Analizando...' : 'Tomar o seleccionar foto' }}
-  </ion-button>
+<ion-content class="page-content" [scrollEvents]="true">
+  <!-- 1) Sección JSON + botón de foto -->
+  <div class="top-section">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card *ngIf="data && data['nombre_común']">
+            <ion-card-header>
+              <ion-card-title>{{ data['nombre_común'] }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p><strong>Familia:</strong> {{ data.familia }}</p>
+              <p><strong>Tipo:</strong> {{ data.tipo }}</p>
+              <p><strong>Ciclo:</strong> {{ data.ciclo }}</p>
+              <!-- ...más campos según tu JSON -->
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="block" (click)="datosImagen()" [disabled]="loading">
+            {{ loading ? 'Analizando...' : 'Tomar o seleccionar foto' }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 
-  <ion-card *ngIf="data && data['nombre_común']">
-    <ion-card-header>
-      <ion-card-title>{{ data['nombre_común'] }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p><strong>Familia:</strong> {{ data.familia }}</p>
-      <p><strong>Tipo:</strong> {{ data.tipo }}</p>
-      <p><strong>Ciclo:</strong> {{ data.ciclo }}</p>
-      <!-- ...más campos según tu JSON -->
-    </ion-card-content>
-  </ion-card>
+  <!-- 2) Zona de mensajes -->
+  <div class="messages-section">
+    <ion-list lines="none">
+      <ion-item *ngFor="let msg of messages"
+                [class.user]="msg.sender==='user'"
+                [class.assistant]="msg.sender==='assistant'">
+        <ion-label class="bubble">{{ msg.content }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 
-  <app-chat-asistente></app-chat-asistente>
+  <!-- 3) Input fijo abajo -->
+  <ion-footer>
+    <ion-toolbar slot="fixed" class="input-toolbar">
+      <ion-item lines="none" class="input-item">
+        <ion-input
+          [(ngModel)]="uInput"
+          placeholder="Escribe tu mensaje..."
+          (keyup.enter)="mandarMSG()"
+          [disabled]="loading"
+          class="input-field">
+        </ion-input>
+        <ion-button 
+          fill="clear" size="small" shape="round"
+          [disabled]="!uInput.trim() || loading"
+          (click)="mandarMSG()">
+          <ion-icon name="send-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-toolbar>
+  </ion-footer>
+  
 </ion-content>

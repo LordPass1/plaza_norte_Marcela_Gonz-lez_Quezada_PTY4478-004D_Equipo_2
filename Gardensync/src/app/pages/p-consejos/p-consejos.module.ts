@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { PConsejosPageRoutingModule } from './p-consejos-routing.module';
 
 import { PConsejosPage } from './p-consejos.page';
-import { ChatAsistenteComponent } from 'src/app/components/chat-asistente/chat-asistente.component';
 
 @NgModule({
   imports: [
@@ -16,6 +15,6 @@ import { ChatAsistenteComponent } from 'src/app/components/chat-asistente/chat-a
     IonicModule,
     PConsejosPageRoutingModule
   ],
-  declarations: [PConsejosPage, ChatAsistenteComponent]
+  declarations: [PConsejosPage]
 })
 export class PConsejosPageModule {}

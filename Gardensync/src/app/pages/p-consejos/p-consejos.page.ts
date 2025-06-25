@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AlertController } from '@ionic/angular';
 import { filter, skip } from 'rxjs';
+import { Message } from 'src/app/models/message';
 import { GPTService } from 'src/app/services/gpt.service';
 
 @Component({
@@ -12,43 +13,71 @@ import { GPTService } from 'src/app/services/gpt.service';
 })
 export class PConsejosPage {
   data: any = {};
+  messages: Message[] = [];
+  uInput = '';
   loading = false;
 
   constructor(private gptService: GPTService,
               private alertController: AlertController
   ) {}
 
-  ngOnInit(){
-    this.gptService.planta$.pipe(filter(obj => obj && Object.keys(obj).length>0))
-    .subscribe(json =>{
-      this.presentAlert('[PConsejosPage]','planta$ emission:', json);
-      this.data = json;
-    })
+  ngOnInit() {
+    // Cuando llegue el JSON de identificación, mostramos aviso y mensaje inicial
+    this.gptService.planta$
+      .pipe(filter(obj => obj && Object.keys(obj).length > 0))
+      .subscribe(json => {
+        this.data = json;
+        this.presentAlert('Planta identificada', '', JSON.stringify(json, null, 2));
+        if (json['nombre_común']) {
+          this.messages.push({
+            sender: 'assistant',
+            content: 'He identificado tu planta como: ' + json['nombre-común']
+          });
+        }
+      });
   }
 
   async datosImagen() {
     this.loading = true;
-    try{
+    try {
       const base64Image = await this.tomarFoto();
-      if (!base64Image){
-        this.presentAlert('Algo salio mal :(', 'No se ha proporcionado una imagen', 'Debe proporcionar una Imagen para poder utilizar esta función' )
+      if (!base64Image) {
+        this.presentAlert('Error', 'No proporcionaste una imagen', 'Debes seleccionar una foto');
         this.loading = false;
         return;
       }
+      // Enviar imagen al servicio y dejar que el subscribe dispare el push al chat
       this.gptService.enviarImagen(base64Image).subscribe({
         next: parsedJson => {
-          this.presentAlert('[PConsejosPage]','subscribe next:  ', JSON.stringify(parsedJson, null, 2));
+          // (la suscripción a planta$ ya empuja el mensaje de identificación)
           this.loading = false;
         },
         error: err => {
-          console.error('[PConsejosPage] subscribe error:', err);
-          this.presentAlert('Error API', '', typeof err === 'string' ? err : JSON.stringify(err, null, 2));
+          this.presentAlert('Error API', '', typeof err === 'string' ? err : JSON.stringify(err));
           this.loading = false;
         }
       });
-    } catch(e){
-      this.presentAlert('Error','Error en datosImagen():  ',e)
-      this.loading = false
+    } catch (e) {
+      this.presentAlert('Error cámara', '', JSON.stringify(e));
+      this.loading = false;
+    }
+  }
+
+  async mandarMSG() {
+    const texto = this.uInput.trim();
+    if (!texto) return;
+    this.messages.push({ sender: 'user', content: texto });
+    this.uInput = '';
+    this.loading = true;
+
+    try {
+      const reply = await this.gptService.consejosPrompt(texto, this.data);
+      this.messages.push({ sender: 'assistant', content: reply });
+    } catch (err: any) {
+      const errMsg = err.message ?? JSON.stringify(err);
+      this.messages.push({ sender: 'assistant', content: `Error: ${errMsg}` });
+    } finally {
+      this.loading = false;
     }
   }
   
@@ -71,13 +100,5 @@ export class PConsejosPage {
     });
 
     await alert.present();
-  }
-
-  recibirJson(){
-
-  }
-
-  pedirConsejos(){
-    
   }
 }
