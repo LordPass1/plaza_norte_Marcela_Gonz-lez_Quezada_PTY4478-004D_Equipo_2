@@ -15,7 +15,7 @@ export class PConsejosPage {
   data: any = {};
   messages: Message[] = [];
   uInput = '';
-  loading = false;
+  isLoading = false;
   segmentValue: 'identificacion' | 'chat' = 'identificacion';
 
   constructor(private gptService: GPTService,
@@ -39,28 +39,28 @@ export class PConsejosPage {
   }
 
   async datosImagen() {
-    this.loading = true;
+    this.isLoading = true;
     try {
       const base64Image = await this.tomarFoto();
       if (!base64Image) {
         this.presentAlert('Error', 'No proporcionaste una imagen', 'Debes seleccionar una foto');
-        this.loading = false;
+        this.isLoading = false;
         return;
       }
       // Enviar imagen al servicio y dejar que el subscribe dispare el push al chat
       this.gptService.enviarImagen(base64Image).subscribe({
         next: parsedJson => {
           // (la suscripción a planta$ ya empuja el mensaje de identificación)
-          this.loading = false;
+          this.isLoading = false;
         },
         error: err => {
           this.presentAlert('Error API', '', typeof err === 'string' ? err : JSON.stringify(err));
-          this.loading = false;
+          this.isLoading = false;
         }
       });
     } catch (e) {
       this.presentAlert('Error cámara', '', JSON.stringify(e));
-      this.loading = false;
+      this.isLoading = false;
     }
   }
 
@@ -69,7 +69,7 @@ export class PConsejosPage {
     if (!texto) return;
     this.messages.push({ sender: 'user', content: texto });
     this.uInput = '';
-    this.loading = true;
+    this.isLoading = true;
 
     try {
       const reply = await this.gptService.consejosPrompt(texto, this.data);
@@ -78,7 +78,7 @@ export class PConsejosPage {
       const errMsg = err.message ?? JSON.stringify(err);
       this.messages.push({ sender: 'assistant', content: `Error: ${errMsg}` });
     } finally {
-      this.loading = false;
+      this.isLoading = false;
     }
   }
   

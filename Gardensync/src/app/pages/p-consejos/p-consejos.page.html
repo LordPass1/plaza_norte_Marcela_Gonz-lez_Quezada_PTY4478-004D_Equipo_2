@@ -17,7 +17,7 @@
 </ion-header>
 
 <!-- deshabilitamos el scroll general -->
-<ion-content class="page-content">
+<ion-content class="page-content" [scrollEvents]="true">
   <!-- Sección de identificación, solo visible si segmentValue==='identificacion' -->
   <div *ngIf="segmentValue==='identificacion'" class="top-section">
     <ion-grid>
@@ -37,8 +37,8 @@
         <ion-col>
           <ion-button expand="block"
                       (click)="datosImagen()"
-                      [disabled]="loading">
-            {{ loading ? 'Analizando...' : 'Tomar o seleccionar foto' }}
+                      [disabled]="isLoading">
+            {{ isLoading ? 'Analizando...' : 'Tomar o seleccionar foto' }}
           </ion-button>
         </ion-col>
       </ion-row>
@@ -60,20 +60,25 @@
 <!-- footer con input, solo en modo chat -->
 <ion-footer *ngIf="segmentValue==='chat'">
   <ion-toolbar>
-    <ion-item lines="none" class="input-item">
-      <ion-input
-        [(ngModel)]="uInput"
-        placeholder="Escribe tu mensaje..."
-        (keyup.enter)="mandarMSG()"
-        [disabled]="loading">
-      </ion-input>
-      <ion-button fill="clear"
-                  size="small"
-                  shape="round"
-                  [disabled]="!uInput.trim() || loading"
-                  (click)="mandarMSG()">
-        <ion-icon name="send-outline"></ion-icon>
-      </ion-button>
-    </ion-item>
+    <ion-textarea
+      autoGrow
+      [(ngModel)]="uInput"
+      placeholder="Escribe tu mensaje..."
+      (keyup.enter)="mandarMSG()"
+      [disabled]="isLoading">
+    </ion-textarea>
+    <ion-buttons slot="end">
+      <ion-fab-button
+        *ngIf="!isLoading"
+        fill="clear"
+        size="small"
+        shape="round"
+        (click)="mandarMSG()">
+        <ion-icon name="send"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button *ngIf="isLoading" size="small" >
+        <ion-spinner></ion-spinner>
+      </ion-fab-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-footer>

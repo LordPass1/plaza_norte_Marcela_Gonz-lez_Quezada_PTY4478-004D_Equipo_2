@@ -201,7 +201,8 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
     // Regla de filtro de temas
     systemContent += `Responde **solo** preguntas de botánica aplicadas a la planta (si la tienes) o al nombre de planta que el usuario indique.  
                       Si te preguntan algo que NO sea botánica o no tenga que ver con una planta, responde exactamente:
-                      “No entiendo tu pregunta. ¿‘<lo que preguntaron>’ es una planta?”
+                      “No entiendo tu pregunta. ¿‘<lo que preguntaron>’ es una planta?”.
+                      Si te saludan con "Hola" deberas responder "Hola, soy BotaniBot, tu asistente experto en botanica, ¿En que te puedo ayudar el día de hoy?."
                       `;
     systemContent = systemContent.trim();
 
