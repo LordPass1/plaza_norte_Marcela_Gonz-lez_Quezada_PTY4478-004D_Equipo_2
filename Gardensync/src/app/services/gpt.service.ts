@@ -186,16 +186,33 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
 
    // —————————————— nuevo método de chat ——————————————
   async consejosPrompt(prompt: string, jsonData: any): Promise<string> {
-    const systemContent = `Estos son los datos de la planta (JSON): ${JSON.stringify(jsonData, null, 2)}
-    Ahora responde basándote en esta información
-    Deberas explicarle al usuario tus consejos.
-    Tus consejos no deberan ser mas largos que 500 caracteres`.trim();
+    const hasJson = jsonData && Object.keys(jsonData).length > 0;
+    const contextJson = hasJson
+      ? JSON.stringify(jsonData, null, 2)
+      : '';
 
-    const result = await run(this.BotaniBot, [
-      { role: 'system', content: systemContent },
-      { role: 'user', content: prompt }
-    ]);
+    // Instrucciones condicionales
+    let systemContent = hasJson
+      ? `Eres un experto botánico que explica conceptos de forma sencilla a un primerizo.
+        He identificado la planta como **${jsonData['nombre_común']}**. Estos son sus datos en JSON: ${contextJson}`
+      : `Eres un experto botánico que explica conceptos de forma sencilla a un primerizo.
+        No se ha identificado ninguna planta mediante imagen. El usuario puede nombrar directamente la planta sobre la que desea consejos.`;
 
+    // Regla de filtro de temas
+    systemContent += `Responde **solo** preguntas de botánica aplicadas a la planta (si la tienes) o al nombre de planta que el usuario indique.  
+                      Si te preguntan algo que NO sea botánica o no tenga que ver con una planta, responde exactamente:
+                      “No entiendo tu pregunta. ¿‘<lo que preguntaron>’ es una planta?”
+                      `;
+    systemContent = systemContent.trim();
+
+    const agent = new Agent({
+      name: 'BotaniBot',
+      instructions: systemContent,
+      model: 'o4-mini'
+    });
+
+    // 6) Ejecutamos
+    const result = await run(agent, prompt);
     return result.finalOutput as string;
   }
 }
