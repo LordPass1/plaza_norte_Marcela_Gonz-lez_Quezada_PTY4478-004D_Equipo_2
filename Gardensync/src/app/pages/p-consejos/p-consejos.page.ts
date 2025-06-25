@@ -16,6 +16,7 @@ export class PConsejosPage {
   messages: Message[] = [];
   uInput = '';
   loading = false;
+  segmentValue: 'identificacion' | 'chat' = 'identificacion';
 
   constructor(private gptService: GPTService,
               private alertController: AlertController
