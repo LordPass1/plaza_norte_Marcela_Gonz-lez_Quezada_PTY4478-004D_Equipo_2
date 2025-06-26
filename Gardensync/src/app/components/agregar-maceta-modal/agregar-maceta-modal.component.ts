@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FirebaseService } from 'src/firebase.sevice';
 import { getAuth } from 'firebase/auth';
 import { AgregarMacetaFormModalComponent } from 'src/app/components/agregar-maceta-form-modal/agregar-maceta-form-modal.component';
 import { Maceta } from 'src/firebase.sevice'; // Asegúrate de importar el tipo
+import { getDatabase, ref, onValue, off } from 'firebase/database';
 
 @Component({
   selector: 'app-agregar-maceta-modal',
@@ -11,12 +12,13 @@ import { Maceta } from 'src/firebase.sevice'; // Asegúrate de importar el tipo
   styleUrls: ['./agregar-maceta-modal.component.scss'],
   standalone: false,
 })
-export class AgregarMacetaModalComponent implements OnInit {
+export class AgregarMacetaModalComponent implements OnInit, OnDestroy {
   @Input() idGrupo!: string;
   macetas: Maceta[] = []; // 👈 Usa el tipo aquí
   cargando = true;
   idPersona = '';
   idHogar = '';
+  private sensorListeners: { [sensorId: string]: any } = {};
 
   constructor(
     private modalCtrl: ModalController,
@@ -45,33 +47,42 @@ export class AgregarMacetaModalComponent implements OnInit {
 
   async cargarMacetas() {
     this.cargando = true;
-
     const macetasFirestore = await this.firebaseService.obtenerMacetasDeGrupo(
       this.idPersona,
       this.idHogar,
       this.idGrupo
     );
+    this.macetas = macetasFirestore;
 
-    this.macetas = await Promise.all(
-      macetasFirestore.map(async (maceta) => {
-        try {
-          const datosSensor = await this.firebaseService.obtenerDatosSensorRealtime(maceta.sensorId);
-          return {
+    // Limpia listeners anteriores
+    Object.values(this.sensorListeners).forEach(unsub => unsub && unsub());
+    this.sensorListeners = {};
+
+    // Suscríbete a los cambios en tiempo real de cada sensor
+    const db = getDatabase();
+    this.macetas.forEach((maceta, idx) => {
+      const sensorRef = ref(db, `sensores/${maceta.sensorId}`);
+      const listener = onValue(sensorRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const datosSensor = snapshot.val();
+          // Actualiza solo los datos en tiempo real
+          this.macetas[idx] = {
             ...maceta,
-            temperatura: datosSensor.temperature_c || maceta.temperatura,
-            humedad: datosSensor.air_humidity || maceta.humedad,
-            nivelAgua: datosSensor.soil_humidity_pct || maceta.nivelAgua,
-            estado: 'Actualizado',
+            temperatura: datosSensor.temperature_c ?? maceta.temperatura,
+            humedad: datosSensor.air_humidity ?? maceta.humedad,
+            nivelAgua: datosSensor.soil_humidity_pct ?? maceta.nivelAgua,
+            estado: 'Actualizado'
           };
-        } catch (error) {
-          console.error(`Error al obtener datos del sensor ${maceta.sensorId}:`, error);
-          return {
+        } else {
+          this.macetas[idx] = {
             ...maceta,
-            estado: 'Sin conexión',
+            estado: 'Sin conexión'
           };
         }
-      })
-    );
+      });
+      // Guarda el listener para poder limpiarlo después
+      this.sensorListeners[maceta.sensorId] = () => off(sensorRef, 'value', listener);
+    });
 
     this.cargando = false;
   }
@@ -91,5 +102,10 @@ export class AgregarMacetaModalComponent implements OnInit {
     if (data) {
       await this.cargarMacetas();
     }
+  }
+
+  ngOnDestroy() {
+    // Limpia los listeners al cerrar el modal
+    Object.values(this.sensorListeners).forEach(unsub => unsub && unsub());
   }
 }

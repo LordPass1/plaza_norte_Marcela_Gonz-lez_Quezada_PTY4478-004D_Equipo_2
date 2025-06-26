@@ -14,8 +14,15 @@ export class RegistroHogarPage implements OnInit {
 
   constructor( private firebaseservice: FirebaseService, private router: Router) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+        try {
+      await this.firebaseservice.obtenerHogarUsuario();
+      this.router.navigate(['/home/p-principal']);
+    } catch (error) {
+      console.log('El usuario no tiene hogar:', error);
+    }
   }
+  
   
   async registrarHogar() {
     try {
