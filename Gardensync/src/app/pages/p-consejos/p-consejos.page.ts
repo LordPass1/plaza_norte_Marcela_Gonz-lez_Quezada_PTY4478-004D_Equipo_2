@@ -17,6 +17,7 @@ export class PConsejosPage {
   uInput = '';
   isLoading = false;
   segmentValue: 'identificacion' | 'chat' = 'identificacion';
+  foto = ''
 
   constructor(private gptService: GPTService,
               private alertController: AlertController
@@ -29,40 +30,40 @@ export class PConsejosPage {
       .subscribe(json => {
         this.data = json;
         this.presentAlert('Planta identificada', '', JSON.stringify(json, null, 2));
-        if (json['nombre_común']) {
+        if (json.nombre_comun) {
           this.messages.push({
             sender: 'assistant',
-            content: 'He identificado tu planta como: ' + json['nombre-común']
+            content: 'He identificado tu planta como: ' + json.nombre_comun
           });
         }
       });
   }
 
   async datosImagen() {
-    this.isLoading = true;
-    try {
-      const base64Image = await this.tomarFoto();
-      if (!base64Image) {
-        this.presentAlert('Error', 'No proporcionaste una imagen', 'Debes seleccionar una foto');
-        this.isLoading = false;
-        return;
-      }
-      // Enviar imagen al servicio y dejar que el subscribe dispare el push al chat
-      this.gptService.enviarImagen(base64Image).subscribe({
-        next: parsedJson => {
-          // (la suscripción a planta$ ya empuja el mensaje de identificación)
-          this.isLoading = false;
-        },
-        error: err => {
-          this.presentAlert('Error API', '', typeof err === 'string' ? err : JSON.stringify(err));
-          this.isLoading = false;
-        }
-      });
-    } catch (e) {
-      this.presentAlert('Error cámara', '', JSON.stringify(e));
+  this.isLoading = true;
+  try {
+    const base64Image = await this.tomarFoto();
+    if (!base64Image) {
+      this.presentAlert('Error', 'No proporcionaste una imagen', 'Debes seleccionar una foto');
       this.isLoading = false;
+      return;
     }
+    // Asigna la foto tomada al atributo foto
+    this.foto = `data:image/jpeg;base64,${base64Image}`;
+    this.gptService.enviarImagen(base64Image).subscribe({
+      next: parsedJson => {
+        this.isLoading = false;
+      },
+      error: err => {
+        this.presentAlert('Error API', '', typeof err === 'string' ? err : JSON.stringify(err));
+        this.isLoading = false;
+      }
+    });
+  } catch (e) {
+    this.presentAlert('Error cámara', '', JSON.stringify(e));
+    this.isLoading = false;
   }
+}
 
   async mandarMSG() {
     const texto = this.uInput.trim();

@@ -55,15 +55,15 @@ export class GPTService {
 Eres un experto botánico al cual le estoy pasando una imagen de una planta. 
 Debes identificar la planta y responder **exclusivamente** usando el siguiente objeto JSON (sin ningún texto antes o después):
 {
-  "nombre_común": "",
-  "nombres_científicos": [],
+  "nombre_comun": "",
+  "nombres_cientificos": [],
   "otros_nombres": [],
   "familia": "",
   "origen": null,
   "tipo": "",
   "dimensiones": {
     "tipo": null,
-    "valor_mínimo": null,
+    "valor_minimo": null,
     "valor-máximo": null,
     "unidad": ""
   },
@@ -73,13 +73,13 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
     "valor": null,
     "unidad": ""
   },
-  "anatomía_de_la_planta": [
+  "anatomia_de_la_planta": [
     {
       "parte": "",
       "color": []
     }
   ],
-  "exposición_al_sol": [],
+  "exposicion_al_sol": [],
   "meses_de_poda": [],
   "frecuencia_de_poda": {
     "cantidad": null,
@@ -87,23 +87,23 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
   },
   "semillas": null,
   "atrae": [],
-  "propagación": [],
+  "propagacion": [],
   "resistencia": {
-    "mínima": null,
+    "minima": null,
     "máxima": null
   },
-  "ubicación_mapa_de_resistencia": {
+  "ubicacion_mapa_de_resistencia": {
     "url_completa": "",
     "iframe_completo": ""
   },
   "flores": null,
-  "temporada_de_floración": "",
+  "temporada_de_floracion": "",
   "suelo": [],
   "susceptibilidad_a_plagas": null,
   "piñas": null,
   "frutos": null,
   "fruto_comestible": null,
-  "temporada_de_fructificación": null,
+  "temporada_de_fructificacion": null,
   "temporada_de_cosecha": null,
   "método_de_cosecha": "",
   "hoja": null,
@@ -111,9 +111,9 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
   "tasa_de_crecimiento": "",
   "mantenimiento": "",
   "medicinal": null,
-  "tóxico_para_humanos": null,
-  "tóxico_para_mascotas": null,
-  "tolerante_a_la_sequía": null,
+  "toxico_para_humanos": null,
+  "toxico_para_mascotas": null,
+  "tolerante_a_la_sequia": null,
   "tolerante_a_la_sal": null,
   "espinoso": null,
   "invasivo": null,
@@ -122,22 +122,22 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
   "culinario": null,
   "interior": null,
   "nivel_de_cuidado": "",
-  "descripción": "",
+  "descripcion": "",
   "calidades_de_riego": [],
   "periodos_de_riego": [],
   "volumen_promedio_requerido_de_riego": [],
   "profundidad_requerida_de_riego": [],
   "riego_según_temperatura": {
     "unidad": "",
-    "mínimo": null,
+    "minimo": null,
     "máximo": null
   },
   "nivel_de_ph_del_agua": {
-    "mínimo": null,
+    "minimo": null,
     "máximo": null
   },
-  "duración_de_luz_solar": {
-    "mínimo": null,
+  "duracion_de_luz_solar": {
+    "minimo": null,
     "máximo": null,
     "unidad": ""
   }
@@ -196,7 +196,12 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
       ? `Eres un experto botánico que explica conceptos de forma sencilla a un primerizo.
         He identificado la planta como **${jsonData['nombre_común']}**. Estos son sus datos en JSON: ${contextJson}`
       : `Eres un experto botánico que explica conceptos de forma sencilla a un primerizo.
-        No se ha identificado ninguna planta mediante imagen. El usuario puede nombrar directamente la planta sobre la que desea consejos.`;
+        No se ha identificado ninguna planta mediante imagen. El usuario puede nombrar directamente la planta sobre la que desea consejos.
+        Cuando debas responder con una lista de ítems,
+        sigue este formato:
+        1. Usa numeración (1., 2., 3., …).
+        2. Ordena los ítems alfabéticamente (o por la clave que corresponda).
+        3. Se claro y conciso en cada punto.`;
 
     // Regla de filtro de temas
     systemContent += `Responde **solo** preguntas de botánica aplicadas a la planta (si la tienes) o al nombre de planta que el usuario indique.  
