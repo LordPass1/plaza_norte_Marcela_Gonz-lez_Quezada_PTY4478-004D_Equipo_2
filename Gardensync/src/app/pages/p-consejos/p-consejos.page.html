@@ -16,16 +16,16 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- deshabilitamos el scroll general -->
 <ion-content class="page-content" [scrollEvents]="true">
-  <!-- Sección de identificación, solo visible si segmentValue==='identificacion' -->
   <div *ngIf="segmentValue==='identificacion'" class="top-section">
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-card *ngIf="data && data['nombre_común']">
+          <ion-card *ngIf="data?.nombre_comun">
+            <img alt="Imagen Planta" [src]="foto" />
             <ion-card-header>
-              <ion-card-title>{{ data['nombre_común'] }}</ion-card-title>
+              <ion-card-title>{{ data.nombre_comun }}</ion-card-title>
+              <ion-card-subtitle>{{data.nombres_cientificos?.join(', ')}}</ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
               <p><strong>Familia:</strong> {{ data.familia }}</p>
@@ -33,8 +33,6 @@
               <p><strong>Ciclo:</strong> {{ data.ciclo }}</p>
             </ion-card-content>
           </ion-card>
-        </ion-col>
-        <ion-col>
           <ion-button expand="block"
                       (click)="datosImagen()"
                       [disabled]="isLoading">

@@ -23,6 +23,7 @@ constexpr uint8_t LED_FAIL       = 3;
 constexpr uint8_t DHT_PIN        = 4;     // digital
 constexpr uint8_t SOIL_PIN       = A0;    // analog
 constexpr uint8_t LIGHT_PIN      = A1;    // analog I/O for optional LDR
+constexpr uint8_t BOMB_PIN = 6; // Pin digital para el control de la bomba
 
 // DHT11
 #define DHTTYPE DHT11
@@ -121,6 +122,8 @@ void setup() {
   dht.begin();
   Wire.begin();
   initTSL();
+  pinMode(BOMB_PIN, OUTPUT);
+  digitalWrite(BOMB_PIN, HIGH);
 
   // Firebase
   config.api_key                    = API_KEY;
@@ -145,6 +148,16 @@ void loop() {
 
   // Read soil moisture
   int soil = readSoilPct();
+
+  // ----------- CONTROL BOMBA -----------
+  if (soil < 30) { // Si la tierra está seca (<30%)
+    digitalWrite(BOMB_PIN, HIGH); // Enciende la bomba
+    Serial.println("💧 Bomba ON");
+  } else {
+    digitalWrite(BOMB_PIN, LOW); // Apaga la bomba
+    Serial.println("💧 Bomba OFF");
+  }
+  // -------------------------------------- 
 
   // Read lux
   float lux = readLux();
