@@ -46,7 +46,7 @@ export class LoginPage implements OnInit {
     if (user) {
       if (!user.isAnonymous) {
         console.log('Usuario con cuenta, redirigiendo a home:', user);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home/p-principal'], { replaceUrl: true });
       } else {
         console.log('Usuario anónimo, puede registrarse o iniciar sesión');
       }
@@ -76,7 +76,7 @@ export class LoginPage implements OnInit {
   
       if (user && user.user) {
         console.log('Usuario logueado:', user.user);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home/p-principal'], { replaceUrl: true });
       } else {
         throw new Error('No se pudo autenticar el usuario.');
       }

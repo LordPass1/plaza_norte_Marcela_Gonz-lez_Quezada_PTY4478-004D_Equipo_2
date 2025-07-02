@@ -18,6 +18,7 @@ export class AgregarMacetaFormModalComponent implements OnInit {
 
   macetaForm: FormGroup;
   consejosIA: string | null = null;
+  simuladorInterval: any = null;
 
   constructor(
     private modalCtrl: ModalController,
@@ -31,7 +32,7 @@ export class AgregarMacetaFormModalComponent implements OnInit {
       humedad: [{ value: 0, disabled: true }],
       nivelAgua: [{ value: 0, disabled: true }],
       estado: [{ value: '', disabled: true }],
-      sensorId: ['192_168_100_254', Validators.required] // 
+      sensorId: ['', Validators.required] // <-- ahora vacío y requerido
     });
   }
 
@@ -44,8 +45,26 @@ export class AgregarMacetaFormModalComponent implements OnInit {
       }
     });
 
-    // Escuchar datos en tiempo real desde Firebase Realtime Database
-    this.obtenerDatosSensorRealtime();
+    // Escuchar cambios en el campo sensorId (IP)
+    this.macetaForm.get('sensorId')?.valueChanges.subscribe(async (ip) => {
+      if (this.simuladorInterval) {
+        clearInterval(this.simuladorInterval);
+        this.simuladorInterval = null;
+      }
+      if (ip && ip.trim().toUpperCase() === 'SIMULADOR') {
+        this.iniciarSimulador();
+      } else if (ip && ip.trim().length > 0) {
+        await this.obtenerDatosSensorRealtime(ip.trim());
+      } else {
+        // Si se borra la IP, limpia los datos
+        this.macetaForm.patchValue({
+          temperatura: 0,
+          humedad: 0,
+          nivelAgua: 0,
+          estado: ''
+        });
+      }
+    });
   }
 
   private async tomarFoto(): Promise<string | null> {
@@ -58,13 +77,24 @@ export class AgregarMacetaFormModalComponent implements OnInit {
     return image?.base64String ?? null;
   }
 
-  async obtenerDatosSensorRealtime() {
-    const sensorId = '192_168_100_254'; // Cambia esto por el ID del sensor correspondiente
+  async obtenerDatosSensorRealtime(sensorId: string) {
+    if (sensorId.toUpperCase() === 'SIMULADOR') {
+      // Simula datos random y habilita el botón
+      const temperatura = Math.floor(Math.random() * 20) + 10;
+      const humedad = Math.floor(Math.random() * 60) + 20;
+      const nivelAgua = Math.floor(Math.random() * 100);
+      this.macetaForm.patchValue({
+        temperatura,
+        humedad,
+        nivelAgua,
+        estado: 'Actualizado'
+      });
+      return;
+    }
 
     try {
       const datosSensor = await this.firebaseService.obtenerDatosSensorRealtime(sensorId);
 
-      // Actualiza el formulario con los datos del sensor
       this.macetaForm.patchValue({
         temperatura: datosSensor.temperature_c || 0,
         humedad: datosSensor.air_humidity || 0,
@@ -74,7 +104,6 @@ export class AgregarMacetaFormModalComponent implements OnInit {
     } catch (error) {
       console.error(`Error al obtener datos del sensor ${sensorId}:`, error);
 
-      // Si no hay conexión, muestra valores en 0
       this.macetaForm.patchValue({
         temperatura: 0,
         humedad: 0,
@@ -155,10 +184,7 @@ export class AgregarMacetaFormModalComponent implements OnInit {
 
 
 
-    const { nombrePlanta, temperatura, humedad, nivelAgua, estado } = this.macetaForm.getRawValue();
-
-    // Asegúrate de incluir el sensorId aquí
-    const sensorId = '192_168_100_254'; // 👈 Cambia esto por el ID del sensor correspondiente
+    const { nombrePlanta, temperatura, humedad, nivelAgua, estado, sensorId } = this.macetaForm.getRawValue();
 
     await this.firebaseService.addMaceta(
       this.idPersona,
@@ -169,7 +195,7 @@ export class AgregarMacetaFormModalComponent implements OnInit {
       humedad,
       nivelAgua,
       estado,
-      sensorId //  Incluye el sensorId
+      sensorId
     );
 
     this.modalCtrl.dismiss(true);
@@ -177,5 +203,22 @@ export class AgregarMacetaFormModalComponent implements OnInit {
 
   cerrar() {
     this.modalCtrl.dismiss();
+  }
+
+  iniciarSimulador() {
+    // Setea datos iniciales y luego cada 3 segundos
+    const setRandom = () => {
+      const temperatura = Math.floor(Math.random() * 20) + 10;
+      const humedad = Math.floor(Math.random() * 60) + 20;
+      const nivelAgua = Math.floor(Math.random() * 100);
+      this.macetaForm.patchValue({
+        temperatura,
+        humedad,
+        nivelAgua,
+        estado: 'Actualizado'
+      });
+    };
+    setRandom();
+    this.simuladorInterval = setInterval(setRandom, 3000);
   }
 }

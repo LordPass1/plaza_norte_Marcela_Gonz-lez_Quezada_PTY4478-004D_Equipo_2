@@ -55,7 +55,7 @@ export class RegistroPage implements OnInit {
     if (user) {
       if (!user.isAnonymous) {
         console.log('Usuario con cuenta, redirigiendo a home:', user);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home/p-principal'], { replaceUrl: true });
       } else {
         console.log('Usuario anónimo, puede registrarse o iniciar sesión');
       }
@@ -115,7 +115,7 @@ export class RegistroPage implements OnInit {
     console.log('Usuario registrado con UID:', uid);
 
     // Aquí navegas solo después del registro correcto
-    this.router.navigate(['/registro-hogar']);
+    this.router.navigate(['/registro-hogar']), { replaceUrl: true };
   } catch (error: any) {
     this.errorMessage = error.message; // Mostrar mensaje de error
     console.error('Error de registro:', error.message);

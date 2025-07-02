@@ -208,6 +208,14 @@ export class FirebaseService {
       throw new Error('Datos de la persona no encontrados');
     }
   }
+
+  async actualizarPerfilUsuario(nombreCompleto: string, correo: string) {
+  const user = this.auth.currentUser;
+  if (!user) throw new Error('Usuario no autenticado');
+  const docRef = doc(this.db, `Personas/${user.uid}`);
+  await setDoc(docRef, { nombreCompleto, correo }, { merge: true });
+}
+
   async obtenerHogarUsuario() {
     const user = this.auth.currentUser;
     if (!user) throw new Error('Usuario no autenticado');
@@ -225,6 +233,18 @@ export class FirebaseService {
       throw new Error('No se encontró ningún hogar registrado');
     }
   }
+
+  async actualizarNombreHogar(nombreHogar: string) {
+  const user = this.auth.currentUser;
+  if (!user) throw new Error('Usuario no autenticado');
+  // Busca el primer hogar del usuario
+  const hogaresRef = collection(this.db, `Personas/${user.uid}/Hogares`);
+  const hogaresSnap = await getDocs(hogaresRef);
+  if (hogaresSnap.empty) throw new Error('No hay hogar creado');
+  const hogarId = hogaresSnap.docs[0].id;
+  const docRef = doc(this.db, `Personas/${user.uid}/Hogares/${hogarId}`);
+  await setDoc(docRef, { nombreHogar }, { merge: true });
+}
 
   // Obtener los grupos del usuario y la cantidad de macetas en cada uno
   async obtenerGruposYMacetas() {
@@ -286,7 +306,33 @@ export class FirebaseService {
     });
   }
 
-  
+    simularNotificaciones(datos: { temperatura: number, humedad: number, nivelAgua: number, sensorId: string }) {
+    // Puedes ajustar los umbrales según tu lógica real
+    if (datos.nivelAgua < 47) {
+      this.enviarNotificacionLocal(
+        'Humedad baja en el suelo',
+        `La humedad del suelo está en ${datos.nivelAgua}%. Es necesario regar la planta.`
+      );
+    }
+    if (datos.humedad < 40) {
+      this.enviarNotificacionLocal(
+        'Humedad del aire baja',
+        `La humedad del aire está en ${datos.humedad}%. Puede afectar la salud de la planta.`
+      );
+    }
+    if (datos.temperatura < 10) {
+      this.enviarNotificacionLocal(
+        'Temperatura baja',
+        `La temperatura está en ${datos.temperatura}°C. Protege tu planta del frío.`
+      );
+    }
+    if (datos.temperatura > 35) {
+      this.enviarNotificacionLocal(
+        'Temperatura alta',
+        `La temperatura está en ${datos.temperatura}°C. Protege tu planta del calor.`
+      );
+    }
+  }
 
   async detectarEstadoCritico(sensorId: string) {
     const db = getDatabase();
@@ -295,75 +341,79 @@ export class FirebaseService {
     onValue(sensorRef, (snapshot) => {
       if (snapshot.exists()) {
         const datosSensor = snapshot.val();
-        const humedad = datosSensor.soil_humidity_pct;
+        const humedadSuelo = datosSensor.soil_humidity_pct;
+        const humedadAire = datosSensor.air_humidity;
+        const temperatura = datosSensor.temperature_c;
+        const lux = datosSensor.lux;
 
-        if (humedad < 47) { // Nivel de humedad crítico
+        // Humedad del suelo crítica
+        if (humedadSuelo < 47) {
           this.enviarNotificacionLocal(
-            'Humedad baja',
-            `La humedad está en ${humedad}%. Es necesario regar la planta.`
+            'Humedad baja en el suelo',
+            `La humedad del suelo está en ${humedadSuelo}%. Es necesario regar la planta.`
           );
+        }
 
-          // Reenviar la notificación en 30 minutos
-          setTimeout(() => {
-            this.enviarNotificacionLocal(
-              'Recordatorio: Humedad baja',
-              `La humedad sigue en ${humedad}%. Por favor, riega la planta.`
-            );
-          }, 30 * 60 * 1000); // 30 minutos en milisegundos
+        // Humedad del aire crítica
+        if (humedadAire !== undefined && humedadAire < 40) {
+          this.enviarNotificacionLocal(
+            'Humedad del aire baja',
+            `La humedad del aire está en ${humedadAire}%. Puede afectar la salud de la planta.`
+          );
+        }
+
+        // Temperatura crítica
+        if (temperatura !== undefined && temperatura < 10) {
+          this.enviarNotificacionLocal(
+            'Temperatura baja',
+            `La temperatura está en ${temperatura}°C. Protege tu planta del frío.`
+          );
+        }
+        if (temperatura !== undefined && temperatura > 35) {
+          this.enviarNotificacionLocal(
+            'Temperatura alta',
+            `La temperatura está en ${temperatura}°C. Protege tu planta del calor.`
+          );
+        }
+
+        // Luz insuficiente
+        if (lux !== undefined && lux < 10) {
+          this.enviarNotificacionLocal(
+            'Poca luz',
+            `El nivel de luz es muy bajo (${lux} lux). Considera mover la planta a un lugar más iluminado.`
+          );
+        }
+
+        // Luz excesiva
+        if (lux !== undefined && lux > 1000) {
+          this.enviarNotificacionLocal(
+            'Exceso de luz',
+            `El nivel de luz es muy alto (${lux} lux). Considera proteger la planta del sol directo.`
+          );
         }
       }
     });
   }
 
   async enviarNotificacionLocal(titulo: string, mensaje: string) {
+    const notiId = Math.floor(Math.random() * 2000000000); // ID válido para Java int
     await LocalNotifications.schedule({
       notifications: [
         {
           title: titulo,
           body: mensaje,
-          id: new Date().getTime(),
+          id: notiId,
           schedule: { at: new Date(Date.now() + 1000) }, // Enviar en 1 segundo
           sound: 'default',
         },
       ],
     });
+    console.log('Notificación programada con id:', notiId);
   }
+
+
 }
 
-PushNotifications.requestPermissions().then((result) => {
-  if (result.receive === 'granted') {
-    PushNotifications.register();
-  } else {
-    console.error('Permisos de notificación no concedidos');
-  }
-});
 
 
 
-PushNotifications.addListener('pushNotificationReceived', (notification) => {
-  console.log('Notificación recibida:', notification);
-});
-
-PushNotifications.addListener('pushNotificationActionPerformed', (notification) => {
-  console.log('Acción de notificación:', notification);
-});
-
-LocalNotifications.requestPermissions().then((result) => {
-  if (result.display === 'granted') {
-    console.log('Permisos concedidos');
-  } else {
-    console.error('Permisos no concedidos');
-  }
-});
-
-LocalNotifications.schedule({
-  notifications: [
-    {
-      title: 'Temperatura alta',
-      body: 'La temperatura ha superado los 30°C',
-      id: new Date().getTime(),
-      schedule: { at: new Date(Date.now() + 1000) }, // Enviar en 1 segundo
-      sound: 'default',
-    },
-  ],
-});

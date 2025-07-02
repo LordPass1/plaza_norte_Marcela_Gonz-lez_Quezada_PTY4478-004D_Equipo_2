@@ -10,14 +10,13 @@
 <ion-content [fullscreen]="true" class="ion-padding perfil-bg">
 
   <ng-container *ngIf="!esAnonimo; else invitacionRegistroPerfil">
-
     <div class="user-profile">
       <ion-avatar class="avatar">
         <img src="assets/img/Perfil.png" alt="Avatar" />
       </ion-avatar>
     </div>
 
-    <ion-list>
+    <ion-list *ngIf="!editMode">
       <ion-item>
         <ion-icon name="person-outline" slot="start"></ion-icon>
         <ion-label>Nombre de usuario</ion-label>
@@ -28,25 +27,53 @@
         <ion-label>Correo</ion-label>
         <ion-note slot="end">{{ correo }}</ion-note>
       </ion-item>
-      <ion-item>
+      <!-- Modo vista -->
+      <ion-item *ngIf="hogar?.nombreHogar">
         <ion-icon name="home-outline" slot="start"></ion-icon>
         <ion-label>Nombre de Hogar</ion-label>
-        <ion-note slot="end">{{ hogar.nombreHogar }}</ion-note>
+        <ion-note slot="end">{{ hogar?.nombreHogar }}</ion-note>
       </ion-item>
       <div class="botonesPerfil">
-        <ion-button [routerLink]="['/home/editarperfil']">
+        <ion-button (click)="activarEdicion()">
           <ion-icon name="create-outline"></ion-icon>Editar Perfil
         </ion-button>
       </div>
     </ion-list>
 
-    <div class="action-buttons">
+    <!-- Modo edición -->
+    <ion-list *ngIf="editMode">
+      <ion-item>
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-label position="stacked">Nombre de usuario</ion-label>
+        <ion-input [(ngModel)]="editNombre" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-label position="stacked">Correo</ion-label>
+        <ion-input [(ngModel)]="editCorreo" required type="email"></ion-input>
+      </ion-item>
+      <!-- Modo edición -->
+      <ion-item *ngIf="editMode">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        <ion-label position="stacked">Nombre de Hogar</ion-label>
+        <ion-input [(ngModel)]="editNombreHogar" placeholder="Agrega un nombre" *ngIf="editMode"></ion-input>
+      </ion-item>
+      <div class="botonesPerfil">
+        <ion-button color="success" (click)="guardarEdicion()" [disabled]="guardando">
+          <ion-icon name="save-outline"></ion-icon>Guardar
+        </ion-button>
+        <ion-button color="medium" (click)="cancelarEdicion()" [disabled]="guardando">
+          <ion-icon name="close-outline"></ion-icon>Cancelar
+        </ion-button>
+      </div>
+    </ion-list>
+
+    <div class="action-buttons" *ngIf="!editMode">
       <ion-button id="botonClave" [routerLink]="['/cambiarclave']">
         <ion-icon name="lock-closed-outline"></ion-icon>Cambiar Contraseña
       </ion-button>
       <ion-button id="cierreSesion" (click)="cerrarSesion()">Cerrar Sesión</ion-button>
     </div>
-
   </ng-container>
 
   <ng-template #invitacionRegistroPerfil>

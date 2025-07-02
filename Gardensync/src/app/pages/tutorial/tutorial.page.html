@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Tutorial de uso</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="tutorial-bg">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>¡Bienvenido a GardenSync!</ion-card-title>
+            <ion-card-subtitle>Aprende a usar la app en simples pasos</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-accordion-group expand="first">
+          <ion-accordion value="conectar">
+            <ion-item slot="header" color="light">
+              <ion-label>
+                <ion-icon name="leaf-outline" slot="start" style="color:#256029; font-size:1.5rem;"></ion-icon>
+                ¿Cómo conectar mi planta?
+              </ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              Solo necesitas la IP de tu dispositivo sensor. Ve a "Agregar maceta", ingresa la IP o escribe <b>SIMULADOR</b> para probar sin sensor real.
+            </div>
+          </ion-accordion>
+          <ion-accordion value="foro">
+            <ion-item slot="header" color="light">
+              <ion-label>
+                <ion-icon name="chatbubble-ellipses-outline" slot="start" style="color:#388e3c; font-size:1.5rem;"></ion-icon>
+                ¿Cómo puedo publicar ayuda en el foro?
+              </ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              Ve a la pestaña <b>Foro</b> en la barra inferior y escribe tu comentario. Luego presiona <b>Publicar</b> para compartirlo con la comunidad.
+            </div>
+          </ion-accordion>
+          <ion-accordion value="identificar">
+            <ion-item slot="header" color="light">
+              <ion-label>
+                <ion-icon name="camera-outline" slot="start" style="color:#8d6748; font-size:1.5rem;"></ion-icon>
+                ¿Cómo identifico una planta?
+              </ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              Ve a la pestaña <b>Consejos</b> y selecciona "Identificación". Toma o sube una foto de tu planta y la app te mostrará información útil.
+            </div>
+          </ion-accordion>
+          <ion-accordion value="chat">
+            <ion-item slot="header" color="light">
+              <ion-label>
+                <ion-icon name="help-circle-outline" slot="start" style="color:#ffc107; font-size:1.5rem;"></ion-icon>
+                ¿Cómo uso el chat de consejos?
+              </ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              En la pestaña <b>Consejos</b>, cambia a "Chat" y escribe tus dudas sobre plantas. El asistente te responderá con sugerencias y tips.
+            </div>
+          </ion-accordion>
+          <ion-accordion value="perfil">
+            <ion-item slot="header" color="light">
+              <ion-label>
+                <ion-icon name="person-circle-outline" slot="start" style="color:#256029; font-size:1.5rem;"></ion-icon>
+                ¿Cómo edito mi perfil?
+              </ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+              Abre el menú desde la barra inferior, selecciona <b>Mi perfil</b> y luego pulsa <b>Editar perfil</b> para actualizar tus datos.
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

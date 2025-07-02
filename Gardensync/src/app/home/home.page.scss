@@ -1,33 +1,3 @@
-#container {
-  text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
-}
-img {
- color: white;
-}
 ion-tab-bar {
   --background: #6d4c2b;
   border-color: transparent;
@@ -60,4 +30,124 @@ ion-tab-bar {
   }
 }
 
+.logout-btn {
+  color: var(--ion-color-danger) !important;
+  font-weight: bold;
+}
+.tutorial-btn {
+  color: #ffc107 !important; /* Amarillo */
+  font-weight: bold;
+}
+.exit-btn {
+  color: var(--ion-color-primary) !important;
+  font-weight: bold;
+}
+/* Action Sheet personalizado */
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-group {
+  border-radius: 24px 24px 0 0 !important;
+  margin-bottom: env(safe-area-inset-bottom);
+  background: #e9dac5 !important; /* Café claro ecológico */
+}
 
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-title {
+  color: #256029 !important; /* Verde hoja oscuro */
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button {
+  border-radius: 16px !important;
+  margin: 0.3rem 0.7rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: #fff !important;
+  color: #256029 !important; /* Verde hoja oscuro por defecto */
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button .action-sheet-icon {
+  font-size: 2rem;
+  margin-right: 16px;
+  color: #388e3c !important; /* Verde principal */
+}
+
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.logout-btn {
+  color: #c62828 !important; /* Rojo fuerte */
+}
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.logout-btn .action-sheet-icon {
+  color: #c62828 !important;
+}
+
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.tutorial-btn {
+  color: #ffc107 !important; /* Amarillo */
+}
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.tutorial-btn .action-sheet-icon {
+  color: #ffc107 !important;
+}
+
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.exit-btn {
+  color: #256029 !important; /* Verde hoja oscuro */
+}
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.exit-btn .action-sheet-icon {
+  color: #256029 !important;
+}
+
+/* Botones base */
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.action-btn {
+  border-radius: 18px !important;
+  margin: 10px 16px !important;
+  font-size: 1.15rem;
+  font-weight: bold;
+  background: #fff !important;
+  color: #256029 !important;
+  display: flex;
+  align-items: center;
+  width: calc(100% - 32px) !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  min-height: 56px;
+  box-shadow: 0 2px 8px #8d674822;
+  transition: background 0.2s;
+}
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.logout-btn {
+  color: #c62828 !important;
+}
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.logout-btn .action-sheet-icon {
+  color: #c62828 !important;
+}
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.tutorial-btn {
+  color: #ffc107 !important;
+}
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.tutorial-btn .action-sheet-icon {
+  color: #ffc107 !important;
+}
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.exit-btn {
+  color: #256029 !important;
+}
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button.exit-btn .action-sheet-icon {
+  color: #256029 !important;
+}
+/* Botón cancelar rectangular */
+::ng-deep ion-action-sheet.my-action-sheet .action-sheet-button:not(.action-btn) {
+  color: #8d6748 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  background: #fff !important;
+  font-weight: bold;
+  width: 100% !important;
+  justify-content: center !important;
+  min-height: 48px;
+  border-top: 1px solid #e9dac5;
+}
+
+ion-tab-bar ion-icon,
+ion-tab-bar img {
+  color: #fff !important;
+  filter: brightness(100%) !important;
+}
+
+ion-tab-bar img {
+  filter: brightness(0) invert(1) !important;
+}

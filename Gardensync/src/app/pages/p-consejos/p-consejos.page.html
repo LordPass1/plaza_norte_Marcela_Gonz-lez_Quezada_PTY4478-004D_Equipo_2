@@ -1,9 +1,7 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-title>Identificador de Plantas</ion-title>
   </ion-toolbar>
-
-  <!-- Aquí el segment justo debajo del toolbar -->
   <ion-toolbar>
     <ion-segment [(ngModel)]="segmentValue">
       <ion-segment-button value="identificacion">
@@ -17,6 +15,7 @@
 </ion-header>
 
 <ion-content class="page-content" [scrollEvents]="true">
+  <!-- Identificación -->
   <div *ngIf="segmentValue==='identificacion'" class="top-section">
     <ion-grid>
       <ion-row>
@@ -43,7 +42,7 @@
     </ion-grid>
   </div>
 
-  <!-- Sección de chat, solo visible si segmentValue==='chat' -->
+  <!-- Chat -->
   <div *ngIf="segmentValue==='chat'" class="messages-section">
     <ion-list lines="none">
       <ion-item *ngFor="let msg of messages"
@@ -51,11 +50,13 @@
                 [class.assistant]="msg.sender==='assistant'">
         <ion-label class="bubble">{{ msg.content }}</ion-label>
       </ion-item>
+      <!-- Esto es para que el scroll siempre esté abajo -->
+      <div #bottom></div>
     </ion-list>
   </div>
 </ion-content>
 
-<!-- footer con input, solo en modo chat -->
+<!-- Footer solo en modo chat -->
 <ion-footer *ngIf="segmentValue==='chat'">
   <ion-toolbar>
     <ion-textarea
@@ -63,7 +64,8 @@
       [(ngModel)]="uInput"
       placeholder="Escribe tu mensaje..."
       (keyup.enter)="mandarMSG()"
-      [disabled]="isLoading">
+      [disabled]="isLoading"
+      >
     </ion-textarea>
     <ion-buttons slot="end">
       <ion-fab-button
@@ -72,9 +74,9 @@
         size="small"
         shape="round"
         (click)="mandarMSG()">
-        <ion-icon name="send"></ion-icon>
+        <img src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/svg/send.svg" alt="Enviar" style="width: 22px; height: 22px;" />
       </ion-fab-button>
-      <ion-fab-button *ngIf="isLoading" size="small" >
+      <ion-fab-button *ngIf="isLoading" size="small">
         <ion-spinner></ion-spinner>
       </ion-fab-button>
     </ion-buttons>

@@ -37,8 +37,14 @@ export class AgregarMacetaModalComponent implements OnInit, OnDestroy {
 
     await this.cargarMacetas();
 
-    const sensorId = '192_168_100_254'; // Cambia esto por el ID del sensor correspondiente
-    this.firebaseService.detectarEstadoCritico(sensorId);
+    // Solo detectar estado crítico si hay macetas
+    if (this.macetas.length > 0) {
+      this.macetas.forEach(maceta => {
+        if (maceta.sensorId) {
+          this.firebaseService.detectarEstadoCritico(maceta.sensorId);
+        }
+      });
+    }
   }
 
   cerrar() {
@@ -58,30 +64,54 @@ export class AgregarMacetaModalComponent implements OnInit, OnDestroy {
     Object.values(this.sensorListeners).forEach(unsub => unsub && unsub());
     this.sensorListeners = {};
 
-    // Suscríbete a los cambios en tiempo real de cada sensor
     const db = getDatabase();
+
     this.macetas.forEach((maceta, idx) => {
-      const sensorRef = ref(db, `sensores/${maceta.sensorId}`);
-      const listener = onValue(sensorRef, (snapshot) => {
-        if (snapshot.exists()) {
-          const datosSensor = snapshot.val();
-          // Actualiza solo los datos en tiempo real
+      if (maceta.sensorId && maceta.sensorId.toUpperCase() === 'SIMULADOR') {
+        // SIMULADOR: genera datos random cada 5 segundos
+        const interval = setInterval(() => {
+          const temperatura = Math.floor(Math.random() * 20) + 10; // 10-30°C
+          const humedad = Math.floor(Math.random() * 60) + 20;     // 20-80%
+          const nivelAgua = Math.floor(Math.random() * 100);       // 0-100%
           this.macetas[idx] = {
             ...maceta,
-            temperatura: datosSensor.temperature_c ?? maceta.temperatura,
-            humedad: datosSensor.air_humidity ?? maceta.humedad,
-            nivelAgua: datosSensor.soil_humidity_pct ?? maceta.nivelAgua,
+            temperatura,
+            humedad,
+            nivelAgua,
             estado: 'Actualizado'
           };
-        } else {
-          this.macetas[idx] = {
-            ...maceta,
-            estado: 'Sin conexión'
-          };
-        }
-      });
-      // Guarda el listener para poder limpiarlo después
-      this.sensorListeners[maceta.sensorId] = () => off(sensorRef, 'value', listener);
+          // Llama a la función de notificaciones simuladas
+          this.firebaseService.simularNotificaciones({
+            temperatura,
+            humedad,
+            nivelAgua,
+            sensorId: maceta.sensorId
+          });
+        }, 5000); // Cambia cada 5 segundos
+
+        this.sensorListeners[maceta.sensorId] = () => clearInterval(interval);
+      } else if (maceta.sensorId) {
+        // Sensor real: escucha Firebase
+        const sensorRef = ref(db, `sensores/${maceta.sensorId}`);
+        const listener = onValue(sensorRef, (snapshot) => {
+          if (snapshot.exists()) {
+            const datosSensor = snapshot.val();
+            this.macetas[idx] = {
+              ...maceta,
+              temperatura: datosSensor.temperature_c ?? maceta.temperatura,
+              humedad: datosSensor.air_humidity ?? maceta.humedad,
+              nivelAgua: datosSensor.soil_humidity_pct ?? maceta.nivelAgua,
+              estado: 'Actualizado'
+            };
+          } else {
+            this.macetas[idx] = {
+              ...maceta,
+              estado: 'Sin conexión'
+            };
+          }
+        });
+        this.sensorListeners[maceta.sensorId] = () => off(sensorRef, 'value', listener);
+      }
     });
 
     this.cargando = false;

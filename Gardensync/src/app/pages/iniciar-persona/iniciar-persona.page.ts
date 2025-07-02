@@ -64,25 +64,4 @@ onVideoEnded() {
 
 }
 }
-
-async probarNotiLocal() {
-  await LocalNotifications.requestPermissions();
-  await LocalNotifications.createChannel({
-    id: 'default',
-    name: 'General',
-    importance: 5,
-    description: 'Canal general'
-  });
-  await LocalNotifications.schedule({
-    notifications: [
-      {
-        title: 'Prueba',
-        body: 'Esto es una notificación local',
-        id: Date.now(),
-        channelId: 'default'
-      },
-    ],
-  });
-  console.log('Notificación programada');
-}
 }

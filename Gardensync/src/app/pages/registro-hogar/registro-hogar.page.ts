@@ -17,7 +17,7 @@ export class RegistroHogarPage implements OnInit {
   async ngOnInit() {
         try {
       await this.firebaseservice.obtenerHogarUsuario();
-      this.router.navigate(['/home/p-principal']);
+      this.router.navigate(['/home/p-principal'], { replaceUrl: true });
     } catch (error) {
       console.log('El usuario no tiene hogar:', error);
     }
@@ -36,7 +36,7 @@ export class RegistroHogarPage implements OnInit {
       const uid = user.uid;
       const hogarId = await this.firebaseservice.addHogar(uid, this.nombreHogar);
       console.log('Hogar registrado con ID:', hogarId);
-      this.router.navigate(['/home/p-principal']);
+      this.router.navigate(['/home/p-principal'], { replaceUrl: true });
     } catch (error: any) {
       console.error('Error de registro:', error.message);
     }

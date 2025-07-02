@@ -10,7 +10,15 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="macetaForm" (ngSubmit)="guardarMaceta()" style="padding: 1rem;">
+  <form [formGroup]="macetaForm" (ngSubmit)="guardarMaceta()" (keydown.enter)="$event.preventDefault()" style="padding: 1rem;">
+    <ion-item>
+      <ion-label position="floating">IP del sensor</ion-label>
+      <ion-input formControlName="sensorId" required></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="macetaForm.get('sensorId')?.invalid && macetaForm.get('sensorId')?.touched">
+      <p>Debe ingresar la IP del sensor para asociar la planta.</p>
+    </ion-text>
+
     <ion-item>
       <ion-label position="floating">Nombre de la planta</ion-label>
       <ion-input formControlName="nombrePlanta"></ion-input>
@@ -36,11 +44,11 @@
       <ion-input formControlName="estado" readonly></ion-input>
     </ion-item>
 
-    <ion-button expand="block" type="submit" [disabled]="!macetaForm.get('sensorId')?.value || macetaForm.invalid">
+    <ion-button expand="block" type="submit" [disabled]="macetaForm.invalid || macetaForm.get('estado')?.value !== 'Actualizado'">
       Guardar Planta
     </ion-button>
-    <ion-text color="danger" *ngIf="!macetaForm.get('sensorId')?.value">
-      <p>Debe asociar un sensor para guardar la planta.</p>
+    <ion-text color="danger" *ngIf="macetaForm.get('sensorId')?.invalid && macetaForm.get('sensorId')?.touched">
+      <p>Debe asociar un sensor válido para guardar la planta.</p>
     </ion-text>
   </form>
 

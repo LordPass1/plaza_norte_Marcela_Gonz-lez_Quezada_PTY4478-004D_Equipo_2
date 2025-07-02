@@ -1,0 +1,42 @@
+ion-header {
+  border-radius: 0 0 20px 20px;
+  box-shadow: none;
+}
+
+ion-toolbar {
+  --background: #256029; // Verde hoja más oscuro
+  color: #fff;
+  border-radius: 0 0 20px 20px;
+}
+
+.tutorial-bg {
+  --background: #e9dac5 !important;
+  background: #e9dac5 !important;
+}
+
+ion-card-title {
+  color: #256029;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+ion-card-subtitle {
+  color: #8d6748;
+  font-size: 1rem;
+}
+
+ion-accordion-group {
+  margin-top: 12px;
+}
+
+ion-item[color="light"] {
+  --background: #fff;
+  border-radius: 16px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px #8d674822;
+}
+
+ion-accordion .ion-padding {
+  color: #256029;
+  font-size: 1rem;
+}
