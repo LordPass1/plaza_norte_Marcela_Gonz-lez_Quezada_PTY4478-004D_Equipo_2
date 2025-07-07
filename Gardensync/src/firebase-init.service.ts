@@ -13,13 +13,29 @@ export class FirebaseInitService {
   public db!: Firestore;
   public auth!: Auth;
   public storage!: FirebaseStorage;
+  private initialized = false;
+  private initPromise!: Promise<void>;
 
-  constructor() {}
+  constructor() {
+    this.initPromise = this.init();
+  }
 
-  init() {
-    this.app = initializeApp(environment_prod.firebase);
-    this.db = getFirestore(this.app);
-    this.auth = getAuth(this.app);
-    this.storage = getStorage(this.app);
+  init(): Promise<void> {
+    if (this.initialized) return this.initPromise;
+
+    this.initPromise = new Promise((resolve) => {
+      this.app = initializeApp(environment_prod.firebase);
+      this.db = getFirestore(this.app);
+      this.auth = getAuth(this.app);
+      this.storage = getStorage(this.app);
+      this.initialized = true;
+      resolve();
+    });
+
+    return this.initPromise;
+  }
+
+  whenReady(): Promise<void> {
+    return this.initPromise;
   }
 }

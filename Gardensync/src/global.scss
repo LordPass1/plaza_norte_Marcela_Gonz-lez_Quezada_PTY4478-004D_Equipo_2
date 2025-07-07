@@ -100,3 +100,93 @@ ion-tab-bar {
     font-weight: 400;
   }
 }
+
+
+.mi-swal-popup {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 3px solid #5d4037;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  font-size: clamp(.6rem, 2vw, 1rem);
+  color: #388e3c;
+  background-color: #f3f3f3 !important;
+}
+
+.mi-swal-title {
+  color: red;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: bold;
+  font-size: clamp(.2rem, 2vw, .3rem);
+}
+
+.mi-swal-text {
+  color: #4e342e;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+.mi-swal-button {
+  background-color: #5d4037 !important;
+  color: white !important;
+  border-radius: 8px !important;
+  padding: 8px 20px !important;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.mi-swal-button:hover {
+  background-color: #6d4c41 !important;
+}
+
+.mi-alerta-baneo {
+  --background: #fff; /* fondo si quieres */
+
+  /* Estilo para el header (título) */
+  .alert-head h2{
+    color: #b71c1c !important; /* rojo oscuro */
+    font-weight: bold;
+  }
+
+  /* Opcional: estilo para el botón aceptar */
+  .alert-button.mi-boton-aceptar {
+    color: #fff !important;
+    background-color: #b71c1c !important;
+  }
+}
+
+.alert-message {
+    color: black !important;
+    font-size: 1.1rem;
+    white-space: pre-wrap; /* para que respete saltos de línea */
+  }
+
+.mi-alerta-baneo .alert-button.mi-boton-aceptar {
+  --background: #b71c1c;
+  --color: red;
+  font-weight: bold;
+  border-radius: 6px;
+  padding: 10px 24px;
+  transition: background-color 0.3s ease;
+}
+
+.mi-alerta-baneo .alert-button.mi-boton-aceptar:hover {
+  --background: #7f0000;
+}
+
+  .ion-padding{
+    .icon {
+      font-size: 4rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      text-align: center;
+      color: #b71c1c;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      text-align: center;
+      color: #555;
+    }
+  }  

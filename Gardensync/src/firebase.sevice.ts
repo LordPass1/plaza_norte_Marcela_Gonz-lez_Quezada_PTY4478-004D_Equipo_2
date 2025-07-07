@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, addDoc, doc, setDoc, getDoc, getDocs, updateDoc, increment, query, orderBy } from 'firebase/firestore';
-import { FirebaseInitService } from './firebase-init.service';  // Importa el servicio
+import { collection, addDoc, doc, setDoc, getDoc, getDocs, updateDoc, increment, query, orderBy, Firestore } from 'firebase/firestore';import { FirebaseInitService } from './firebase-init.service';  // Importa el servicio
 import { createUserWithEmailAndPassword, Auth, EmailAuthProvider, linkWithCredential } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { getDownloadURL, uploadBytes } from 'firebase/storage';
@@ -26,10 +25,19 @@ export class FirebaseService {
   private auth: Auth;
   private storage;
 
-  constructor(private firebaseInitService: FirebaseInitService) {
+  constructor(private firebaseInitService: FirebaseInitService,) {
     this.db = firebaseInitService.db;
     this.auth = firebaseInitService.auth;
     this.storage = firebaseInitService.storage;
+  }
+
+  private async ensureInitialized() {
+    await this.firebaseInitService.whenReady();
+    this.db = this.firebaseInitService.db;
+    this.auth = this.firebaseInitService.auth;
+    this.storage = this.firebaseInitService.storage;
+
+    if (!this.auth) throw new Error('Firebase Auth no está disponible nooooo');
   }
 
   // Método para registrar usuario
@@ -409,6 +417,30 @@ export class FirebaseService {
       ],
     });
     console.log('Notificación programada con id:', notiId);
+  }
+
+  async verificarSiBaneado(uid: string): Promise<boolean> {
+    await this.ensureInitialized();
+    const userRef = doc(this.db, 'Personas', uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      const datos = userSnap.data();
+      return datos['baneado'] === true;
+    } else {
+      throw new Error('Usuario no encontrado');
+    }
+  }
+
+
+  async obtenerUsuarioPorUid(uid: string): Promise<any> {
+    const userDocRef = doc(this.db, 'Personas', uid);
+    const userDocSnap = await getDoc(userDocRef);
+    if (userDocSnap.exists()) {
+      return userDocSnap.data();
+    } else {
+      return null;
+    }
   }
 
 

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard.guard';
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
   },
   {
     path: 'p-principal',
-    loadChildren: () => import('./pages/p-principal/p-principal.module').then( m => m.PPrincipalPageModule)
+    loadChildren: () => import('./pages/p-principal/p-principal.module').then( m => m.PPrincipalPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'p-consejos',
@@ -65,7 +67,8 @@ const routes: Routes = [
   {
     path: 'editarperfil',
     loadChildren: () => import('./pages/editarperfil/editarperfil.module').then( m => m.EditarperfilPageModule)
-  },  {
+  },
+  {
     path: 'tutorial',
     loadChildren: () => import('./pages/tutorial/tutorial.module').then( m => m.TutorialPageModule)
   },
