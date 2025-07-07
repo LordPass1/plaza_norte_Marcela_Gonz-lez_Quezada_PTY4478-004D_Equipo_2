@@ -1,18 +1,17 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { asapScheduler, BehaviorSubject, map, Observable, tap } from 'rxjs';
-import { environment } from 'src/environments/environment.local';
 import { Agent, run, setDefaultOpenAIClient } from '@openai/agents';
 import { OpenAI } from 'openai';
 import { AlertController } from '@ionic/angular';
 import { ControlContainer } from '@angular/forms';
-
+import { environment_prod } from 'src/environments/environment.prod';
 @Injectable({
   providedIn: 'root'
 })
 export class GPTService {
   //para obtener el JSON de la API openAI
-  private apiKey = environment.gkey.testKey;
+  private apiKey = environment_prod.gkey.testKey;
   private apiUrl = 'https://api.openai.com/v1/chat/completions';
 
   //OpenAI client para el SDK Assistant
@@ -220,5 +219,35 @@ Debes identificar la planta y responder **exclusivamente** usando el siguiente o
     // 6) Ejecutamos
     const result = await run(agent, prompt);
     return result.finalOutput as string;
+  }
+
+  obtenerConsejosPorNombre(nombre: string): Observable<any> {
+    const SYSTEM_PROMPT = `
+Eres un experto botánico. Dame consejos prácticos y simples para el cuidado de la planta llamada "${nombre}". 
+Responde en formato JSON y asegúrate de que todos los campos y textos estén en español:
+{
+  "scientific_name": [],
+  "family": "",
+  "watering": "",
+  "description": ""
+}
+Solo responde con el objeto JSON solicitado. No escribas ningún texto adicional antes o después del JSON.
+`;
+
+    const headers = new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Authorization': `Bearer ${this.apiKey}`
+    });
+
+    const body = {
+      model: 'gpt-4o',
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: `¿Cómo cuido una planta llamada ${nombre}? Responde en español.` }
+      ],
+      max_tokens: 600
+    };
+
+    return this.http.post<any>(this.apiUrl, body, { headers });
   }
 }

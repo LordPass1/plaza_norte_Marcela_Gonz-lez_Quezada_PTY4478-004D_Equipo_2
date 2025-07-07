@@ -39,7 +39,7 @@ export class AgregarMacetaFormModalComponent implements OnInit {
   ngOnInit() {
     this.macetaForm.get('nombrePlanta')?.valueChanges.subscribe(val => {
       if (val && val.trim().length > 2 && val !== 'Desconocida') {
-       /* this.obtenerConsejosPorNombre(val.trim());*/
+        this.obtenerConsejosPorNombre(val.trim());
       } else {
         this.consejosIA = null;
       }
@@ -153,7 +153,6 @@ export class AgregarMacetaFormModalComponent implements OnInit {
   }
 
   // Nuevo método para obtener consejos por nombre
-  /*
   obtenerConsejosPorNombre(nombre: string) {
     this.consejosIA = 'Buscando consejos...';
     this.gptService.obtenerConsejosPorNombre(nombre).subscribe({
@@ -178,7 +177,7 @@ export class AgregarMacetaFormModalComponent implements OnInit {
         this.consejosIA = 'Error al consultar la IA.';
       }
     });
-  }*/
+  }
 
   async guardarMaceta() {
 
